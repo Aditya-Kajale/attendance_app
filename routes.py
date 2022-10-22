@@ -68,10 +68,12 @@ def addStud():
 def attendanceRecord():
    return render_template('attendanceRecord.html')
 
+
+
 # -----------------------------------------------------------------------------------------------------
 
 
-# Display Dataset record ------------------------------------------------------------------------------
+# Display class record ------------------------------------------------------------------------------
 
 @app.route('/classrecord')
 def classRecord():
