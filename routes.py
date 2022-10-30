@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-# for the database
+# for the student database
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
@@ -64,9 +64,34 @@ def addStud():
 # -----------------------------------------------------------------------------------------------------
 
 # Display Attendacne record ---------------------------------------------------------------------------
-@app.route('/attendancerecord')
-def attendanceRecord():
-   return render_template('attendanceRecord.html')
+@app.route('/subjectRecord')
+def subjectAttendance():
+   return render_template('subjectAttendance.html')
+
+@app.route('/subjectTable', methods = ['GET', 'POST'])
+def subjectTable():
+   import attendanceDBS
+   if request.method == 'POST':
+      year = request.form.get('year')
+      division = request.form.get('division')
+      subject = request.form.get('subject')
+      sdate = request.form.get('sdate')
+      edate = request.form.get('edate')
+      data = attendanceDBS.subjectAttendance(year,division,subject,sdate,edate)
+
+   return render_template('subjectTable.html',data=data)
+
+@app.route('/classAttendance')
+def classAttendance():
+       return render_template('classAttendance.html')
+
+@app.route('/classTable')
+def classTable():
+       return render_template('classTable.html')
+
+@app.route('/defaulter')
+def defaulter():
+       return render_template('defaulter.html')
 
 
 

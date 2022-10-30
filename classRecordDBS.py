@@ -1,11 +1,7 @@
-from cgi import test
 import pandas as pd
-# import connection as cn
 import mysql.connector
 from routes import mysql_stud
 
-test = mysql.connector.connect(user='root', password='', host='localhost', database='test')
-testcur = test.cursor()
 
 def getData(year,division):
     cur = mysql_stud.connection.cursor()

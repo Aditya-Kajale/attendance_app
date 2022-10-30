@@ -41,9 +41,17 @@
 			<li class="nav-item ">
 				<a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
 			  </li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ url_for('attendanceRecord') }}">Attendace-Record</a>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  Attendance Record
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				  <a class="dropdown-item" href="{{url_for('subjectAttendance')}}">Record by Subject</a>
+				  <a class="dropdown-item" href="{{url_for('classAttendance')}}">Record by Class</a>
+				  <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter Record</a>
+				</div>
 			</li>
+
 			<li class="nav-item">
 				<a class="nav-link" href="{{ url_for('classRecord') }}">Class-Record</a>
 			</li>

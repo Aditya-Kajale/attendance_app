@@ -35,10 +35,10 @@
 			<li class="nav-item ">
 			  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
 			</li>
-			<li class="nav-item active">
+			<li class="nav-item ">
 				<a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
 			  </li>
-			<li class="nav-item dropdown">
+			<li class="nav-item dropdown active">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Attendance Record
 				</a>
@@ -64,48 +64,122 @@
 	<div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
             <div class="card">
-                <h5 class="text-center mb-4">Add Class</h5>
-                <form id="f" action="{{ url_for('addDataset') }}" method = "POST" enctype = "multipart/form-data"> 
-					
-					<div class="mb-3 text-left">
-                        <label for="formFile " class="form-label">Add Dataset</label>
-                        <input class="form-control" type="file" id="formFile" accept=".csv" name="file" required>
-                      </div>
-
-					<div class="form-group text-left">
-						<label for="year">Year</label>
-						<select name="year" id="year" class="form-control">
-						  <option value="FY">FY</option>
-						  <option value="SY">SY</option>
-						  <option value="TY">TY</option>
-						  <option value="BTECH">B.Tech</option>
-						</select>
+                <h5 class="text-center mb-4">Display Attendance By Subject</h5>
+                <form id="f"  action="{{ url_for('subjectTable') }}" method = "POST" enctype = "multipart/form-data" > 
+					<div class="row">
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="year">Year</label>
+								<select name="year" id="year" class="form-control">
+								  <option value="FY">FY</option>
+								  <option value="SY">SY</option>
+								  <option value="TY">TY</option>
+								  <option value="BTECH">B.Tech</option>
+								</select>
+							</div>
+						</div>
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="division">Division</label>
+								<select name="division" id="division" class="form-control">
+								  <option value="A">A</option>
+								  <option value="B">B</option>
+								</select>
+							</div>
+						</div>
 					</div>
 
-					<div class="form-group text-left">
-						<label for="division">Division</label>
-						<select name="division" id="division" class="form-control">
-						  <option value="A">A</option>
-						  <option value="B">B</option>
-						</select>
+					<div class="row">
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="subject">Subject</label>
+								<select name="subject" id="subject" class="form-control">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="F6">6</option>
+								</select>
+							</div>
+						</div>
 					</div>
 
-					<button id="submitForm" onclick="myFunction()" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
+					<div class="row">
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="sdate">Start Date</label>
+								<input type='date' name="sdate" class="form-control" required/>
+							</div>
+						</div>
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="edate">End Date</label>
+								<input type='date' name="edate" class="form-control" required/>
+							</div>	
+						</div>
+					</div>
+
+					<button id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
 				  </form>
             </div>
         </div>
     </div>
 
 	<!-- form ends -->
+	
+
 
 	<script>
-		var form = document.getElementById('f');
-		function myFunction() {
-			if (form.checkValidity()) {
-				alert("Class Added Successfully!");
-			}
-		}
+		var subjects = {
+			'FY':[
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6'
+			],
+			'SY':[
+				'Engineering Mathematics-3',
+				'Descrete Mathematics',
+				'Data Structures',
+				'Computer Architecture',
+				'OOPS JAVA',
+				'OOPS C++',
+				'Seminar-1',],
+			'TY':[
+				'Database System',
+				'Theory of Computation',
+				'Human Computer Interaction',
+				'Business Comunication',
+				'Mini-Project-1'
+			],
+			'BTECH':[
+				'Software Engineering',
+				'Big Data Analytics',
+				'Cloud Computing',
+				'Blockchain Technology',
+				'Full Stack Development',
+				'System Administration',
+			]
+		};
 
+		$('#year').on('change', function() {
+			// Set selected option as variable
+			var selectValue = $(this).val();
+
+			// Empty the target field
+			$('#subject').empty();
+			
+			// For each chocie in the selected option
+			for (i = 0; i < subjects[selectValue].length; i++) {
+				// Output choice in the target field
+				$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
+			}
+			});
 	</script>
+
+
 </body>
 </html>
