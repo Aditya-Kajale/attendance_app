@@ -83,11 +83,19 @@ def subjectTable():
 
 @app.route('/classAttendance')
 def classAttendance():
-       return render_template('classAttendance.html')
+   return render_template('classAttendance.html')
 
-@app.route('/classTable')
+@app.route('/classTable', methods = ['GET', 'POST'])
 def classTable():
-       return render_template('classTable.html')
+   import attendanceDBS
+   if request.method == 'POST':
+      year = request.form.get('year')
+      division = request.form.get('division')
+      sdate = request.form.get('sdate')
+      edate = request.form.get('edate')
+      data = attendanceDBS.classAttendance(year,division,sdate,edate)
+      # print(data)
+   return render_template('classTable.html',data=data)
 
 @app.route('/defaulter')
 def defaulter():

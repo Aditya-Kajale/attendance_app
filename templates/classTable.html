@@ -67,7 +67,46 @@
 		<div class="col-xl-12 col-lg-8 col-md-9 col-11 ">
 			<div class="card text-center">
                 <h4 class="text-center mb-4">Attendance By Subject</h4>
-                
+				<br>
+				<div class="row">
+					<div class="col">
+						<h5>Year : {{data['pre'][0]}}</h5>
+					</div>
+					<div class="col">
+						<h5>Division : {{data['pre'][1]}}</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h5>From : <b>{{data['pre'][2]}}</b></h5>
+					</div>
+					<div class="col">
+						<h5>To : <b>{{data['pre'][3]}}</b></h5>
+					</div>
+				</div>
+				<br>
+                <table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">ROLL NO</th>
+							<th scope="col">DIV</th>
+							{% for i in data['subs'] %}
+							<th>
+								{{i}}
+							</th>
+							{% endfor %}
+						</tr>
+					</thead>
+					<tbody>
+					{% for row in data['roll'] %}
+						<tr>
+							{% for cell in row %}
+								<td>{{cell}}</td>
+							{% endfor %}
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
