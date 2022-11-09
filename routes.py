@@ -42,9 +42,11 @@ def login():
             session['loggedin'] = True 
             session['id'] = account[0][0]
             session['username'] = account[0][1]
-            # Redirect to home page
-            return redirect(url_for('home'))
-
+            # Redirect to home page    
+            if session['username'] == 'admin':
+               return redirect(url_for('adminHome'))
+            else:
+               return redirect(url_for('home'))
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!'
@@ -54,6 +56,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     # Output message if something goes wrong...
+    import faculty
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
@@ -81,8 +84,8 @@ def register():
             # sql = 'INSERT INTO account VALUES (N, {}, {}, {})'
             lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s)', (id,username, password, email,))
             logindbs.commit()
+            faculty.obj.accept(id,username,[])
             msg = 'You have successfully registered!'
-
 
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -100,19 +103,10 @@ def logout():
    # Redirect to login page
    return redirect(url_for('login'))
 
-@app.route('/home')
-def home():
-   # Check if user is loggedin
-   if 'loggedin' in session:
-      # User is loggedin show them the home page
-      return render_template('home.html', username=session['username'])
-   # User is not loggedin redirect to login page
-   return redirect(url_for('login'))
-
 @app.route('/profile')
 def profile():
     # Check if user is loggedin
-    if 'loggedin' in session:
+    if 'loggedin' in session :
         # We need all the account info for the user so we can display it on the profile page
         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
         account = lo_cur.fetchone()
@@ -122,17 +116,62 @@ def profile():
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
+@app.route('/home')
+def home():
+   # Check if user is loggedin
+   if 'loggedin' in session and session['username'] != 'admin':
+      # User is loggedin show them the home page
+      return render_template('home.html', username=session['username'])
+   # User is not loggedin redirect to login page
+   return redirect(url_for('login'))
+
+# Admin Pages -----------------------------------------------------------------
+@app.route('/adminHome')
+def adminHome():
+   if 'loggedin' in session and session['username'] == 'admin':
+      import faculty
+      ls = faculty.ls
+      name = []
+      subs = []
+      for i in ls:
+         name.append(i.name)
+         subs.append(i.subject)
+      all = [name,subs]
+      return render_template('adminhome.html',ls = all)
+   return redirect(url_for('home'))
+
+@app.route('/manageFaculty')
+def manageFaculty():
+   if 'loggedin' in session and session['username'] == 'admin':
+      return render_template('managefaculty.html')
+   return redirect(url_for('home'))
+
+@app.route('/adminSubject')
+def manageSubject():
+   if 'loggedin' in session and session['username'] == 'admin':
+      return render_template('managesubject.html')
+   return redirect(url_for('home'))
+
+@app.route('/adminProfile')
+def adminProfile():
+   if 'loggedin' in session and session['username'] == 'admin':
+      lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
+      account = lo_cur.fetchone()
+      return render_template('adminprofile.html',account=account)
+   return redirect(url_for('home'))
+
+
 
 # adding class to dataset -----------------------------------------------------------------------------
 @app.route('/addclass')
 def addClass():
-   if 'loggedin' in session:
+   if 'loggedin' in session and session['username'] != 'admin':
       return render_template('addClass.html')
    return redirect(url_for('login'))
 
 @app.route('/addclass', methods = ['GET', 'POST'])
 def addDataset():
-   if 'loggedin' in session:
+   if 'loggedin' in session and session['username'] != 'admin':
       if request.method == 'POST':
          uploaded_file = request.files['file']
          year = request.form.get('year')
@@ -155,14 +194,14 @@ def addDataset():
 # adding student to database --------------------------------------------------------------------------
 @app.route('/addstudent')
 def addStudent():
-   if 'loggedin' in session:
+   if 'loggedin' in session and session['username'] != 'admin':
       return render_template('addStudent.html')
    return redirect(url_for('login'))
 
 
 @app.route('/addstudent', methods = ['GET', 'POST'])
 def addStud():
-   if 'loggedin' in session:
+   if 'loggedin' in session and session['username'] != 'admin':
       import addStudentDBS
       if request.method == 'POST':
          roll = request.form.get('roll')
@@ -181,14 +220,14 @@ def addStud():
 # Display Attendacne record ---------------------------------------------------------------------------
 @app.route('/subjectRecord')
 def subjectAttendance():
-   if 'loggedin' in session:
+   if 'loggedin' in session and session['username'] != 'admin': 
       return render_template('subjectAttendance.html')
    return redirect(url_for('login'))
 
 
 @app.route('/subjectTable', methods = ['GET', 'POST'])
 def subjectTable():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       import attendanceDBS
       if request.method == 'POST':
          year = request.form.get('year')
@@ -203,14 +242,14 @@ def subjectTable():
 
 @app.route('/classAttendance')
 def classAttendance():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       return render_template('classAttendance.html')
    return redirect(url_for('login'))
 
 
 @app.route('/classTable', methods = ['GET', 'POST'])
 def classTable():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       import attendanceDBS
       if request.method == 'POST':
          year = request.form.get('year')
@@ -225,7 +264,7 @@ def classTable():
 
 @app.route('/defaulter')
 def defaulter():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       return render_template('defaulter.html')
    return redirect(url_for('login'))
 
@@ -237,13 +276,13 @@ def defaulter():
 
 @app.route('/classrecord')
 def classRecord():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       return render_template('classRecord.html')
    return redirect(url_for('login'))
 
 @app.route('/showrecord', methods = ['GET', 'POST'])
 def showRecord():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       import classRecordDBS
       if request.method == 'POST':
          year = request.form.get('year')
@@ -260,14 +299,14 @@ def showRecord():
 # Take attendance -------------------------------------------------------------------------------------
 @app.route('/takeattendance')
 def takeAttendance():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       return render_template('takeAttendance.html')
    return redirect(url_for('login'))
 
 
 @app.route('/searchstudents', methods = ['GET', 'POST'])
 def searchStud():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       import classRecordDBS
       if request.method == 'POST':
          year = request.form.get('year')
@@ -286,7 +325,7 @@ def searchStud():
 
 @app.route('/addattendance', methods = ['GET', 'POST'])
 def addAttendance():
-   if 'loggedin' in session: 
+   if 'loggedin' in session and session['username'] != 'admin': 
       import addAttendance
       if request.method == 'POST':
          present = request.form.getlist('present')

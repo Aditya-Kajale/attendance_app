@@ -15,7 +15,7 @@
     </head>
 
     <body>
-
+<!-- 
         <nav  class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark " >
             <a class="navbar-brand" href="#">Attendance</a>
     
@@ -57,14 +57,17 @@
             <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
               
             </div>
-        </nav>
+        </nav> -->
+
 
 
         <div class="row d-flex justify-content-center">
             <div class="col-xl-5 col-lg-8 col-md-9 col-11 ">
-                <div class="card">
+                <div class="card ">
+                  <h2 class="text-center">Attendance App</h2>
+                  <br>
                     <form action="{{ url_for('login') }}" method="post">
-                        <h2 class="form-group text-center">Login</h2>
+                        <h4 class="form-group text-center">Login</h4>
                         <!-- Email input -->
                         <div class="form-group form-outline ">
                             <label class="form-label" for="username">Username</label>
