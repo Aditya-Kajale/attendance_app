@@ -5,6 +5,71 @@ from wtforms import SelectField
 import mysql.connector
 import os
 import re
+import pickle
+f = 'fcinfo.pkl'
+fs = 'subinfo.pkl'
+
+class Faculty:
+  # Constructor
+    def __init__(self, id, name, subject):
+        self.id = id
+        self.name = name
+        self.subject  = subject
+ 
+    # Function to create and append new student
+    def accept(self, id, Name, Subject):
+        ob = Faculty(id, Name, Subject)
+        ls.append(ob)
+        fwobj = open(f,'wb')
+        pickle.dump(ls,fwobj)
+ 
+    # Function to display student details
+    def display(self, ob):
+        frobj = open(f,'rb')
+        ff = pickle.load(frobj)
+        print(ff)
+
+    # Search Function
+    def search(self, rn):
+        for i in range(len(ls)):
+            if(ls[i].id == rn):
+                return i
+ 
+    # Delete Function
+    def delete(self, rn):
+        i = obj.search(rn)
+        print(i)
+        del ls[i]
+        fwobj = open(f,'wb')
+        pickle.dump(ls,fwobj)
+
+    # Update Function
+    def update(self, rn, No):
+        i = obj.search(rn)
+        roll = No
+        ls[i].id = roll
+
+    def getSubject(self,rn):
+        i = obj.search(rn)
+        return ls[i].subject
+
+    def getName(self,rn):
+        i = obj.search(rn)
+        print(i)
+        return ls[i].name
+try : 
+   frobj = open(f,'rb')
+   fsub = open(fs,'rb')
+   subs = pickle.load(fsub)
+   ff = pickle.load(frobj)
+   ls = ff
+except:
+   ls = []
+   subs = []
+
+obj = Faculty(0,'', [])
+
+
 
 logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
 lo_cur = logindbs.cursor()
@@ -24,6 +89,7 @@ mysql_stud = MySQL(app)
 UPLOAD_FOLDER = 'static/files'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 
+# log in and logout ----------------------------------------------------------
 @app.route('/', methods=['GET', 'POST'])
 def login():
     # Output message if something goes wrong...
@@ -56,7 +122,6 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     # Output message if something goes wrong...
-    import faculty
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
@@ -81,10 +146,9 @@ def register():
             msg = 'Please fill out the form!'
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            # sql = 'INSERT INTO account VALUES (N, {}, {}, {})'
+            obj.accept(id,username,[])
             lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s)', (id,username, password, email,))
             logindbs.commit()
-            faculty.obj.accept(id,username,[])
             msg = 'You have successfully registered!'
 
     elif request.method == 'POST':
@@ -125,17 +189,17 @@ def home():
    # User is not loggedin redirect to login page
    return redirect(url_for('login'))
 
+
 # Admin Pages -----------------------------------------------------------------
 @app.route('/adminHome')
 def adminHome():
    if 'loggedin' in session and session['username'] == 'admin':
-      import faculty
-      ls = faculty.ls
       name = []
       subs = []
       for i in ls:
          name.append(i.name)
          subs.append(i.subject)
+      # print(faculty.obj.getName(1))
       all = [name,subs]
       return render_template('adminhome.html',ls = all)
    return redirect(url_for('home'))
@@ -146,12 +210,26 @@ def manageFaculty():
       return render_template('managefaculty.html')
    return redirect(url_for('home'))
 
-@app.route('/adminSubject')
+# --------------------------------------------------------------------------------
+@app.route('/manageSubject')
 def manageSubject():
    if 'loggedin' in session and session['username'] == 'admin':
-      return render_template('managesubject.html')
+      all = {}
+      all['subs'] = subs
+      return render_template('manageSubject.html',all =all)
    return redirect(url_for('home'))
 
+@app.route('/addsubject',methods = ['GET', 'POST'])
+def addSubject():
+   if 'loggedin' in session and session['username'] == 'admin':
+      subject = request.form.get('subject')
+      subs.append(subject)
+      subw = open(fs,'wb')
+      pickle.dump(subs,subw)
+      return redirect(url_for('manageSubject'))
+   return redirect(url_for('home'))
+   
+# ------------------------------------------------------------------------------
 @app.route('/adminProfile')
 def adminProfile():
    if 'loggedin' in session and session['username'] == 'admin':
