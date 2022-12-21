@@ -31,7 +31,7 @@ def subjectAttendance (year,division,subject,sdate,edate):
     if year=='BTECH':
         # For SE -----------------------------------------------
         if subject=="Software Engineering":
-            sql = 'SELECT roll,division FROM se WHERE division = "{}"'.format(division)
+            sql = 'SELECT roll,name,division FROM se WHERE division = "{}"'.format(division)
             btech.execute(sql)
             data = btech.fetchall()
 

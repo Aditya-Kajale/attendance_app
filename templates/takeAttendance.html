@@ -12,6 +12,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
 </head>
 
 <body class="form-v10" >
@@ -89,7 +90,6 @@
 						</div>					  
 					  </div>
 					</div>
-
 					<div class="row">
 						<div class="col">
 							<div class="form-group text-left">
@@ -99,45 +99,63 @@
 						</div>
 						<div class="col">
 							<div class="form-group text-left">
-								<label for="lectype">Lecture type</label><br>
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" id="theory" value="Theory" name="lectype" class="custom-control-input">
-									<label class="custom-control-label" for="theory">Theory</label>
+								<label for="batches">Batches</label>
+								<br>
+								<div class="form-check-inline" >
+		
+									<div class="row" id="batches">
+										<div class="col">
+											<input class="form-check-input" type="checkbox" name = 'batch' value="A1" id="A1" checked>
+											<label class="form-check-label" for="A1">A1</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="checkbox" name = 'batch' value="A2" id="A2" checked>
+											<label class="form-check-label" for="A2">A2</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="checkbox" name = 'batch' value="A3" id="A3" checked>
+											<label class="form-check-label" for="A3">A3</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="checkbox" name = 'batch' value="A4" id="A4" checked>
+											<label class="form-check-label" for="A4">A4</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="checkbox" name = 'batch' value="A5" id="A5" checked>
+											<label class="form-check-label" for="A5">A5</label>
+										</div>
+									</div>
 								</div>
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" id="practical" value="Practical" name="lectype" class="custom-control-input" required>
-									<label class="custom-control-label" for="practical">Practical</label>
+							</div>		
+						</div>
+					</div>
+										<div class="row">
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="lectype">Lecture type</label><br>
+								<div class="row">
+									<div class="col">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" id="theory" value="Theory" name="lectype" class="custom-control-input">
+											<label class="custom-control-label" for="theory">Theory</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" id="practical" value="Practical" name="lectype" class="custom-control-input" required>
+											<label class="custom-control-label" for="practical">Practical</label>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
 						<div class="col">
 							<div class="form-group text-left">
 								<label for="subject">Subject</label>
 								<select name="subject" id="subject" class="form-control">
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-									<option value="F6">6</option>
-									<!-- {% for i in sub %}
-									<option value="">{{i}}</option>
-									{% endfor %} -->
-								</select>
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-group text-left">
-								<label for="faculty">Faculty</label>
-								<select name="faculty" id="faculty" class="form-control">
-									<option value="PAJ">Prof. P.A. Joshi</option>
-									<option value="VSK">Prof. V.S. Kolte</option>
-									<option value="SSP">Dr. S.S. Ponde</option>
-									<option value="SGS">Prof. S.G. Shah</option>
-									<option value="RAK">Dr. Rahat Khan</option>
-									<option value="SKS">Prof. S.K. Shelke</option>
+									{% for i in data %}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
 								</select>
 							</div>
 						</div>
@@ -151,7 +169,10 @@
 								</select>
 							</div>
 						</div>
+						
 					</div>
+					
+					
 					
 					<button id="submitForm" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Search  </button>
 				
@@ -213,6 +234,11 @@
 				'System Administration',
 			]
 		};
+		
+		var batchess = {
+			'A':['A1','A2','A3','A4','A5'],
+			'B':['B1','B2','B3','B4','B5']
+		};
 
 		var defaultOption = '<option value="" disabled>Please select lecture type</option>';
 
@@ -239,6 +265,20 @@
 			for (i = 0; i < subjects[selectValue].length; i++) {
 				// Output choice in the target field
 				$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
+			}
+			});
+
+		$('#division').on('change', function() {
+			// Set selected option as variable
+			var selectValue = $(this).val();
+
+			// Empty the target field
+			$('#batches').empty();
+			
+			// For each chocie in the selected option
+			for (i = 0; i < batchess[selectValue].length; i++) {
+				// Output choice in the target field
+				$('#batches').append('<div class="col"><input class="form-check-input" type="checkbox" name="batch" value="'+batchess[selectValue][i]+'" id="'+batchess[selectValue][i]+'" checked><label class="form-check-label" for="'+batchess[selectValue][i]+'">'+batchess[selectValue][i]+'</label></div>');
 			}
 			});
 

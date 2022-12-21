@@ -59,9 +59,9 @@ class Faculty:
         return ls[i].name
 try : 
    frobj = open(f,'rb')
+   ff = pickle.load(frobj)
    fsub = open(fs,'rb')
    subs = pickle.load(fsub)
-   ff = pickle.load(frobj)
    ls = ff
 except:
    ls = []
@@ -202,13 +202,49 @@ def adminHome():
       # print(faculty.obj.getName(1))
       all = [name,subs]
       return render_template('adminhome.html',ls = all)
-   return redirect(url_for('home'))
+   return redirect(url_for('login'))
 
+# ----------------------------------------------------------------------------------
 @app.route('/manageFaculty')
 def manageFaculty():
    if 'loggedin' in session and session['username'] == 'admin':
-      return render_template('managefaculty.html')
-   return redirect(url_for('home'))
+      faculty = []
+      for i in ls:
+         faculty.append(i.name) 
+      return render_template('managefaculty.html',faculty = faculty)
+   return redirect(url_for('login'))
+
+@app.route('/selectSubject',methods = ['GET', 'POST'])
+def selectSubject():
+   if 'loggedin' in session and session['username'] == 'admin':
+      all = {}
+      all['rem_subs'] = []
+      faculty = request.form.get('faculty')
+      session ['fc'] = faculty
+      fsubs = []
+      for i in ls:
+         if i.name == faculty:
+            fsubs = i.subject
+      all['fc'] = faculty
+      all['subs_have'] = fsubs
+      all['len_sub'] = len(all['subs_have'])
+      for i in subs:
+         if i not in all['subs_have']:
+            all['rem_subs'].append(i)
+      return render_template('selectSubject.html',all = all)
+   return redirect(url_for('login'))
+
+@app.route('/assignSubject',methods = ['GET', 'POST'])
+def assignSubject():
+   all_subs = request.form.getlist('subs')
+   fc = session['fc']
+   for i in ls:
+      if i.name == fc:
+         i.subject = all_subs
+   
+   fwobj = open(f,'wb')
+   pickle.dump(ls,fwobj)
+   return redirect(url_for('manageFaculty'))
 
 # --------------------------------------------------------------------------------
 @app.route('/manageSubject')
@@ -217,7 +253,7 @@ def manageSubject():
       all = {}
       all['subs'] = subs
       return render_template('manageSubject.html',all =all)
-   return redirect(url_for('home'))
+   return redirect(url_for('login'))
 
 @app.route('/addsubject',methods = ['GET', 'POST'])
 def addSubject():
@@ -227,7 +263,7 @@ def addSubject():
       subw = open(fs,'wb')
       pickle.dump(subs,subw)
       return redirect(url_for('manageSubject'))
-   return redirect(url_for('home'))
+   return redirect(url_for('login'))
    
 # ------------------------------------------------------------------------------
 @app.route('/adminProfile')
@@ -236,7 +272,7 @@ def adminProfile():
       lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
       account = lo_cur.fetchone()
       return render_template('adminprofile.html',account=account)
-   return redirect(url_for('home'))
+   return redirect(url_for('login'))
 
 
 
@@ -254,13 +290,14 @@ def addDataset():
          uploaded_file = request.files['file']
          year = request.form.get('year')
          div = request.form.get('division')
+         batchlength = request.form.get('batchlength')
          if uploaded_file.filename != '':
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
             # set the file path
             uploaded_file.save(file_path)
             # print(file_path)
-            print(year,div)
-            parseCSV(file_path,str(year),str(div))
+            # print(year,div)
+            parseCSV(file_path,str(year),str(div),batchlength)
 
       return redirect(url_for('addClass'))
 
@@ -365,11 +402,15 @@ def showRecord():
       if request.method == 'POST':
          year = request.form.get('year')
          division = request.form.get('division')
+         delete = request.form.get('delete')
          # print(year,division)
-         data = classRecordDBS.getData(year,division)
-         # print(data)
-
-      return render_template('classRecord.html',data=data)
+         if delete == 'delete':
+            classRecordDBS.delete_data(year,division)
+            return redirect(url_for('classRecord'))
+         else:
+            data = classRecordDBS.getData(year,division)
+            return render_template('classRecord.html',data=data)
+         
    return redirect(url_for('login'))
 
 # -----------------------------------------------------------------------------------------------------
@@ -378,7 +419,11 @@ def showRecord():
 @app.route('/takeattendance')
 def takeAttendance():
    if 'loggedin' in session and session['username'] != 'admin': 
-      return render_template('takeAttendance.html')
+      data = []
+      for i in ls:
+         if i.name == session['username']:
+            data = i.subject
+      return render_template('takeAttendance.html',data = data)
    return redirect(url_for('login'))
 
 
@@ -392,10 +437,11 @@ def searchStud():
          date = request.form.get('date')
          lectype = request.form.get('lectype')
          subject = request.form.get('subject')
-         faculty = request.form.get('faculty')
          timeslot = request.form.get('timeslot')
-         searchStud.atinfo = (year,division,date,lectype,subject,faculty,timeslot)
-         data = classRecordDBS.getData(year,division)
+         batch = request.form.getlist('batch')
+         print(batch)
+         searchStud.atinfo = (year,division,date,lectype,subject,timeslot,batch)
+         data = classRecordDBS.getData_batchvise(year,division,batch)
          total_data = (searchStud.atinfo, data)
          # print(total_data)
       return render_template('addAttendance.html',data = total_data)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Add student</title>
+	<title>Class Record</title>
 	<meta charset="utf-8">
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -82,8 +82,15 @@
 						  <option value="B">B</option>
 						</select>
 					</div>
-
-					<button id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
+					<div class="row">
+						<div class="col-10">
+							<input id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm" value="Show"> 
+						</div>
+						<div class="col">
+							<input type="submit" class="btn btn-danger btn-block rounded-pill shadow-sm" value="delete" name="delete" >
+						</div>
+						
+					</div>
 				  </form>
             </div>
         </div>
@@ -103,6 +110,7 @@
 						<th scope="col">PRN NO</th>
 						<th scope="col">YEAR</th>
 						<th scope="col">DIVISION</th>
+						<th scope="col">BATCH</th>
 					</tr>
 					</thead>
 					<tbody>

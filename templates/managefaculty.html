@@ -26,10 +26,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
     
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a class="nav-link" href="{{ url_for('adminHome') }}">Home</a>
                   </li>
-                <li class="nav-item ">
+                <li class="nav-item active">
                   <a class="nav-link" href="{{ url_for('manageFaculty') }}">Manage-Faculty</a>
                 </li>
                 <li class="nav-item ">
@@ -41,8 +41,34 @@
               
             </div>
         </nav>
-    
-        
-        <p>admin faculty</p>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+              <div class="card" >
+  
+                  <h4 class="text-center mb-4">Manage Faculty</h4>
+                  <form id="f"  action="{{ url_for('selectSubject') }}" method = "POST" enctype = "multipart/form-data" > 
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group text-left">
+                          <label for="faculty">Select Faculty to Add or Remove subject</label>
+                          <select name="faculty" id="faculty" class="form-control">
+                            {% for i in faculty %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
+
+                  </form>
+                  
+              </div>
+          </div>
+        </div>
+
+
     </body>
 </html>

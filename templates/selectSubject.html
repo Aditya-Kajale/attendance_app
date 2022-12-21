@@ -15,10 +15,11 @@
 
         <style>
           .list-group{
-            max-height: 400px;
+            max-height: 300px;
             overflow:scroll;
           }
         </style>
+
     </head>
 
     <body>
@@ -35,10 +36,10 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="{{ url_for('adminHome') }}">Home</a>
                   </li>
-                <li class="nav-item ">
+                <li class="nav-item active">
                   <a class="nav-link" href="{{ url_for('manageFaculty') }}">Manage-Faculty</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item ">
                   <a class="nav-link" href="{{ url_for('manageSubject') }}">Manage-Subject</a>
                 </li>
               </ul>
@@ -47,40 +48,63 @@
               
             </div>
         </nav>
-    
+
         <div class="row d-flex justify-content-center">
           <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
               <div class="card" >
   
-                  <h4 class="text-center mb-4">Manage Subjects</h4>
-
-                  <div class="row ">
-                    <div class="col">
-                      <h6>Subject List</h6>
-                      <ul class="list-group">
-                        {% for i in all['subs'] %}
-                        <li class="list-group-item ">{{i}}</li>                      
-                        {% endfor %}
-                      </ul>
-
-                    </div>
-                    <div class="col">
-                      <form action="{{url_for('addSubject')}}" method = "POST" enctype = "multipart/form-data">
-                        <div class="form-group form-outline ">
-                          <label class="form-label" for="subject">Add Subject</label>
-                          <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject" required/>
+                  <h4 class="text-center mb-4">Add Or Remove Subject</h4>
+                  <form id="f"  action="{{ url_for('assignSubject') }}" method = "POST" enctype = "multipart/form-data" > 
+                  <h5 class="form-group">Faculty : {{all['fc']}}</h5>
+                    <div class="row form-group">
+                        <div class="col form-group">
+                          <h6 class="form-group">Subjects Have</h6>
+                          <div class="form-check">
+                            {% if all['len_sub']==0 %}
+                              <p>This Faculty Have No subject Assigned</p>
+                            {% else %}
+                            <ul class="list-group text-left"></ul>
+                              {% for i in all['subs_have'] %}
+                              <li class="list-group-item text-left">  
+                                <input class="form-check-input" type="checkbox" value="{{i}}" id="{{i}}" name = 'subs' checked>
+                                <label class="form-check-label" for="{{i}}">{{i}}</label>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                            {% endif %}
+                          </div>
                         </div>
-                        
-                        <button id="submitForm" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Add Subject  </button>
-                        
-                      </form>
-                    </div>
-                  </div>
+                        <div class="col form-group">
+                          <h6 class="form-group">Subjects To Add</h6>
+                          <div class="form-check " >
+                            <ul class="list-group text-left">
+                              {% for i in all['rem_subs'] %}
+                              <li class="list-group-item  ">                      
+                                  <input class="form-check-input" type="checkbox" value="{{i}}" id="{{i}}" name = 'subs'>
+                                  <label class="form-check-label" for="{{i}}">{{i}}</label>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>    
+
+                      <button id="submitForm" type="submit" onclick="myFunction()" class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
+                    </form>
                   
               </div>
           </div>
-      </div>
+        </div>
 
-        
+
+    <script>
+      var form = document.getElementById('f');
+  
+      function myFunction() {
+        if (form.checkValidity()) {
+          alert("Subjects added to {{all['fc']}}");
+        }
+      }
+  </script>
     </body>
 </html>

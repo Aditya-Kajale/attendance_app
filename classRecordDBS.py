@@ -14,3 +14,22 @@ def getData(year,division):
 
     return data
 
+def getData_batchvise(year,division,batch):
+    cur = mysql_stud.connection.cursor()
+    data = []
+    for i in batch:
+        sql = "SELECT * FROM "+year+" WHERE DIVISION = %s AND BATCH = %s"
+        val = (division,i)
+        cur.execute(sql,val)
+        temp = cur.fetchall()
+        for j in temp:
+            data.append(j)
+    mysql_stud.connection.commit()
+    return data
+
+def delete_data(year,division):
+    cur = mysql_stud.connection.cursor()
+    sql = "DELETE FROM "+year+" WHERE DIVISION = %s"
+    val = (division)
+    cur.execute(sql,val)
+    mysql_stud.connection.commit()
