@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Admin Profile</title>
+        <title>Manage Subject</title>
         <meta charset="utf-8">
         <!-- Mobile Specific Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,6 +13,12 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+        <style>
+          .list-group{
+            max-height: 400px;
+            overflow:scroll;
+          }
+        </style>
     </head>
 
     <body>
@@ -26,13 +32,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
     
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a class="nav-link" href="{{ url_for('adminHome') }}">Home</a>
                   </li>
                 <li class="nav-item ">
                   <a class="nav-link" href="{{ url_for('manageFaculty') }}">Manage-Faculty</a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item active">
                   <a class="nav-link" href="{{ url_for('manageSubject') }}">Manage-Subject</a>
                 </li>
               </ul>
@@ -41,49 +47,38 @@
               
             </div>
         </nav>
-
+    
         <div class="row d-flex justify-content-center">
           <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
               <div class="card" >
-                <h2>Profile Page</h2>
-                <div>
-                  <div class="card-body text-left">
-                    <div class="row">
-                      <div class="col">
-                        <p class="mb-0">ID</p>
+  
+                  <h4 class="text-center mb-4">Manage Subjects</h4>
+
+                  <div class="row ">
+                    <div class="col">
+                      <div class="form-group text-left">
+                        <form action="{{url_for('manageSubject')}}" method = "POST" enctype = "multipart/form-data">
+                        <label for="year">Select year in which you would like to add subject</label>
+                        <select name="year" id="year" class="form-control">
+
+                          <option value="FY">FY</option>
+                          <option value="SY">SY</option>
+                          <option value="TY">TY</option>
+                          <option value="BTECH">BTECH</option>
+
+                        </select>
                       </div>
-                      <div class="col">
-                        <p class=" mb-0">{{ account[0] }}</p>
-                      </div>
+
                     </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col">
-                        <p class="mb-0">USERNAME</p>
-                      </div>
-                      <div class="col">
-                        <p class=" mb-0">{{ account[1] }}</p>
-                      </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col">
-                        <p class="mb-0">EMAIL</p>
-                      </div>
-                      <div class="col">
-                        <p class=" mb-0">{{ account[3] }}</p>
-                      </div>
-                    </div>
-                    <hr>
+
                   </div>
+                    <button id="submitForm" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Add Subject  </button>
+                  </form>
                   
-                  <a class="btn btn-danger btn-block rounded-pill shadow-sm" href="{{url_for('logout')}}">Logout</a>
-                </div>
               </div>
           </div>
+      </div>
 
-
-            
-        </div>
+        
     </body>
 </html>

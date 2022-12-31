@@ -95,12 +95,9 @@
 							<div class="form-group text-left">
 								<label for="subject">Subject</label>
 								<select name="subject" id="subject" class="form-control">
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-									<option value="F6">6</option>
+									{% for i in data %}
+										<option value="{{i}}">{{i}}</option>
+									{% endfor %}
 								</select>
 							</div>
 						</div>
@@ -132,53 +129,53 @@
 
 
 	<script>
-		var subjects = {
-			'FY':[
-				'1',
-				'2',
-				'3',
-				'4',
-				'5',
-				'6'
-			],
-			'SY':[
-				'Engineering Mathematics-3',
-				'Descrete Mathematics',
-				'Data Structures',
-				'Computer Architecture',
-				'OOPS JAVA',
-				'OOPS C++',
-				'Seminar-1',],
-			'TY':[
-				'Database System',
-				'Theory of Computation',
-				'Human Computer Interaction',
-				'Business Comunication',
-				'Mini-Project-1'
-			],
-			'BTECH':[
-				'Software Engineering',
-				'Big Data Analytics',
-				'Cloud Computing',
-				'Blockchain Technology',
-				'Full Stack Development',
-				'System Administration',
-			]
-		};
+		// var subjects = {
+		// 	'FY':[
+		// 		'1',
+		// 		'2',
+		// 		'3',
+		// 		'4',
+		// 		'5',
+		// 		'6'
+		// 	],
+		// 	'SY':[
+		// 		'Engineering Mathematics-3',
+		// 		'Descrete Mathematics',
+		// 		'Data Structures',
+		// 		'Computer Architecture',
+		// 		'OOPS JAVA',
+		// 		'OOPS C++',
+		// 		'Seminar-1',],
+		// 	'TY':[
+		// 		'Database System',
+		// 		'Theory of Computation',
+		// 		'Human Computer Interaction',
+		// 		'Business Comunication',
+		// 		'Mini-Project-1'
+		// 	],
+		// 	'BTECH':[
+		// 		'Software Engineering',
+		// 		'Big Data Analytics',
+		// 		'Cloud Computing',
+		// 		'Blockchain Technology',
+		// 		'Full Stack Development',
+		// 		'System Administration',
+		// 	]
+		// };
 
-		$('#year').on('change', function() {
-			// Set selected option as variable
-			var selectValue = $(this).val();
+		// $('#year').on('change', function() {
+		// 	// Set selected option as variable
+		// 	var selectValue = $(this).val();
 
-			// Empty the target field
-			$('#subject').empty();
+		// 	// Empty the target field
+		// 	$('#subject').empty();
 			
-			// For each chocie in the selected option
-			for (i = 0; i < subjects[selectValue].length; i++) {
-				// Output choice in the target field
-				$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
-			}
-			});
+		// 	// For each chocie in the selected option
+		// 	for (i = 0; i < subjects[selectValue].length; i++) {
+		// 		// Output choice in the target field
+		// 		$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
+		// 	}
+		// 	});
 	</script>
 
 

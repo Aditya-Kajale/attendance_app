@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request,redirect, url_for, session
 from addClass import *
 from flask_mysqldb import MySQL
-from wtforms import SelectField
 import mysql.connector
 import os
 import re
@@ -24,7 +23,7 @@ class Faculty:
         pickle.dump(ls,fwobj)
  
     # Function to display student details
-    def display(self, ob):
+    def display(self):
         frobj = open(f,'rb')
         ff = pickle.load(frobj)
         print(ff)
@@ -69,8 +68,6 @@ except:
 
 obj = Faculty(0,'', [])
 
-
-
 logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
 lo_cur = logindbs.cursor()
 
@@ -108,8 +105,9 @@ def login():
             session['loggedin'] = True 
             session['id'] = account[0][0]
             session['username'] = account[0][1]
+            
             # Redirect to home page    
-            if session['username'] == 'admin':
+            if session['username'] == 'admin' :
                return redirect(url_for('adminHome'))
             else:
                return redirect(url_for('home'))
@@ -171,12 +169,15 @@ def logout():
 def profile():
     # Check if user is loggedin
     if 'loggedin' in session :
-        # We need all the account info for the user so we can display it on the profile page
-        lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
-        account = lo_cur.fetchone()
-        print(account)
-        # Show the profile page with account info
-        return render_template('profile.html', account=account)
+         account = {}
+         # We need all the account info for the user so we can display it on the profile page
+         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
+         account['data'] = lo_cur.fetchone()
+         for i in ls:
+            if i.name == session['username']: 
+               account['subject'] = i.subject
+         # Show the profile page with account info
+         return render_template('profile.html', account=account)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
@@ -221,7 +222,6 @@ def selectSubject():
       all['rem_subs'] = []
       faculty = request.form.get('faculty')
       session ['fc'] = faculty
-      fsubs = []
       for i in ls:
          if i.name == faculty:
             fsubs = i.subject
@@ -247,21 +247,26 @@ def assignSubject():
    return redirect(url_for('manageFaculty'))
 
 # --------------------------------------------------------------------------------
-@app.route('/manageSubject')
+@app.route('/manageSubject',methods = ['GET', 'POST'])
 def manageSubject():
    if 'loggedin' in session and session['username'] == 'admin':
-      all = {}
-      all['subs'] = subs
-      return render_template('manageSubject.html',all =all)
+      if request.method == 'POST':
+         all={}
+         year = request.form.get('year')
+         all['year'] = year
+         all['subs'] = subs[year]
+         session ['year_for_subject'] = year
+         return render_template('manageSubject2.html',all=all)
+      return render_template('manageSubject1.html')
    return redirect(url_for('login'))
 
 @app.route('/addsubject',methods = ['GET', 'POST'])
 def addSubject():
    if 'loggedin' in session and session['username'] == 'admin':
+      import addSubject
       subject = request.form.get('subject')
-      subs.append(subject)
-      subw = open(fs,'wb')
-      pickle.dump(subs,subw)
+      year = session['year_for_subject']
+      addSubject.addsubject(year,subject)
       return redirect(url_for('manageSubject'))
    return redirect(url_for('login'))
    
@@ -290,14 +295,14 @@ def addDataset():
          uploaded_file = request.files['file']
          year = request.form.get('year')
          div = request.form.get('division')
-         batchlength = request.form.get('batchlength')
          if uploaded_file.filename != '':
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
             # set the file path
             uploaded_file.save(file_path)
             # print(file_path)
             # print(year,div)
-            parseCSV(file_path,str(year),str(div),batchlength)
+            parseCSV(file_path,str(year),str(div))
+            
 
       return redirect(url_for('addClass'))
 
@@ -324,11 +329,11 @@ def addStud():
          prn = request.form.get('prn')
          year = request.form.get('year')
          division = request.form.get('division')
-         addStudentDBS.addstud(roll,name,prn,year,division)
+         batch = request.form.get('batch')
+         addStudentDBS.addstud(roll,name,prn,year,division,batch)
       return redirect(url_for('addStudent'))
 
    return redirect(url_for('login'))
-
 
 # -----------------------------------------------------------------------------------------------------
 
@@ -336,7 +341,11 @@ def addStud():
 @app.route('/subjectRecord')
 def subjectAttendance():
    if 'loggedin' in session and session['username'] != 'admin': 
-      return render_template('subjectAttendance.html')
+      data = []
+      for i in ls:
+         if i.name == session['username']:
+            data = i.subject
+      return render_template('subjectAttendance.html',data = data)
    return redirect(url_for('login'))
 
 
@@ -383,6 +392,21 @@ def defaulter():
       return render_template('defaulter.html')
    return redirect(url_for('login'))
 
+@app.route('/defaultertable', methods = ['GET', 'POST'])
+def defaulterTable():
+   if 'loggedin' in session and session['username'] != 'admin': 
+      import attendanceDBS
+      if request.method == 'POST':
+         year = request.form.get('year')
+         division = request.form.get('division')
+         sdate = request.form.get('sdate')
+         edate = request.form.get('edate')
+         defaulter = request.form.get('defaulter')
+         # print(defaulter)
+         data = attendanceDBS.defaulterData(year,division,sdate,edate,defaulter)
+         # print(data)
+      return render_template('defaulterTable.html',data=data)
+   return redirect(url_for('login'))
 
 # -----------------------------------------------------------------------------------------------------
 
@@ -439,11 +463,15 @@ def searchStud():
          subject = request.form.get('subject')
          timeslot = request.form.get('timeslot')
          batch = request.form.getlist('batch')
-         print(batch)
+         # print(batch)
          searchStud.atinfo = (year,division,date,lectype,subject,timeslot,batch)
          data = classRecordDBS.getData_batchvise(year,division,batch)
+         data.sort()
          total_data = (searchStud.atinfo, data)
-         # print(total_data)
+         roll = []
+         for i in data:
+            roll.append(i[0])
+         session['roll'] = roll
       return render_template('addAttendance.html',data = total_data)
    return redirect(url_for('login'))
 
@@ -453,14 +481,12 @@ def addAttendance():
       import addAttendance
       if request.method == 'POST':
          present = request.form.getlist('present')
-         # print(present)
-         addAttendance.addAttendance(searchStud.atinfo,present)
-         
+         print(session['roll'])
+         addAttendance.addAttendance(searchStud.atinfo,present,session['roll'])
       return redirect(url_for('takeAttendance'))
    return redirect(url_for('login'))
 
 # -----------------------------------------------------------------------------------------------------
-
 
 if __name__ == '__main__':
       app.run(debug = True)

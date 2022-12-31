@@ -1,7 +1,8 @@
-# # import pandas as pd
-# # # import connection as cn
-# # from datetime import date, timedelta
-# # import mysql.connector 
+import pickle
+import pandas as pd
+# import connection as cn
+from datetime import date, timedelta
+import mysql.connector 
 
 
 # # at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
@@ -44,9 +45,8 @@
 # # print(faculty.obj.getName(2))
 
     
-# import pickle
-# # f = 'fcinfo.pkl'
-# fs = 'subinfo.pkl'
+# f = 'fcinfo.pkl'
+fs = 'subinfo.pkl'
 
 
 # # class Faculty:
@@ -108,40 +108,33 @@
 
 # # obj = Faculty(0,'', [])
 
-# subs = ['Engineering Mathematics-3',
-#         'Descrete Mathematics',
-#         'Data Structures',
-#         'Computer Architecture',
-#         'OOPS JAVA',
-#         'OOPS C++',
-#         'Seminar-1',
-#         'Database System',
-#         'Theory of Computation',
-#         'Human Computer Interaction',
-#         'Business Comunication',
-#         'Mini-Project-1',
-#         'Software Engineering',
-#         'Big Data Analytics',
-#         'Cloud Computing',
-#         'Blockchain Technology',
-#         'Full Stack Development',
-#         'System Administration']
+subs = {"BTECH":['Software Engineering',
+        'Big Data Analytics',
+        'Cloud Computing',
+        'Blockchain Technology',
+        'Full Stack Development',
+        'System Administration'],
+        "TY":[],
+        "SY":[],
+        "FY":[]}
+# for reading 
+frobj = open(fs,'rb')
+# fwobj = open(fs,'wb')
+# pickle.dump(subs,fwobj)
 
-# fwobj = open(fs,'rb')
-# # pickle.dump(subs,fwobj)
-
-# ff = pickle.load(fwobj)
-# print(ff)
+# import routes
+ff = pickle.load(frobj)
+print(ff)
 
 
-def unlock (num):
-    aa = list(str(num))    
-    aa.sort()
-    if aa[0] == '0':
-        aa[0],aa[1] = aa[1],aa[0]
-    ss = ''.join(aa)
-    print(ss)
-    return int(ss)
+# def unlock (num):
+#     aa = list(str(num))    
+#     aa.sort()
+#     if aa[0] == '0':
+#         aa[0],aa[1] = aa[1],aa[0]
+#     ss = ''.join(aa)
+#     print(ss)
+#     return int(ss)
 
 
-unlock(310)
+# unlock(310)

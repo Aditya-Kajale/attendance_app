@@ -63,25 +63,59 @@
             </div>
         </nav>
 		
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+              <div class="card" >
+                <h2>Profile Page</h2>
 
-        <h2>Profile Page</h2>
-        <div>
-            <p>Your account details are below:</p>
-            <table>
-                <tr>
-                    <td>Username:</td>
-                    <td>{{ account[1] }}</td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td>{{ account[2] }}</td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td>{{ account[3] }}</td>
-                </tr>
-            </table>
-            <a href="{{url_for('logout')}}">Logout</a>
+                <div class="card-body text-left">
+                  <div class="row">
+                    <div class="col">
+                      <p class="mb-0">ID</p>
+                    </div>
+                    <div class="col">
+                      <p class=" mb-0">{{ account['data'][0] }}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col">
+                      <p class="mb-0">USERNAME</p>
+                    </div>
+                    <div class="col">
+                      <p class=" mb-0">{{ account['data'][1] }}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col">
+                      <p class="mb-0">EMAIL</p>
+                    </div>
+                    <div class="col">
+                      <p class=" mb-0">{{ account['data'][3] }}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col">
+                      <p class="mb-0">SUBJECT ASSIGNED</p>
+                    </div>
+                    <div class="col">
+                      <ul class="list-group list-group-flush">
+                        {% for i in account['subject'] %}
+                          <li class="list-group-item ">{{i}}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+                
+                <a class="btn btn-danger btn-block rounded-pill shadow-sm" href="{{url_for('logout')}}">Logout</a>
+
+              </div>
+          </div>
         </div>
+
 	</body>
 </html>

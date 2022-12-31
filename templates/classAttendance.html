@@ -115,56 +115,7 @@
 	
 
 
-	<script>
-		var subjects = {
-			'FY':[
-				'1',
-				'2',
-				'3',
-				'4',
-				'5',
-				'6'
-			],
-			'SY':[
-				'Engineering Mathematics-3',
-				'Descrete Mathematics',
-				'Data Structures',
-				'Computer Architecture',
-				'OOPS JAVA',
-				'OOPS C++',
-				'Seminar-1',],
-			'TY':[
-				'Database System',
-				'Theory of Computation',
-				'Human Computer Interaction',
-				'Business Comunication',
-				'Mini-Project-1'
-			],
-			'BTECH':[
-				'Software Engineering',
-				'Big Data Analytics',
-				'Cloud Computing',
-				'Blockchain Technology',
-				'Full Stack Development',
-				'System Administration',
-			]
-		};
-
-		$('#year').on('change', function() {
-			// Set selected option as variable
-			var selectValue = $(this).val();
-
-			// Empty the target field
-			$('#subject').empty();
-			
-			// For each chocie in the selected option
-			for (i = 0; i < subjects[selectValue].length; i++) {
-				// Output choice in the target field
-				$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
-			}
-			});
-	</script>
-
+	
 
 </body>
 </html>

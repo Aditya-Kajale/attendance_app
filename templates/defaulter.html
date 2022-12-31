@@ -65,7 +65,63 @@
 	<!-- navbar ends -->
 
     <body>
-		Display Attendance By Defaulter
+		<div class="row d-flex justify-content-center">
+			<div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+				<div class="card">
+					<h5 class="text-center mb-4">Display Defaulter</h5>
+					<form id="f"  action="{{ url_for('defaulterTable') }}" method = "POST" enctype = "multipart/form-data" > 
+						<div class="form-group row">
+							<div class="col">
+								<div class="form-group text-left">
+									<label for="year">Year</label>
+									<select name="year" id="year" class="form-control">
+									  <option value="FY">FY</option>
+									  <option value="SY">SY</option>
+									  <option value="TY">TY</option>
+									  <option value="BTECH">B.Tech</option>
+									</select>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group text-left">
+									<label for="division">Division</label>
+									<select name="division" id="division" class="form-control">
+									  <option value="A">A</option>
+									  <option value="B">B</option>
+									</select>
+								</div>
+							</div>
+						</div>
+	
+						<div class=" form-group row">
+							<div class="col">
+								<div class="form-group text-left">
+									<label for="sdate">Start Date</label>
+									<input type='date' name="sdate" class="form-control" required/>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group text-left">
+									<label for="edate">End Date</label>
+									<input type='date' name="edate" class="form-control" required/>
+								</div>	
+							</div>
+						</div>
+						<div class=" form-group row">
+							<div class="col">
+								<div class="form-group text-left">
+									<label for="defaulter">Defaulter Percentage -</label>
+									<input type="number" name="defaulter" placeholder="Defaulter Percentage" required class="form-control">
+								</div>
+							</div>
+						</div>
+	
+						<button id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
+					  </form>
+				</div>
+			</div>
+		</div>
+	
     </body>
 
 </body>

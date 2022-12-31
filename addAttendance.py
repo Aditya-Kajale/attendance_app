@@ -13,118 +13,50 @@ ty = at_ty.cursor()
 sy = at_sy.cursor()
 fy = at_fy.cursor()
 
-def addAttendance(data,present): 
-    print(data,present)
+def addAttendance(data,present,roll): 
+    # print(data,present)
 
     if data[3]=='Theory':
         # BTECH Year --------------------------------------
         if data[0]=="BTECH":
-            if data[4] == "Software Engineering":
-                date = data[2].replace('-','_')
-                try:
-                    sql ='ALTER TABLE se ADD {} int DEFAULT 0'.format(date)
+            date = data[2].replace('-','_')
+            try:
+                for i in roll:
+                    # print(i,date)
+                    # print(data[4])
+                    sql = "UPDATE `{}` SET {}=0 WHERE roll={} ".format(data[4],date,i)
                     btech.execute(sql)
                     at_btech.commit()
-                    sql = "UPDATE se SET {}=1 WHERE roll={} ".format(date,i)
-                    btech.execute(sql)
-                    at_btech.commit()
-                except:
-                    print('already exist')
-                    for i in present:
-                        print(i,date)
-                        sql = "UPDATE se SET {}=1 WHERE roll={} ".format(date,i)
-                        btech.execute(sql)
-                        at_btech.commit()
 
-            elif data[4] == "Big Data Analytics":
-                date = data[2].replace('-','_')
-                print(data[4])
-                try:
-                    sql ='ALTER TABLE bda ADD {} int DEFAULT 0'.format(date)
+                for i in present:
+                    # print(i,date)
+                    # print(data[4])
+                    sql = "UPDATE `{}` SET {}=1 WHERE roll={} ".format(data[4],date,i)
                     btech.execute(sql)
                     at_btech.commit()
-                    sql = "UPDATE bda SET {}=1 WHERE roll={} ".format(date,i)
-                    btech.execute(sql)
-                    at_btech.commit()
-                except:
-                    print('already exist')
-                    for i in present:
-                        print(i,date)
-                        sql = "UPDATE bda SET {}=1 WHERE roll={}".format(date,i)
-                        btech.execute(sql)
-                        at_btech.commit()
-            
-            elif data[4] == "Cloud Computing":
-                date = data[2].replace('-','_')
-                print(data[4])
-                try:
-                    sql ='ALTER TABLE cc ADD {} int DEFAULT 0'.format(date)
-                    btech.execute(sql)
-                    at_btech.commit()
-                    sql = "UPDATE cc SET {}=1 WHERE roll={} ".format(date,i)
-                    btech.execute(sql)
-                    at_btech.commit()
-                except:
-                    print('already exist')
-                    for i in present:
-                        print(i,date)
-                        sql = "UPDATE cc SET {}=1 WHERE roll={}".format(date,i)
-                        btech.execute(sql)
-                        at_btech.commit()
+                
+            except:
+                print('already exist')
+                
+                sql ='ALTER TABLE `{}` ADD {} int DEFAULT -1'.format(data[4],date)
+                btech.execute(sql)
+                at_btech.commit()
 
-            elif data[4] == "Blockchain Technology":
-                date = data[2].replace('-','_')
-                print(data[4])
-                try:
-                    sql ='ALTER TABLE bt ADD {} int DEFAULT 0'.format(date)
+                for i in roll:
+                    # print(i,date)
+                    # print(data[4])
+                    sql = "UPDATE `{}` SET {}=0 WHERE roll={} ".format(data[4],date,i)
                     btech.execute(sql)
                     at_btech.commit()
-                    sql = "UPDATE bt SET {}=1 WHERE roll={} ".format(date,i)
-                    btech.execute(sql)
-                    at_btech.commit()
-                except:
-                    print('already exist')
-                    for i in present:
-                        print(i,date)
-                        sql = "UPDATE bt SET {}=1 WHERE roll={}".format(date,i)
-                        btech.execute(sql)
-                        at_btech.commit()
 
-            elif data[4] == "Full Stack Development":
-                date = data[2].replace('-','_')
-                print(data[4])
-                try:
-                    sql ='ALTER TABLE fsd ADD {} int DEFAULT 0'.format(date)
+                for i in present:
+                    # print(i,date)
+                    # print(data[4])
+                    sql = "UPDATE `{}` SET {}=1 WHERE roll={} ".format(data[4],date,i)
                     btech.execute(sql)
                     at_btech.commit()
-                    sql = "UPDATE fsd SET {}=1 WHERE roll={} ".format(date,i)
-                    btech.execute(sql)
-                    at_btech.commit()
-                except:
-                    print('already exist')
-                    for i in present:
-                        print(i,date)
-                        sql = "UPDATE fsd SET {}=1 WHERE roll={}".format(date,i)
-                        btech.execute(sql)
-                        at_btech.commit()
-
-            elif data[4] == "System Administration":
-                date = data[2].replace('-','_')
-                print(data[4])
-                try:
-                    sql ='ALTER TABLE sa ADD {} int DEFAULT 0'.format(date)
-                    btech.execute(sql)
-                    at_btech.commit()
-                    sql = "UPDATE sa SET {}=1 WHERE roll={} ".format(date,i)
-                    btech.execute(sql)
-                    at_btech.commit()
-                except:
-                    print('already exist')
-                    for i in present:
-                        print(i,date)
-                        sql = "UPDATE sa SET {}=1 WHERE roll={}".format(date,i)
-                        btech.execute(sql)
-                        at_btech.commit()
 
 
+    elif data[3]=='Practical':
+        print('Practical attendance part')
 
