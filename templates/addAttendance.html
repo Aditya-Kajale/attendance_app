@@ -28,27 +28,28 @@
 	  
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		  <ul class="navbar-nav mr-auto">
-
-			<li class="nav-item active">
+			<li class="nav-item ">
 				<a class="nav-link" href="{{ url_for('home') }}">Home</a>
 			  </li>
-			<li class="nav-item ">
-			  <a class="nav-link" href="{{ url_for('takeAttendance') }}">Take-Attendance</a>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Take Attendance
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="{{url_for('theoryAttendance')}}">Theory</a>
+					<a class="dropdown-item" href="{{url_for('practicalAttendance')}}">Practical</a>
+				</div>
 			</li>
-			<li class="nav-item ">
-			  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
-			</li>
-			<li class="nav-item ">
-				<a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
-			  </li>
-              <li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Attendance Record
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				  <a class="dropdown-item" href="{{url_for('subjectAttendance')}}">Record by Subject</a>
-				  <a class="dropdown-item" href="{{url_for('classAttendance')}}">Record by Class</a>
-				  <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter Record</a>
+					<a class="dropdown-item" href="{{url_for('subjectAttendance_theory')}}">Theory</a>
+					<a class="dropdown-item" href="{{url_for('subjectAttendance_practical')}}">Practical</a>
+					<a class="dropdown-item" href="{{url_for('classAttendance')}}">Class</a>
+					<a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter</a>
 				</div>
 			</li>
 			<li class="nav-item">
@@ -56,7 +57,7 @@
 			</li>
 			
 		  </ul>
-          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+		  <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
 
 		</div>
 	</nav>
@@ -68,12 +69,8 @@
 <div class="row d-flex justify-content-center">
     <div class="col-xl-8 col-lg-8 col-md-9 col-11 text-center">
         <div class="card" >
-        <!-- <h5 class="text-center mb-4">Attendance Info</h5> -->
-
         <div class="text-center">
-            <div class="card-header">
                 <h3 >Attendance Info</h3>
-            </div>
             <div class="card-body ">
                 <div class="row">
                     <div class="col">
@@ -82,34 +79,30 @@
                     <div class="col">
                         <h5 class="card-title">Division - {{data[0][1]}}</h5>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col">
                         <h5>Date - {{data[0][2]}}</h5>
                     </div>
                     <div class="col">
-                        <h5>Lecture Type - {{data[0][3]}}</h5>
+                        <h5>Time - {{data[0][4]}}</h5>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col">
-                        <h5>Subject - {{data[0][4]}}</h5>
+                        <h5>Subject - {{data[0][3]}}</h5>
                     </div>
+                    
                     <div class="col">
-                        <h5>Time - {{data[0][5]}}</h5>
+                        <h5>Batch - {{data[0][5]}}</h5>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <h5>Batch - {{data[0][6]}}</h5>
-                    </div>
-                </div>
+                
             </div>
           </div>
 
         <form id="f" action="{{url_for('addAttendance')}}" method = "POST" enctype = "multipart/form-data">
             <!-- table -->
-            <table class="table">
+            <table class="table table-responsive table-bordered" style="height: 500px;">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">ROLL NO</th>
@@ -139,7 +132,7 @@
                 </tbody>
             </table>
 
-            <button id="submitForm" onclick="myFunction()" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Add Attendance  </button>
+            <input id="submitForm" onclick="myFunction()" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> 
 
         </form>
         </div>

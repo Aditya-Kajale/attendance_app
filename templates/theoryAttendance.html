@@ -31,23 +31,24 @@
 			<li class="nav-item ">
 				<a class="nav-link" href="{{ url_for('home') }}">Home</a>
 			  </li>
-			<li class="nav-item active">
-			  <a class="nav-link" href="{{ url_for('takeAttendance') }}">Take-Attendance</a>
-			</li>
-			<li class="nav-item ">
-			  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
-			</li>
-			<li class="nav-item ">
-				<a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
-			  </li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Take Attendance
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="{{url_for('theoryAttendance')}}">Theory</a>
+					<a class="dropdown-item" href="{{url_for('practicalAttendance')}}">Practical</a>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Attendance Record
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				  <a class="dropdown-item" href="{{url_for('subjectAttendance')}}">Record by Subject</a>
-				  <a class="dropdown-item" href="{{url_for('classAttendance')}}">Record by Class</a>
-				  <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter Record</a>
+					<a class="dropdown-item" href="{{url_for('subjectAttendance_theory')}}">Theory</a>
+					<a class="dropdown-item" href="{{url_for('subjectAttendance_practical')}}">Practical</a>
+					<a class="dropdown-item" href="{{url_for('classAttendance')}}">Class</a>
+					<a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter</a>
 				</div>
 			</li>
 			<li class="nav-item">
@@ -66,8 +67,8 @@
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
             <div class="card" >
 
-                <h5 class="text-center mb-4">Search Class</h5>
-				<form action="{{url_for('searchStud')}}" method = "POST" enctype = "multipart/form-data">
+                <h5 class="text-center mb-4">Theory Attendance</h5>
+				<form action="{{url_for('searchStud_theory')}}" method = "POST" enctype = "multipart/form-data">
 					<div class="row">
 					  <div class="col">
 						<div class="form-group text-left">
@@ -99,7 +100,7 @@
 						</div>
 						<div class="col">
 							<div class="form-group text-left">
-								<label for="batches">Batches</label>
+								<label for="batches">Batch</label>
 								<br>
 								<div class="form-check-inline" >
 		
@@ -129,43 +130,28 @@
 							</div>		
 						</div>
 					</div>
-										<div class="row">
-						<div class="col">
-							<div class="form-group text-left">
-								<label for="lectype">Lecture type</label><br>
-								<div class="row">
-									<div class="col">
-										<div class="custom-control custom-radio custom-control-inline">
-											<input type="radio" id="theory" value="Theory" name="lectype" class="custom-control-input">
-											<label class="custom-control-label" for="theory">Theory</label>
-										</div>
-									</div>
-									<div class="col">
-										<div class="custom-control custom-radio custom-control-inline">
-											<input type="radio" id="practical" value="Practical" name="lectype" class="custom-control-input" required>
-											<label class="custom-control-label" for="practical">Practical</label>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="row">
 						<div class="col">
 							<div class="form-group text-left">
 								<label for="subject">Subject</label>
 								<select name="subject" id="subject" class="form-control">
-									{% for i in data %}
+									{% for i in data['Theory'] %}
 									<option value="{{i}}">{{i}}</option>
 									{% endfor %}
 								</select>
 							</div>
 						</div>
-					</div>
-					<div class="row">
+
 						<div class="col">
 							<div class="form-group text-left">
 								<label for="timeslot">Time slot</label>
 								<select name="timeslot" id="timeslot" class="form-control">
-									<option value="" disabled>Please select lecture type</option>
+									<option value="10:15 - 11:15" >10:15 - 11:15</option>
+									<option value="11:15 - 12:15" >11:15 - 12:15</option>
+									<option value="01:15 - 02:15" >01:15 - 02:15</option>
+									<option value="02:15 - 03:15" >02:15 - 03:15</option>
+									<option value="03:30 - 04:30" >03:30 - 04:30</option>
+									<option value="04:30 - 05:30" >04:30 - 05:30</option>
 								</select>
 							</div>
 						</div>
@@ -242,17 +228,17 @@
 
 		var defaultOption = '<option value="" disabled>Please select lecture type</option>';
 
-		$('input[name="lectype"]').on('change', function() {
-			// Set selected option as variable
-			$('#timeslot').html(defaultOption);
-			var selectValue = $(this).val();
-			// console.log(typeof(selectValue));
-			// For each chocie in the selected option
-			for (i = 0; i < ltype[selectValue].length; i++) {
-				// Output choice in the target field
-				$('#timeslot').append("<option value='" + ltype[selectValue][i] + "'>" + ltype[selectValue][i] + " </option>");
-			}
-			});
+		// $('input[name="lectype"]').on('change', function() {
+		// 	// Set selected option as variable
+		// 	$('#timeslot').html(defaultOption);
+		// 	var selectValue = $(this).val();
+		// 	// console.log(typeof(selectValue));
+		// 	// For each chocie in the selected option
+		// 	for (i = 0; i < ltype[selectValue].length; i++) {
+		// 		// Output choice in the target field
+		// 		$('#timeslot').append("<option value='" + ltype[selectValue][i] + "'>" + ltype[selectValue][i] + " </option>");
+		// 	}
+		// 	});
 
 		// $('#year').on('change', function() {
 		// 	// Set selected option as variable

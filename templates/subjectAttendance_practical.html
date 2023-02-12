@@ -29,23 +29,25 @@
 			<li class="nav-item ">
 				<a class="nav-link" href="{{ url_for('home') }}">Home</a>
 			  </li>
-			<li class="nav-item ">
-			  <a class="nav-link" href="{{ url_for('takeAttendance') }}">Take-Attendance</a>
-			</li>
-			<li class="nav-item ">
-			  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
-			</li>
-			<li class="nav-item ">
-				<a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
-			  </li>
-			<li class="nav-item dropdown active">
+			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Take Attendance
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="{{url_for('theoryAttendance')}}">Theory</a>
+					<a class="dropdown-item" href="{{url_for('practicalAttendance')}}">Practical</a>
+				</div>
+			</li>
+			
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Attendance Record
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				  <a class="dropdown-item" href="{{url_for('subjectAttendance')}}">Record by Subject</a>
-				  <a class="dropdown-item" href="{{url_for('classAttendance')}}">Record by Class</a>
-				  <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter Record</a>
+					<a class="dropdown-item" href="{{url_for('subjectAttendance_theory')}}">Theory</a>
+					<a class="dropdown-item" href="{{url_for('subjectAttendance_practical')}}">Practical</a>
+					<a class="dropdown-item" href="{{url_for('classAttendance')}}">Class</a>
+					<a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter</a>
 				</div>
 			</li>
 			<li class="nav-item">
@@ -65,8 +67,8 @@
 	<div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
             <div class="card">
-                <h5 class="text-center mb-4">Display Attendance By Subject</h5>
-                <form id="f"  action="{{ url_for('subjectTable') }}" method = "POST" enctype = "multipart/form-data" > 
+                <h5 class="text-center mb-4">Practical Attenddance by Subject</h5>
+                <form id="f"  action="{{ url_for('subjectTable_practical') }}" method = "POST" enctype = "multipart/form-data" > 
 					<div class="row">
 						<div class="col">
 							<div class="form-group text-left">
@@ -95,12 +97,42 @@
 							<div class="form-group text-left">
 								<label for="subject">Subject</label>
 								<select name="subject" id="subject" class="form-control">
-									{% for i in data %}
+									{% for i in data['Practical'] %}
 										<option value="{{i}}">{{i}}</option>
 									{% endfor %}
 								</select>
 							</div>
 						</div>
+                        <div class="col text-left">
+
+                            <label for="batches">Batch</label>
+								<br>
+								<div class="form-check-inline" >
+		
+									<div class="row" id="batches">
+										<div class="col">
+											<input class="form-check-input" type="radio" name = 'batch' value="A1" id="A1" >
+											<label class="form-check-label" for="A1">A1</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name = 'batch' value="A2" id="A2" >
+											<label class="form-check-label" for="A2">A2</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name = 'batch' value="A3" id="A3" >
+											<label class="form-check-label" for="A3">A3</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name = 'batch' value="A4" id="A4" >
+											<label class="form-check-label" for="A4">A4</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name = 'batch' value="A5" id="A5" >
+											<label class="form-check-label" for="A5">A5</label>
+										</div>
+									</div>
+								</div>
+                        </div>
 					</div>
 
 					<div class="row">
@@ -125,58 +157,38 @@
     </div>
 
 	<!-- form ends -->
+
+    <script>
+		var batchess = {
+			'A':['A1','A2','A3','A4','A5'],
+			'B':['B1','B2','B3','B4','B5']
+		};
+
+
+
+
+		$('#division').on('change', function() {
+			// Set selected option as variable
+			var selectValue = $(this).val();
+
+			// Empty the target field
+			$('#batches').empty();
+			
+			// For each chocie in the selected option
+			for (i = 0; i < batchess[selectValue].length; i++) {
+				// Output choice in the target field
+				$('#batches').append('<div class="col"><input class="form-check-input" type="radio" name="batch" value="'+batchess[selectValue][i]+'" id="'+batchess[selectValue][i]+'" ><label class="form-check-label" for="'+batchess[selectValue][i]+'">'+batchess[selectValue][i]+'</label></div>');
+			}
+			});
+
+		function myFunction() {
+			if (form.checkValidity()) {
+				alert("Attendance added");
+			}
+		}
+	</script>
 	
 
-
-	<script>
-		// var subjects = {
-		// 	'FY':[
-		// 		'1',
-		// 		'2',
-		// 		'3',
-		// 		'4',
-		// 		'5',
-		// 		'6'
-		// 	],
-		// 	'SY':[
-		// 		'Engineering Mathematics-3',
-		// 		'Descrete Mathematics',
-		// 		'Data Structures',
-		// 		'Computer Architecture',
-		// 		'OOPS JAVA',
-		// 		'OOPS C++',
-		// 		'Seminar-1',],
-		// 	'TY':[
-		// 		'Database System',
-		// 		'Theory of Computation',
-		// 		'Human Computer Interaction',
-		// 		'Business Comunication',
-		// 		'Mini-Project-1'
-		// 	],
-		// 	'BTECH':[
-		// 		'Software Engineering',
-		// 		'Big Data Analytics',
-		// 		'Cloud Computing',
-		// 		'Blockchain Technology',
-		// 		'Full Stack Development',
-		// 		'System Administration',
-		// 	]
-		// };
-
-		// $('#year').on('change', function() {
-		// 	// Set selected option as variable
-		// 	var selectValue = $(this).val();
-
-		// 	// Empty the target field
-		// 	$('#subject').empty();
-			
-		// 	// For each chocie in the selected option
-		// 	for (i = 0; i < subjects[selectValue].length; i++) {
-		// 		// Output choice in the target field
-		// 		$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
-		// 	}
-		// 	});
-	</script>
 
 
 </body>

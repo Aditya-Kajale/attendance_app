@@ -17,50 +17,7 @@
 
     <body>
         
-        <!-- <nav  class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark " >
-            <a class="navbar-brand" href="#">Attendance</a>
-    
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-    
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-                  </li>
-                <li class="nav-item ">
-                  <a class="nav-link" href="{{ url_for('takeAttendance') }}">Take-Attendance</a>
-                </li>
-                <li class="nav-item ">
-                  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
-                  </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Attendance Record
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="{{url_for('subjectAttendance')}}">Record by Subject</a>
-                      <a class="dropdown-item" href="{{url_for('classAttendance')}}">Record by Class</a>
-                      <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter Record</a>
-                    </div>
-                </li>
-    
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('classRecord') }}">Class-Record</a>
-                </li>	
-              </ul>
-              
-            <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
-              
-            </div>
-        </nav> -->
-
-
+       
         <div class="row d-flex justify-content-center">
             <div class="col-xl-5 col-lg-8 col-md-9 col-11 ">
                 <div class="card">
@@ -69,27 +26,37 @@
                         <h2 class="form-group text-center">Register</h2>
                         <!-- Email input -->
                         <div class="form-group form-outline ">
-                            <label class="form-label" for="username">User ID</label>
+                            <label class="form-label" for="username">User ID -</label>
                             <input type="number" name="id" id="id" class="form-control" placeholder="ID" required/>
                         </div>
+                         
+                        <div class="form-group">
+                            <label for="authoritiy">Authoritiy -</label>
+                            <select name="authoritiy" id="authoritiy" class="form-control">
+                                <!-- <option value="admin">Admin</option> -->
+                                <option value="yearcoordinator">Year Coordinator</option>
+                                <option value="Faculty">Faculty</option>
+                            </select>
+                        </div>
+
                         <div class="form-group form-outline ">
-                            <label class="form-label" for="username">Username</label>
+                            <label class="form-label" for="username">Username -</label>
                             <input type="text" name="username" id="username" class="form-control" placeholder="Username" required/>
                         </div>
                       
                         <!-- Password input -->
                         <div class="form-group form-outline ">
-                            <label class="form-label" for="password">Password</label>
+                            <label class="form-label" for="password">Password -</label>
                             <input type="password" name="password" id="password" class="form-control" placeholder="Password" required/>
                         </div>
 
                         <div class="form-group form-outline ">
-                            <label class="form-label" for="email">Email</label>
+                            <label class="form-label" for="email">Email -</label>
                             <input type="email" name="email" id="email" class="form-control" placeholder="Email" required/>
                         </div>
                       
                         <!-- Submit button -->
-                        <div class="form-group msg text-center">{{ msg }}</div>
+                        <div class=" msg text-center">{{ msg }}</div>
 
                         <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
                       

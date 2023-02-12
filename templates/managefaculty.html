@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Manage Subject</title>
+        <title>Manage Faculty</title>
         <meta charset="utf-8">
         <!-- Mobile Specific Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -35,9 +35,15 @@
                 <li class="nav-item ">
                   <a class="nav-link" href="{{ url_for('manageSubject') }}">Manage-Subject</a>
                 </li>
+                <li class="nav-item ">
+                  <a class="nav-link " href="{{ url_for('addClass') }}">Add-Class</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
+                </li>
               </ul>
               
-            <a class="nav-link" href="{{ url_for('adminProfile') }}">Profile</a>
+              <a class="nav-link" href="{{ url_for('adminProfile') }}">Profile</a>
               
             </div>
         </nav>
@@ -47,28 +53,108 @@
               <div class="card" >
   
                   <h4 class="text-center mb-4">Manage Faculty</h4>
-                  <form id="f"  action="{{ url_for('selectSubject') }}" method = "POST" enctype = "multipart/form-data" > 
-                    <div class="row">
-                      <div class="col">
-                        <div class="form-group text-left">
-                          <label for="faculty">Select Faculty to Add or Remove subject</label>
-                          <select name="faculty" id="faculty" class="form-control">
-                            {% for i in faculty %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
+                  <div class="row">
+                    <div class="col">
+                      <form id="f"  action="{{ url_for('selectSubject') }}" method = "POST" enctype = "multipart/form-data" > 
+                            <div class="form-group text-left">
+                              <label for="faculty">Select Faculty to Add or Remove subject -</label>
+                              <select name="faculty" id="faculty" class="form-control">
+                                {% for i in faculty %}
+                                <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                            
+                            <button id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
+                            
+                          </form>
                       </div>
-                    </div>
 
-                    <button id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
-
-                  </form>
-                  
+                </div>
               </div>
+                  
+          </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+            <div class="card" >
+              <h5>Register Faculty</h5>
+              <form id="f" action="{{ url_for('registerFaculty') }}" method="post">
+
+                <!-- Email input -->
+                <div class="form-group form-outline text-left">
+                    <label class="form-label" for="username">User ID</label>
+                    <input type="number" name="id" id="id" class="form-control" placeholder="ID" required/>
+                </div>
+                <div class="form-group form-outline text-left">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required/>
+                </div>
+              
+                <!-- Password input -->
+                <div class="form-group form-outline text-left">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required/>
+                </div>
+
+                <div class="form-group form-outline text-left">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" required/>
+                </div>
+              
+                <!-- Submit button -->
+                <div class="form-group msg text-center">{{ msg }}</div>
+
+                <button type="submit" onclick="register()" class="btn btn-success btn-block mb-4">Register</button>
+              
+                <!-- Register buttons -->
+                
+              </form>
+            </div>
+          </div>
+            
+            <div class="col-xl-3 col-lg-8 col-md-9 col-11 text-center">
+              <div class="card" >
+              <h5>Remove Faculty</h5>
+              <br>
+              <form id="f" action="{{url_for('removeFaculty')}}" method = "POST" enctype = "multipart/form-data" >
+                <div class="form-group text-left">
+                  <label for="faculty">Select faculty to remove -</label>
+                  <select name="faculty" id="faculty" class="form-control">
+                    {% for i in faculty %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <button id="submitForm" onclick="remove()" type="submit"  class="btn btn-danger btn-block rounded-pill shadow-sm"> Confirm  </button>
+
+              </form>
+              </div>
+            </div>
+            </div>
           </div>
         </div>
 
 
     </body>
+
+
+
+    <script>
+       var form = document.getElementById('f');
+
+        function register(){
+          if (form.checkValidity()) {
+            alert("Faculty Registered");
+          }
+        }
+
+        function remove(){
+          if (form.checkValidity()) {
+            alert("Faculty Removed");
+          }
+        }
+    </script>
 </html>

@@ -41,6 +41,12 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="{{ url_for('manageSubject') }}">Manage-Subject</a>
                 </li>
+                <li class="nav-item ">
+                  <a class="nav-link " href="{{ url_for('addClass') }}">Add-Class</a>
+                  </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
+                </li>
               </ul>
               
             <a class="nav-link" href="{{ url_for('adminProfile') }}">Profile</a>
@@ -53,21 +59,26 @@
               <div class="card" >
   
                   <h4 class="text-center mb-4">Manage Subjects</h4>
-
+                  
+                  <form action="{{url_for('manageSubject')}}" method = "POST" enctype = "multipart/form-data">
                   <div class="row ">
                     <div class="col">
                       <div class="form-group text-left">
-                        <form action="{{url_for('manageSubject')}}" method = "POST" enctype = "multipart/form-data">
                         <label for="year">Select year in which you would like to add subject</label>
                         <select name="year" id="year" class="form-control">
-
                           <option value="FY">FY</option>
                           <option value="SY">SY</option>
                           <option value="TY">TY</option>
                           <option value="BTECH">BTECH</option>
-
                         </select>
                       </div>
+                      <div class="form-group text-left">
+                        <label for="subtype">Select subject type</label>
+                          <select name="subtype" id="subtype" class="form-control">
+                            <option value="Theory">Theory</option>
+                            <option value="Practical">Practical</option>
+                        </select>
+                    </div>
 
                     </div>
 

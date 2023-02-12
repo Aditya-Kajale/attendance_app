@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Class Record</title>
+	<title>Subject Attendance</title>
 	<meta charset="utf-8">
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -40,7 +40,7 @@
 			</li>
 			
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Attendance Record
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -51,7 +51,7 @@
 				</div>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link active" href="{{ url_for('classRecord') }}">Class-Record</a>
+				<a class="nav-link" href="{{ url_for('classRecord') }}">Class-Record</a>
 			</li>
 			
 		  </ul>
@@ -62,79 +62,73 @@
 
 	<!-- navbar ends -->
 
+	<!-- form starts -->
+
 	<div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
             <div class="card">
-                <h5 class="text-center mb-4">Display Class</h5>
-                <form id="f"  action="{{ url_for('showRecord') }}" method = "POST" enctype = "multipart/form-data" > 
-					<div class="form-group text-left">
-						<label for="year">Year</label>
-						<select name="year" id="year" class="form-control">
-						  <option value="FY">FY</option>
-						  <option value="SY">SY</option>
-						  <option value="TY">TY</option>
-						  <option value="BTECH">B.Tech</option>
-						</select>
-					</div>
-
-					<div class="form-group text-left">
-						<label for="division">Division</label>
-						<select name="division" id="division" class="form-control">
-						  <option value="A">A</option>
-						  <option value="B">B</option>
-						</select>
-					</div>
+                <h5 class="text-center mb-4">Theory Attenddance by Subject</h5>
+                <form id="f"  action="{{ url_for('subjectTable_theory') }}" method = "POST" enctype = "multipart/form-data" > 
 					<div class="row">
-						<div class="col-10">
-							<input id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm" value="Show"> 
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="year">Year</label>
+								<select name="year" id="year" class="form-control">
+								  <option value="FY">FY</option>
+								  <option value="SY">SY</option>
+								  <option value="TY">TY</option>
+								  <option value="BTECH">B.Tech</option>
+								</select>
+							</div>
 						</div>
 						<div class="col">
-							<input type="submit" class="btn btn-danger btn-block rounded-pill shadow-sm" value="delete" name="delete" >
+							<div class="form-group text-left">
+								<label for="division">Division</label>
+								<select name="division" id="division" class="form-control">
+								  <option value="A">A</option>
+								  <option value="B">B</option>
+								</select>
+							</div>
 						</div>
-						
 					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="subject">Subject</label>
+								<select name="subject" id="subject" class="form-control">
+									{% for i in data['Theory'] %}
+										<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="sdate">Start Date</label>
+								<input type='date' name="sdate" class="form-control" required/>
+							</div>
+						</div>
+						<div class="col">
+							<div class="form-group text-left">
+								<label for="edate">End Date</label>
+								<input type='date' name="edate" class="form-control" required/>
+							</div>	
+						</div>
+					</div>
+
+					<button id="submitForm" type="submit"  class="btn btn-primary btn-block rounded-pill shadow-sm"> Confirm  </button>
 				  </form>
             </div>
         </div>
     </div>
 
 	<!-- form ends -->
+	
 
-	<!-- table starts -->
-	<div class="row d-flex justify-content-center">
-		<div class="col-xl-10 col-lg-8 col-md-9 col-11 ">
-			<div class="card">
-				<table class="table  table-bordered">
-					<thead class="thead-dark">
-					<tr>
-						<th scope="col">ROLL NO</th>
-						<th scope="col">NAME</th>
-						<th scope="col">PRN NO</th>
-						<th scope="col">YEAR</th>
-						<th scope="col">DIVISION</th>
-						<th scope="col">BATCH</th>
-					</tr>
-					</thead>
-					<tbody>
-					{% for row in data %}
-					<tr>
-						{% for cell in row %}
-							<td>{{cell}}</td>
-						{% endfor %}
-					</tr>
-					{% endfor %}
-					<tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	
-	
-	<!-- table ends -->
-
-	
-	
 
 
 </body>

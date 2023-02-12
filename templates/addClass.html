@@ -27,33 +27,23 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		  <ul class="navbar-nav mr-auto">
 			<li class="nav-item ">
-				<a class="nav-link" href="{{ url_for('home') }}">Home</a>
+				<a class="nav-link" href="{{ url_for('adminHome') }}">Home</a>
 			  </li>
 			<li class="nav-item ">
-			  <a class="nav-link" href="{{ url_for('takeAttendance') }}">Take-Attendance</a>
+			  <a class="nav-link" href="{{ url_for('manageFaculty') }}">Manage-Faculty</a>
+			</li>
+			<li class="nav-item ">
+			  <a class="nav-link" href="{{ url_for('manageSubject') }}">Manage-Subject</a>
+			</li>
+			<li class="nav-item active">
+			  <a class="nav-link " href="{{ url_for('addClass') }}">Add-Class</a>
 			</li>
 			<li class="nav-item ">
 			  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
 			</li>
-			<li class="nav-item active">
-				<a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
-			  </li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				  Attendance Record
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				  <a class="dropdown-item" href="{{url_for('subjectAttendance')}}">Record by Subject</a>
-				  <a class="dropdown-item" href="{{url_for('classAttendance')}}">Record by Class</a>
-				  <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter Record</a>
-				</div>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ url_for('classRecord') }}">Class-Record</a>
-			</li>
 			
 		  </ul>
-		  <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+		  <a class="nav-link" href="{{ url_for('adminProfile') }}">Profile</a>
 
 		</div>
 	</nav>

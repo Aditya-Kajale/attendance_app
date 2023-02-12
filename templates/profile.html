@@ -20,48 +20,48 @@
     
 	<body class="form-v10">
 
-        <nav  class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark " >
-            <a class="navbar-brand" href="#">Attendance</a>
-    
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-    
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-                  </li>
-                <li class="nav-item ">
-                  <a class="nav-link" href="{{ url_for('takeAttendance') }}">Take-Attendance</a>
-                </li>
-                <li class="nav-item ">
-                  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
-                  </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Attendance Record
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="{{url_for('subjectAttendance')}}">Record by Subject</a>
-                      <a class="dropdown-item" href="{{url_for('classAttendance')}}">Record by Class</a>
-                      <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter Record</a>
-                    </div>
-                </li>
-    
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('classRecord') }}">Class-Record</a>
-                </li>	
-              </ul>
-              
-            <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
-              
-            </div>
-        </nav>
+    <nav  class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark " >
+      <a class="navbar-brand" href="#">Attendance</a>
+  
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item ">
+          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+          </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Take Attendance
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{url_for('theoryAttendance')}}">Theory</a>
+            <a class="dropdown-item" href="{{url_for('practicalAttendance')}}">Practical</a>
+          </div>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Attendance Record
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{url_for('subjectAttendance_theory')}}">Theory</a>
+            <a class="dropdown-item" href="{{url_for('subjectAttendance_practical')}}">Practical</a>
+            <a class="dropdown-item" href="{{url_for('classAttendance')}}">Class</a>
+            <a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('classRecord') }}">Class-Record</a>
+        </li>
+        
+        </ul>
+        <a class="nav-link active" href="{{ url_for('profile') }}">Profile</a>
+  
+      </div>
+    </nav>
 		
         <div class="row d-flex justify-content-center">
           <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
@@ -98,11 +98,24 @@
                   <hr>
                   <div class="row">
                     <div class="col">
-                      <p class="mb-0">SUBJECT ASSIGNED</p>
+                      <p class="mb-0">Theory Subjects</p>
                     </div>
                     <div class="col">
                       <ul class="list-group list-group-flush">
-                        {% for i in account['subject'] %}
+                        {% for i in account['subject']['Theory'] %}
+                          <li class="list-group-item ">{{i}}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col">
+                      <p class="mb-0">Practical Subjects</p>
+                    </div>
+                    <div class="col">
+                      <ul class="list-group list-group-flush">
+                        {% for i in account['subject']['Practical'] %}
                           <li class="list-group-item ">{{i}}</li>
                         {% endfor %}
                       </ul>

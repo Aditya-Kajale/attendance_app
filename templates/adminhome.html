@@ -34,6 +34,12 @@
                 <li class="nav-item ">
                   <a class="nav-link" href="{{ url_for('manageSubject') }}">Manage-Subject</a>
                 </li>
+                <li class="nav-item ">
+                  <a class="nav-link " href="{{ url_for('addClass') }}">Add-Class</a>
+                  </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="{{ url_for('addStudent') }}">Add-Student</a>
+                </li>
               </ul>
               
             <a class="nav-link" href="{{ url_for('adminProfile') }}">Profile</a>
@@ -41,7 +47,8 @@
             </div>
         </nav>
     
-        <h5>Admin Home Faculties : {{ls[0]}} Subs : {{ls[1]}}</h5>
+        <h5>Admin Home Faculties : {{ls[0]}} </h5>
+        <h5>Subs : {{ls[1]}}</h5>
 
 
     </body>

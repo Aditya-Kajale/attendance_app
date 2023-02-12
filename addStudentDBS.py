@@ -8,10 +8,21 @@ at_ty = mysql.connector.connect(user='root', password='', host='localhost', data
 at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
 at_fy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_fy')
 
+ap_btech = mysql.connector.connect(user='root', password='', host='localhost', database='practical_btech')
+ap_ty = mysql.connector.connect(user='root', password='', host='localhost', database='practical_ty')
+ap_sy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_sy')
+ap_fy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_fy')
+
 btech = at_btech.cursor()
 ty = at_ty.cursor()
 sy = at_sy.cursor()
 fy = at_fy.cursor()
+
+btechP = ap_btech.cursor()
+tyP = ap_ty.cursor()
+syP = ap_sy.cursor()
+fyP = ap_fy.cursor()
+
 fs = 'subinfo.pkl'
 
 def addInSubject(roll,name,prn,year,div):
@@ -19,12 +30,21 @@ def addInSubject(roll,name,prn,year,div):
    subs_btech = pickle.load(fsub)
    # print(year)
    if year == "BTECH":
-      for i in subs_btech[year]:
+      for i in subs_btech['Theory'][year]:
          sql = "INSERT INTO "+"`"+i+"`"+" (roll,name,prn,division) VALUES (%s,%s,%s,%s)"
          values = (str(roll),name,prn,div)
          btech.execute(sql,values)
          at_btech.commit()
-    
+
+def addInPractical(roll,name,prn,year,div,batch):
+   fsub = open(fs,'rb')
+   subs_btech = pickle.load(fsub)
+   if year == "BTECH":
+      for i in subs_btech['Practical'][year]:
+         sql = "INSERT INTO "+"`"+i+"`"+" (roll,name,prn,division,batch) VALUES (%s,%s,%s,%s,%s)"
+         values = (str(roll),name,prn,div,batch)
+         btechP.execute(sql,values)
+         ap_btech.commit()
 
 def addstud(roll,name,prn,year,division,batch):
    try:
@@ -33,8 +53,7 @@ def addstud(roll,name,prn,year,division,batch):
       value = (roll,name,prn,year,division,batch)
       cur.execute(sql, value)
       mysql_stud.connection.commit()
-      print(batch)
       addInSubject(roll,name,prn,year,division)
+      addInPractical(roll,name,prn,year,division,batch)
    except:
       print('PRN already exist')
-
