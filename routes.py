@@ -363,7 +363,6 @@ def adminProfile():
    return redirect(url_for('login'))
 
 
-
 # adding class to dataset -----------------------------------------------------------------------------
 @app.route('/addclass')
 def addClass():
@@ -380,15 +379,10 @@ def addDataset():
          div = request.form.get('division')
          if uploaded_file.filename != '':
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
-            # set the file path
             uploaded_file.save(file_path)
-            # print(file_path)
-            # print(year,div)
             parseCSV(file_path,str(year),str(div))
       return redirect(url_for('addClass'))
-
    return redirect(url_for('login'))
-
 
 # -----------------------------------------------------------------------------------------------------
 
@@ -398,7 +392,6 @@ def addStudent():
    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
       return render_template('addStudent.html')
    return redirect(url_for('login'))
-
 
 @app.route('/addstudent', methods = ['GET', 'POST'])
 def addStud():
@@ -522,13 +515,13 @@ def defaulterTable():
 
 @app.route('/classrecord')
 def classRecord():
-   if 'loggedin' in session and session['authority'] == 'Faculty': 
+   if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin': 
       return render_template('classRecord.html')
    return redirect(url_for('login'))
 
 @app.route('/showrecord', methods = ['GET', 'POST'])
 def showRecord():
-   if 'loggedin' in session and session['authority'] == 'Faculty': 
+   if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin': 
       import classRecordDBS
       if request.method == 'POST':
          year = request.form.get('year')
