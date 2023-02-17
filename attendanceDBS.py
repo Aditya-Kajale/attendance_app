@@ -9,12 +9,10 @@ def subjectAttendance_theory (year,division,subject,sdate,edate):
     at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(user='root', password='', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
-    at_fy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_fy')
 
     btech = at_btech.cursor()
     ty = at_ty.cursor()
     sy = at_sy.cursor()
-    fy = at_fy.cursor()
 
     total ={}
     sdate = list(map(int,sdate.split('-')))
@@ -133,42 +131,7 @@ def subjectAttendance_theory (year,division,subject,sdate,edate):
 
         total['pre'] = [year,division,subject]
     
-    elif year == "FY":
-        try:
-            sql = 'SELECT roll,name,division FROM `'+subject+'` WHERE division = "{}"'.format(division)
-            fy.execute(sql)
-            data =fy.fetchall()
-        except:
-            print('subject is not in the perticular year')
-            total['pre'] = [year,division,subject]
-            return total
 
-        row = []
-        for i in data:
-            row.append(list(i))
-        total['roll'] = row
-
-        new_dates = []
-        for i in dates:
-            try:    
-                sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,subject,division)
-                fy.execute(sql)
-                data = fy.fetchall()
-                if data[0][0] != -1:
-                    total[i] = data
-                    new_dates.append(i)
-            except:
-                print('except')
-
-        total['dates'] = new_dates
-
-        for i in range(len(total['dates'])):
-            for j in range(len(total['roll'])):
-                total['roll'][j].append(total[total['dates'][i]][j][0])
-
-        total['pre'] = [year,division,subject]
-
-    at_fy.close()
     at_sy.close()
     at_ty.close()
     at_btech.close()
@@ -182,11 +145,9 @@ def subjectAttendance_practical(year,division,subject,batch,sdate,edate):
     ap_btech = mysql.connector.connect(user='root', password='', host='localhost', database='practical_btech')
     ap_ty = mysql.connector.connect(user='root', password='', host='localhost', database='practical_ty')
     ap_sy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_sy')
-    ap_fy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_fy')
     btechP = ap_btech.cursor()
     tyP = ap_ty.cursor()
     syP = ap_sy.cursor()
-    fyP = ap_fy.cursor()
 
     total ={}
     sdate = list(map(int,sdate.split('-')))
@@ -220,7 +181,7 @@ def subjectAttendance_practical(year,division,subject,batch,sdate,edate):
                 sql = 'SELECT {} FROM `{}` WHERE batch = "{}"'.format(i,subject,batch)
                 btechP.execute(sql)
                 data = btechP.fetchall()
-                print(data)
+                # print(data)
                 if data[0][0] != -1:
                     total[i] = data
                     new_dates.append(i)
@@ -256,7 +217,7 @@ def subjectAttendance_practical(year,division,subject,batch,sdate,edate):
                 sql = 'SELECT {} FROM `{}` WHERE batch = "{}"'.format(i,subject,batch)
                 tyP.execute(sql)
                 data = tyP.fetchall()
-                print(data)
+                # print(data)
                 if data[0][0] != -1:
                     total[i] = data
                     new_dates.append(i)
@@ -292,7 +253,7 @@ def subjectAttendance_practical(year,division,subject,batch,sdate,edate):
                 sql = 'SELECT {} FROM `{}` WHERE batch = "{}"'.format(i,subject,batch)
                 syP.execute(sql)
                 data = syP.fetchall()
-                print(data)
+                # print(data)
                 if data[0][0] != -1:
                     total[i] = data
                     new_dates.append(i)
@@ -307,43 +268,7 @@ def subjectAttendance_practical(year,division,subject,batch,sdate,edate):
 
         total['pre'] = [year,division,subject,batch,sdate,edate]
 
-    elif year == "FY":
-        try:
-            sql = 'SELECT roll,name,division,batch FROM `'+subject+'` WHERE batch = "{}"'.format(batch)
-            fyP.execute(sql)
-            data = fyP.fetchall()
-        except:
-            print('subject is not in the perticular year')
-            total['pre'] = [year,division,subject]
-            return total
-
-        row = []
-        for i in data:
-            row.append(list(i))
-        total['roll'] = row
-
-        new_dates = []
-        for i in dates:
-            try:    
-                sql = 'SELECT {} FROM `{}` WHERE batch = "{}"'.format(i,subject,batch)
-                fyP.execute(sql)
-                data = fyP.fetchall()
-                print(data)
-                if data[0][0] != -1:
-                    total[i] = data
-                    new_dates.append(i)
-            except:
-                print('except')
-
-        total['dates'] = new_dates
-
-        for i in range(len(total['dates'])):
-            for j in range(len(total['roll'])):
-                total['roll'][j].append(total[total['dates'][i]][j][0])
-
-        total['pre'] = [year,division,subject,batch,sdate,edate]
-
-    ap_fy.close()
+    
     ap_sy.close()
     ap_ty.close()
     ap_btech.close()
@@ -355,20 +280,16 @@ def classAttendance(year,division,sdate,edate):
     at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(user='root', password='', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
-    at_fy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_fy')
     btech = at_btech.cursor()
     ty = at_ty.cursor()
     sy = at_sy.cursor()
-    fy = at_fy.cursor()
 
     ap_btech = mysql.connector.connect(user='root', password='', host='localhost', database='practical_btech')
     ap_ty = mysql.connector.connect(user='root', password='', host='localhost', database='practical_ty')
     ap_sy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_sy')
-    ap_fy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_fy')
     btechP = ap_btech.cursor()
     tyP = ap_ty.cursor()
     syP = ap_sy.cursor()
-    fyP = ap_fy.cursor()
 
     fsub = open(fs,'rb')
     subs = pickle.load(fsub)
@@ -389,10 +310,14 @@ def classAttendance(year,division,sdate,edate):
 
     if year=='BTECH':
         # for theory-----------------------------
-        sub = subs['Theory'][year][0]
-        sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
-        btech.execute(sql)
-        data = btech.fetchall()
+        try:
+            sub = subs['Theory'][year][0]
+            sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
+            btech.execute(sql)
+            data = btech.fetchall()
+        except:
+            print('no subject')
+            data = []
         row = []
         for i in data:
             row.append(list(i))
@@ -481,10 +406,14 @@ def classAttendance(year,division,sdate,edate):
                     total['roll'][k].append(su[k])
 
     elif year == "TY":
-        sub = subs['Theory'][year][0]
-        sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
-        ty.execute(sql)
-        data = ty.fetchall()
+        try:
+            sub = subs['Theory'][year][0]
+            sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
+            ty.execute(sql)
+            data = ty.fetchall()
+        except:
+            print('no subject')
+            data = []
         row = []
         for i in data:
             row.append(list(i))
@@ -574,10 +503,14 @@ def classAttendance(year,division,sdate,edate):
     
 
     elif year == "SY":
-        sub = subs['Theory'][year][0]
-        sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
-        sy.execute(sql)
-        data = sy.fetchall()
+        try:
+            sub = subs['Theory'][year][0]
+            sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
+            sy.execute(sql)
+            data = sy.fetchall()
+        except:
+            print('no subject')
+            data = []
         row = []
         for i in data:
             row.append(list(i))
@@ -665,108 +598,11 @@ def classAttendance(year,division,sdate,edate):
                 else:
                     total['roll'][k].append(su[k])
 
-
-    elif year == "FY":
-        sub = subs['Theory'][year][0]
-        sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
-        fy.execute(sql)
-        data = fy.fetchall()
-        row = []
-        for i in data:
-            row.append(list(i))
-        total['roll'] = row
-        # print(total)
-        total['subs'] = []
-        for j in subs['Theory'][year]:
-            ll = []
-            total['subs'].append(j)
-            # print(j)
-            for i in dates:
-                try:
-                    sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,j,division)
-                    fy.execute(sql)
-                    data = fy.fetchall()
-                    # print(data)
-                    if data[0][0] != -1:
-                        new_dates.append(i)
-                        for k in range(len(data)):
-                            data[k] = data[k][0]
-                        ll.append(data)
-                except:
-                    print('except')
-
-            
-            total['dates'] = new_dates
-            su = [sum(x) for x in zip(*ll)]
-            if len(su) == 0:
-                # print(len(total['roll']))
-                for l in range(len(total['roll'])):
-                    su.append(0)
-            # print('su',su)
-
-            for k in range(len(total['roll'])):
-                total['roll'][k].append(su[k])
-
-        # for practical --------------------------------------------------- 
-        for j in subs['Practical'][year]:
-            ll = []
-            total['subs'].append(j)
-            # print(j)
-
-            total[j] = []
-            for i in dates:
-                try:
-                    sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,j,division)
-                    fyP.execute(sql)
-                    data = fyP.fetchall()
-                    # print(data)
-                    for k in range(len(data)):
-                        data[k] = data[k][0]
-                    # print(data,i)
-
-                    # for sessions happend storng in per subject list in total 
-                    for c in range(len(data)):
-                        if len(total[j]) != len(data):
-                            if  data[c] == -1:
-                                total[j].append(0)
-                            else:
-                                total[j].append(2)
-                        else:
-                            if data[c] == -1:
-                                pass
-                            else:
-                                total[j][c] += 2
-                    # print(total[j])
-                    for kj in range(len(data)):
-                        if data[kj] == -1:
-                            data[kj] = 0
-
-                    ll.append(data)
-                except:
-                    print('except')
-            su = [sum(x) for x in zip(*ll)]
-            # print('su',su)
-            if len(su) == 0:
-                # print(len(total['roll']))
-                for l in range(len(total['roll'])):
-                    su.append(0)
-
-            for k in range(len(total['roll'])):
-                if su[k] ==-1:
-                    # print(su[k])
-                    total['roll'][k].append(0)
-                else:
-                    total['roll'][k].append(su[k])
-
-
-
     at_btech.close()
-    at_fy.close()
     at_sy.close()
     at_ty.close()
 
     ap_btech.close()
-    ap_fy.close()
     ap_sy.close()
     ap_ty.close()
     # print(new_dates)
@@ -778,20 +614,16 @@ def defaulterData(year,division,sdate,edate,defaulter):
     at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(user='root', password='', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
-    at_fy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_fy')
     btech = at_btech.cursor()
     ty = at_ty.cursor()
     sy = at_sy.cursor()
-    fy = at_fy.cursor()
 
     ap_btech = mysql.connector.connect(user='root', password='', host='localhost', database='practical_btech')
     ap_ty = mysql.connector.connect(user='root', password='', host='localhost', database='practical_ty')
     ap_sy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_sy')
-    ap_fy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_fy')
     btechP = ap_btech.cursor()
     tyP = ap_ty.cursor()
     syP = ap_sy.cursor()
-    fyP = ap_fy.cursor()
 
     fsub = open(fs,'rb')
     subs = pickle.load(fsub)
@@ -840,7 +672,7 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,j,division)
                     btech.execute(sql)
                     data = btech.fetchall()
-                    print(data)
+                    # print(data)
                     if data[0][0] != -1:
                         total[sname] +=1
                         print(data)
@@ -866,7 +698,11 @@ def defaulterData(year,division,sdate,edate,defaulter):
             ss = j.split()
             sname = ''
             for i in ss:
-                sname+=i[0]
+                if i[0]=='(':
+                    sname+=i[1]+i[2]
+                    # print(sname)
+                else:
+                    sname+=i[0]
             total['subs'].append(sname)
             total[sname] = [0 for i in range(len(total['roll']))]
             for i in dates:
@@ -921,11 +757,15 @@ def defaulterData(year,division,sdate,edate,defaulter):
             ss = j.split()
             sname = ''
             for i in ss:
-                sname+=i[0]
+                if i[0]=='(':
+                    sname+=i[1]+i[2]
+                    # print(sname)
+                else:
+                    sname+=i[0]
             for kk in range(len(total['roll'])):
-                print(total[sname])
+                # print(total[sname])
                 sess_count[kk] += total[sname][kk]
-                
+
         # Session Attended
         for i in range(len(total['roll'])):
             # print(total['roll'][i])
@@ -1226,151 +1066,12 @@ def defaulterData(year,division,sdate,edate,defaulter):
         total['subs'].append('Attendance Percentage')
         total['defaulter'] = int(defaulter)
 
-    elif year == "FY":
-        # for theory----------------------------------
-        try:
-            sub = subs['Theory'][year][0]
-            sql = 'SELECT roll,name,division FROM `{}` WHERE division = "{}"'.format(sub,division)
-            fy.execute(sql)
-            data = fy.fetchall()
-        except:
-            print('no subject')
-            data = []
-        row = []
-        for i in data:
-            row.append(list(i))
-        total['roll'] = row
-        total['subs'] = []
-        
-        for j in subs['Theory'][year]:
-            ll = []
-            ss = j.split()
-            sname = ''
-            for i in ss:
-                sname+=i[0]
-            total['subs'].append(sname)
-            total[sname] = 0
-            for i in dates:
-                try:
-                    sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,j,division)
-                    fy.execute(sql)
-                    data = fy.fetchall()
-                    print(data)
-                    if data[0][0] != -1:
-                        total[sname] +=1
-                        print(data)
-                        for k in range(len(data)):
-                            data[k] = data[k][0]
-                        ll.append(data)
-                except:
-                    print('except')
-
-            su = [sum(x) for x in zip(*ll)]
-            if len(su) == 0:
-                for l in range(len(total['roll'])):
-                    su.append(0)
-
-            for k in range(len(total['roll'])):
-                total['roll'][k].append(su[k])
-        
-        # For practical-------------------------------------------
-        for j in subs['Practical'][year]:
-            ll = []
-            # print(j)
-            ss = j.split()
-            sname = ''
-            for i in ss:
-                sname+=i[0]
-            total['subs'].append(sname)
-            total[sname] = [0 for i in range(len(total['roll']))]
-            for i in dates:
-                try:
-                    sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,j,division)
-                    fyP.execute(sql)
-                    data = fyP.fetchall()
-                    for k in range(len(data)):
-                        data[k] = data[k][0]
-
-                    # for sessions happend storng in per subject list in total 
-                    for c in range(len(data)):
-                        if len(total[sname]) != len(data):
-                            if  data[c] == -1:
-                                pass
-                            else:
-                                total[sname][c] = 2
-                        else:
-                            if data[c] == -1:
-                                pass
-                            else:
-                                total[sname][c] += 2
-                    for kj in range(len(data)):
-                        if data[kj] == -1:
-                            data[kj] = 0
-
-                    ll.append(data)
-                except:
-                    print('except')
-            su = [sum(x) for x in zip(*ll)]
-            if len(su) == 0:
-                for l in range(len(total['roll'])):
-                    su.append(0)
-
-            for k in range(len(total['roll'])):
-                if su[k] ==-1:
-                    total['roll'][k].append(0)
-                else:
-                    total['roll'][k].append(su[k])
-            
-           
-        sess_count=[0 for i in range(len(total['roll'])) ]
-        for j in subs['Theory'][year]:
-            ss = j.split()
-            sname = ''
-            for i in ss:
-                sname+=i[0]
-            for kk in range(len(sess_count)):
-                sess_count[kk] += total[sname]
-
-        for j in subs['Practical'][year]:
-            ss = j.split()
-            sname = ''
-            for i in ss:
-                sname+=i[0]
-            for kk in range(len(total['roll'])):
-                print(total[sname])
-                sess_count[kk] += total[sname][kk]
-                
-
-        # Session Attended
-        for i in range(len(total['roll'])):
-            cnt = 0
-            for j in range(3,len(total['roll'][i])):
-                cnt+=total['roll'][i][j]
-            percentage = 0
-            try:
-                percentage = (cnt/sess_count[i])*100
-                percentage = round(percentage,2)
-            except:
-                print('division error')
-            
-            total['roll'][i].append(cnt)
-            total['roll'][i].append(sess_count[i])
-            total['roll'][i].append(percentage)
-
-        # attendance percentage 
-
-        total['subs'].append('Session Attended')
-        total['subs'].append('Total Sessions')
-        total['subs'].append('Attendance Percentage')
-        total['defaulter'] = int(defaulter)
 
     at_btech.close()
-    at_fy.close()
     at_sy.close()
     at_ty.close()
 
     ap_btech.close()
-    ap_fy.close()
     ap_sy.close()
     ap_ty.close()
 

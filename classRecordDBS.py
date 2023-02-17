@@ -3,16 +3,6 @@ import mysql.connector
 from routes import mysql_stud
 import pickle
 
-at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
-at_ty = mysql.connector.connect(user='root', password='', host='localhost', database='theory_ty')
-at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
-at_fy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_fy')
-
-btech = at_btech.cursor()
-ty = at_ty.cursor()
-sy = at_sy.cursor()
-fy = at_fy.cursor()
-
 def getData(year,division):
     cur = mysql_stud.connection.cursor()
     sql = "SELECT * FROM "+year+" WHERE DIVISION = %s"

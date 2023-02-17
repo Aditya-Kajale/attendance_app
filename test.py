@@ -109,32 +109,32 @@ import pickle
 
 
 
-f = 'fcinfo.pkl'
-# fs = 'subinfo.pkl'
+# f = 'fcinfo.pkl'
+f = 'subinfo.pkl'
 
-# # subs = {"Theory":{"BTECH":['Software Engineering',
-# #         'Big Data Analytics',
-# #         'Cloud Computing',
-# #         'Blockchain Technology',
-# #         'Full Stack Development',
-# #         'System Administration'],
-# #         "TY":[],
-# #         "SY":[],
-# #         "FY":[]},
-# #         "Practical":{"BTECH":['Big Data Analytics (PR)',
-# #         'Cloud Computing (PR)',
-# #         'Full Stack Development (PR)',
-# #         'System Administration (PR)'],
-# #         "TY":[],
-# #         "SY":[],
-# #         "FY":[]
-# #         }}
-fc = []
+subs = {"Theory":{"BTECH":['Software Engineering',
+        'Big Data Analytics',
+        'Cloud Computing',
+        'Blockchain Technology',
+        'Full Stack Development',
+        'System Administration'],
+        "TY":[],
+        "SY":[],
+        "FY":[]},
+        "Practical":{"BTECH":['Big Data Analytics (PR)',
+        'Cloud Computing (PR)',
+        'Full Stack Development (PR)',
+        'System Administration (PR)'],
+        "TY":[],
+        "SY":[],
+        "FY":[]
+        }}
+# fc = []
 # # # for reading 
 frobj = open(f,'rb')
 ff = pickle.load(frobj)
 # fwobj = open(f,'wb')
-# pickle.dump(fc,fwobj)
+# pickle.dump(subs,fwobj)
  
 
 print(ff)

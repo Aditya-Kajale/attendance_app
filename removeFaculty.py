@@ -11,6 +11,5 @@ def removeFaculty(fc,id):
     sql = "DELETE FROM `account` WHERE `id` = {}".format(id)
     lo_cur.execute(sql)
 
-    
     logindbs.commit()
     logindbs.close()

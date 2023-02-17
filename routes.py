@@ -231,6 +231,8 @@ def manageFaculty():
 @app.route('/selectSubject',methods = ['GET', 'POST'])
 def selectSubject():
    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+      fsub = open(fs,'rb')
+      subs = pickle.load(fsub)
       all = {}
       all['rem_subs_th'] = []
       all['rem_subs_pr'] = []
@@ -331,6 +333,8 @@ def removeFaculty():
 def manageSubject():
    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
       if request.method == 'POST':
+         fsub = open(fs,'rb')
+         subs = pickle.load(fsub)
          all={}
          year = request.form.get('year')
          subtype = request.form.get('subtype')
