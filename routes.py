@@ -70,7 +70,7 @@ except:
 # print(1,ls[0].name)
 obj = Faculty(0,'', {},'')
 
-logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+logindbs = mysql.connector.connect(user='root', password ='', host='localhost', database='login')
 lo_cur = logindbs.cursor()
 
 app = Flask(__name__)
@@ -115,6 +115,8 @@ def login():
          # Redirect to home page    
          if session['authority'] == 'admin' or session['authority'] == 'yearcoordinator':
             return redirect(url_for('adminHome'))
+         elif session['authority'] == 'master':
+            return redirect(url_for('masterHome'))
          else:
             return redirect(url_for('home'))
       else:
@@ -201,6 +203,35 @@ def home():
       return render_template('home.html', username=session['username'])
    # User is not loggedin redirect to login page
    return redirect(url_for('login'))
+
+# Master Pages ----------------------------------------------------------------
+@app.route('/masterHome')
+def masterHome():
+   if 'loggedin' in session and session['authority'] == 'master' :
+      return render_template('masterhome.html')
+   return redirect(url_for('login')) 
+
+@app.route('/masterprofile')
+def masterprofile():
+   if 'loggedin' in session and session['authority'] == 'master' :
+      lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
+      account = lo_cur.fetchone()
+      return render_template('masterprofile.html',account=account)
+   return redirect(url_for('login')) 
+
+@app.route('/masterclean')
+def masterclean():
+   if 'loggedin' in session and session['authority'] == 'master' :
+      return render_template('masterclean.html')
+   return redirect(url_for('login')) 
+
+@app.route('/cleandata',methods = ['GET', 'POST'])
+def cleandata():
+   import cleandata
+   year = request.form.get('year')
+   cleandata.cleandata(year)
+   return redirect(url_for('masterclean'))
+    
 
 
 # Admin Pages -----------------------------------------------------------------
@@ -530,14 +561,9 @@ def showRecord():
       if request.method == 'POST':
          year = request.form.get('year')
          division = request.form.get('division')
-         delete = request.form.get('delete')
          # print(year,division)
-         if delete == 'delete':
-            classRecordDBS.delete_data(year,division)
-            return redirect(url_for('classRecord'))
-         else:
-            data = classRecordDBS.getData(year,division)
-            return render_template('classRecord.html',data=data)
+         data = classRecordDBS.getData(year,division)
+         return render_template('classRecord.html',data=data)
          
    return redirect(url_for('login'))
 

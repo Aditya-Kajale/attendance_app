@@ -1,0 +1,12 @@
+Master profile - 
+1. create master in register page
+2. change in login function
+3. create 'masterHome' function route
+4. create masterhome.html file
+5. add master profile.html page 
+6. add masterclean.heml page 
+7. create cleandata function and cleandata.py file
+8. master done
+
+Student Profile - 
+1. 
