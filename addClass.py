@@ -80,7 +80,18 @@ def addInPractical(roll,name,year,div,batch):
          ap_sy.commit()
       ap_sy.close()
 
-   
+
+def addLoginInfo(roll,name,year):
+   print('in ad in login')
+   logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+   lo_cur = logindbs.cursor()
+   authoritiy = 'student'
+   username = name.split()[0]
+   password = str(roll)
+   email = year+'@gmail.com'
+   # print(type(authoritiy),type(username),type(password),type(email))
+   lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s, %s)', (roll, authoritiy, username, password, email,))
+   logindbs.commit()
 
 
 def parseCSV(filePath,year,div):
@@ -96,6 +107,7 @@ def parseCSV(filePath,year,div):
          mysql_stud.connection.commit()
          addInSubject(row['roll'],row['name'],year,div)
          addInPractical(row['roll'],row['name'],year,div,row['batch'])
+         addLoginInfo(row['roll'],row['name'],year)
       except:
          print('PRN already exist')
 

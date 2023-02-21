@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Master Profile</title>
+        <title>Student Profile</title>
         <meta charset="utf-8">
         <!-- Mobile Specific Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -27,14 +27,11 @@
               <ul class="navbar-nav mr-auto">
     
                 <li class="nav-item ">
-                    <a class="nav-link" href="{{ url_for('masterHome') }}">Home</a>
+                    <a class="nav-link" href="{{ url_for('studentHome') }}">Home</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ url_for('masterclean') }}">Clean</a>
-                  </li>
               </ul>
               
-            <a class="nav-link" href="{{ url_for('masterprofile') }}">Profile</a>
+            <a class="nav-link" href="{{ url_for('studentprofile') }}">Profile</a>
               
             </div>
         </nav>
@@ -59,16 +56,16 @@
                         <p class="mb-0">USERNAME</p>
                       </div>
                       <div class="col">
-                        <p class=" mb-0">{{ account[1] }}</p>
+                        <p class=" mb-0">{{ account[2] }}</p>
                       </div>
                     </div>
                     <hr>
                     <div class="row">
                       <div class="col">
-                        <p class="mb-0">EMAIL</p>
+                        <p class="mb-0">AUTHORITY</p>
                       </div>
                       <div class="col">
-                        <p class=" mb-0">{{ account[3] }}</p>
+                        <p class=" mb-0">{{ account[1].upper() }}</p>
                       </div>
                     </div>
                     <hr>

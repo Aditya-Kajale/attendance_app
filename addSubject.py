@@ -26,33 +26,33 @@ def addsubject(subtype,year,subject):
 
     if subtype == "Theory":
         if year == "BTECH":
-            sql = "CREATE TABLE `theory_btech`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `prn` INT(15) NOT NULL , `division` TEXT NOT NULL , PRIMARY KEY (`prn`)) ENGINE = InnoDB;".format(subject)
+            sql = "CREATE TABLE `theory_btech`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL ,  `division` TEXT NOT NULL ) ENGINE = InnoDB;".format(subject)
             btech.execute(sql)
             at_btech.commit()
 
         elif year == "TY":
-            sql = "CREATE TABLE `theory_ty`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `prn` INT(15) NOT NULL , `division` TEXT NOT NULL , PRIMARY KEY (`prn`)) ENGINE = InnoDB;".format(subject)
+            sql = "CREATE TABLE `theory_ty`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL ,  `division` TEXT NOT NULL ) ENGINE = InnoDB;".format(subject)
             ty.execute(sql)
             at_ty.commit()
 
         elif year == "SY":
-            sql = "CREATE TABLE `theory_sy`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `prn` INT(15) NOT NULL , `division` TEXT NOT NULL , PRIMARY KEY (`prn`)) ENGINE = InnoDB;".format(subject)
+            sql = "CREATE TABLE `theory_sy`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `division` TEXT NOT NULL ) ENGINE = InnoDB;".format(subject)
             sy.execute(sql)
             at_sy.commit()
 
     elif subtype == "Practical":
         if year == "BTECH":
-            sql = "CREATE TABLE `practical_btech`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `prn` INT NOT NULL , `division` TEXT NOT NULL , `batch` VARCHAR(5) NOT NULL ) ENGINE = InnoDB;".format(subject)
+            sql = "CREATE TABLE `practical_btech`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL ,  `division` TEXT NOT NULL , `batch` VARCHAR(5) NOT NULL ) ENGINE = InnoDB;".format(subject)
             btechP.execute(sql)
             ap_btech.commit()
 
         elif year == "TY":
-            sql = "CREATE TABLE `practical_ty`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `prn` INT NOT NULL , `division` TEXT NOT NULL , `batch` VARCHAR(5) NOT NULL ) ENGINE = InnoDB;".format(subject)
+            sql = "CREATE TABLE `practical_ty`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL ,  `division` TEXT NOT NULL , `batch` VARCHAR(5) NOT NULL ) ENGINE = InnoDB;".format(subject)
             tyP.execute(sql)
             ap_ty.commit()
         
         elif year == "SY":
-            sql = "CREATE TABLE `practical_sy`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `prn` INT NOT NULL , `division` TEXT NOT NULL , `batch` VARCHAR(5) NOT NULL ) ENGINE = InnoDB;".format(subject)
+            sql = "CREATE TABLE `practical_sy`.`{}` (`roll` INT NOT NULL , `name` VARCHAR(50) NOT NULL , `division` TEXT NOT NULL , `batch` VARCHAR(5) NOT NULL ) ENGINE = InnoDB;".format(subject)
             syP.execute(sql)
             ap_sy.commit()
 

@@ -117,6 +117,8 @@ def login():
             return redirect(url_for('adminHome'))
          elif session['authority'] == 'master':
             return redirect(url_for('masterHome'))
+         elif session['authority'] == 'student':
+            return redirect(url_for('studentHome'))
          else:
             return redirect(url_for('home'))
       else:
@@ -208,7 +210,7 @@ def home():
 @app.route('/masterHome')
 def masterHome():
    if 'loggedin' in session and session['authority'] == 'master' :
-      return render_template('masterhome.html')
+      return render_template('masterhome.html',username=session['username'])
    return redirect(url_for('login')) 
 
 @app.route('/masterprofile')
@@ -233,6 +235,22 @@ def cleandata():
    return redirect(url_for('masterclean'))
     
 
+# student Pages ------------------------------------------------------------
+@app.route('/studenthome')
+def studentHome():
+   if 'loggedin' in session and session['authority'] == 'student' :
+      return render_template('studenthome.html',username=session['username'])
+   return redirect(url_for('login')) 
+
+@app.route('/studentprofile')
+def studentprofile():
+   if 'loggedin' in session and session['authority'] == 'student' :
+      lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
+      account = lo_cur.fetchone()
+      return render_template('studentprofile.html',account=account)
+
+    
+
 
 # Admin Pages -----------------------------------------------------------------
 @app.route('/adminHome')
@@ -249,7 +267,6 @@ def adminHome():
       return render_template('adminhome.html',ls = all)
    return redirect(url_for('login'))
 
-# ----------------------------------------------------------------------------------
 @app.route('/manageFaculty')
 def manageFaculty():
    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
@@ -358,8 +375,6 @@ def removeFaculty():
    obj.delete(faculty)
    return redirect(url_for('manageFaculty'))
 
-   
-# --------------------------------------------------------------------------------
 @app.route('/manageSubject',methods = ['GET', 'POST'])
 def manageSubject():
    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
@@ -388,7 +403,6 @@ def addSubject():
       return redirect(url_for('manageSubject'))
    return redirect(url_for('login'))
    
-# ------------------------------------------------------------------------------
 @app.route('/adminProfile')
 def adminProfile():
    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':

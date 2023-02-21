@@ -3,10 +3,16 @@ Master profile -
 2. change in login function
 3. create 'masterHome' function route
 4. create masterhome.html file
-5. add master profile.html page 
+5. add masterprofile.html page 
 6. add masterclean.heml page 
 7. create cleandata function and cleandata.py file
 8. master done
 
 Student Profile - 
-1. 
+1. changes in addclass.py file
+2. in cleandata.py file for login 
+3. create studenthome.html file
+4. create student pages in routes file
+5. changes in login function of routes file 
+6. create studentprofile.html page  
+7. changes in addstudent.py file 

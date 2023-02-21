@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Master Home</title>
+	<title>Student Home</title>
 	<meta charset="utf-8">
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -20,7 +20,7 @@
 	<!-- navbar start -->
 
 	<nav  class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark " >
-		<a class="navbar-brand" href="#">CSE Attendance</a>
+		<a class="navbar-brand" href="#">Attendance</a>
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
@@ -29,14 +29,10 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		  <ul class="navbar-nav mr-auto">
 			<li class="nav-item ">
-				<a class="nav-link active" href="{{ url_for('masterHome') }}">Home</a>
+				<a class="nav-link active" href="{{ url_for('studentHome') }}">Home</a>
 			  </li>
-            <li class="nav-item ">
-            <a class="nav-link" href="{{ url_for('masterclean') }}">Clean</a>
-            </li>
-			
 		  </ul>
-		  <a class="nav-link" href="{{ url_for('masterprofile') }}">Profile</a>
+		  <a class="nav-link" href="{{ url_for('studentprofile') }}">Profile</a>
 
 		</div>
 	</nav>
@@ -46,6 +42,7 @@
     <body>
 		welcome to home {{username}}
     </body>
+
 
 </body>
 </html>
