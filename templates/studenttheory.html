@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <title>Student Home</title>
+    <title>Student Profile</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -89,9 +88,7 @@
     ></script>
   </head>
 
-  <body class="form-v10">
-    <!-- navbar start -->
-
+  <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">CSE Attendance</a>
 
@@ -110,13 +107,11 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="{{ url_for('studentHome') }}"
-              >Home</a
-            >
+            <a class="nav-link" href="{{ url_for('studentHome') }}">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle active"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -140,14 +135,42 @@
             >
           </li>
         </ul>
+
         <a class="nav-link" href="{{ url_for('studentprofile') }}">Profile</a>
       </div>
     </nav>
 
-    <!-- navbar ends -->
+    <!-- nav ends -->
 
-    <body>
-      welcome to home {{username}}
-    </body>
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-5 col-lg-8 col-md-9 col-11">
+        <div class="card text-center">
+          <h3>Select Subject to check attendance</h3>
+          <br />
+          <form
+            id="f"
+            action="{{ url_for('studenttheoryshow') }}"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group text-left">
+              <label for="subject">Subject</label>
+              <select name="subject" id="subject" class="form-control">
+                {%for i in total['subs'] %}
+                <option value="{{i}}">{{i}}</option>
+                {%endfor%}
+              </select>
+            </div>
+            <input
+              id="submitForm"
+              onclick="myFunction()"
+              type="submit"
+              class="btn btn-primary btn-block rounded-pill shadow-sm"
+              value="Show"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

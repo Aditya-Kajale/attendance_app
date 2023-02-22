@@ -16,3 +16,13 @@ Student Profile -
 5. changes in login function of routes file 
 6. create studentprofile.html page  
 7. changes in addstudent.py file 
+
+Students new files- 
+1. add theiry and practical attendance page 
+2. add defaulter page and changes in login function 
+3. create thoer function in routes 
+4. create studentattendance.py file 
+
+
+
+

@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <title>Student Home</title>
+    <title>Student Profile</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -89,9 +88,7 @@
     ></script>
   </head>
 
-  <body class="form-v10">
-    <!-- navbar start -->
-
+  <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">CSE Attendance</a>
 
@@ -110,9 +107,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="{{ url_for('studentHome') }}"
-              >Home</a
-            >
+            <a class="nav-link" href="{{ url_for('studentHome') }}">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -135,19 +130,14 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('studentdefaulter') }}"
+            <a class="nav-link active" href="{{ url_for('studentdefaulter') }}"
               >Defaulter</a
             >
           </li>
         </ul>
+
         <a class="nav-link" href="{{ url_for('studentprofile') }}">Profile</a>
       </div>
     </nav>
-
-    <!-- navbar ends -->
-
-    <body>
-      welcome to home {{username}}
-    </body>
   </body>
 </html>

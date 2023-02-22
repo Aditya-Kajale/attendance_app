@@ -118,6 +118,8 @@ def login():
          elif session['authority'] == 'master':
             return redirect(url_for('masterHome'))
          elif session['authority'] == 'student':
+            year = account[0][4].split('@')[0]
+            session['year'] = year
             return redirect(url_for('studentHome'))
          else:
             return redirect(url_for('home'))
@@ -248,8 +250,63 @@ def studentprofile():
       lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
       account = lo_cur.fetchone()
       return render_template('studentprofile.html',account=account)
+   return redirect(url_for('login')) 
 
-    
+@app.route('/studenttheory')
+def studenttheory():
+   if 'loggedin' in session and session['authority'] == 'student' :
+      total = {}
+      year = session['year']
+      print(session['year'],subs)
+      total['subs'] = subs['Theory'][year]
+      return render_template('studenttheory.html',total=total)
+   return redirect(url_for('login')) 
+
+@app.route('/studenttheoryshow',methods = ['GET', 'POST'])
+def studenttheoryshow():
+   if 'loggedin' in session and session['authority'] == 'student' :
+      import studentattendance 
+      total = {}
+      year = session['year']  
+      roll = session['id']
+      total['name'] = session['username']
+      subject = request.form.get('subject')
+      total['subject'] = subject
+      total['data'] = studentattendance.studenttAttendance_theory(roll,year,subject)
+      return render_template('studenttheoryshow.html',total=total)
+   return redirect(url_for('login')) 
+
+@app.route('/studentpractical')
+def studentpractical():
+   if 'loggedin' in session and session['authority'] == 'student' :
+      total = {}
+      year = session['year']
+      # print(session['year'],subs)
+      total['subs'] = subs['Practical'][year]
+      return render_template('studentpractical.html',total=total)
+   return redirect(url_for('login')) 
+
+@app.route('/studentpracticalshow',methods = ['GET', 'POST'])
+def studentpracticalshow():
+   if 'loggedin' in session and session['authority'] == 'student' :
+      import studentattendance 
+      total = {}
+      year = session['year']  
+      roll = session['id']
+      total['name'] = session['username']
+      subject = request.form.get('subject')
+      total['subject'] = subject
+      total['data'] =studentattendance.studenttAttendance_practical(roll, year,subject)
+      return render_template('studentpracticalshow.html',total=total)
+   return redirect(url_for('login')) 
+
+
+@app.route('/studentdefaulter')
+def studentdefaulter():
+   if 'loggedin' in session and session['authority'] == 'student' :
+      return render_template('studentdefaulter.html')
+   return redirect(url_for('login')) 
+
 
 
 # Admin Pages -----------------------------------------------------------------

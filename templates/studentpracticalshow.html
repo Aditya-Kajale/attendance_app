@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <title>Student Home</title>
+    <title>Student Profile</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -89,9 +88,7 @@
     ></script>
   </head>
 
-  <body class="form-v10">
-    <!-- navbar start -->
-
+  <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">CSE Attendance</a>
 
@@ -110,13 +107,11 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="{{ url_for('studentHome') }}"
-              >Home</a
-            >
+            <a class="nav-link" href="{{ url_for('studentHome') }}">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle active"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -140,14 +135,36 @@
             >
           </li>
         </ul>
+
         <a class="nav-link" href="{{ url_for('studentprofile') }}">Profile</a>
       </div>
     </nav>
 
-    <!-- navbar ends -->
+    <!-- end nav -->
 
-    <body>
-      welcome to home {{username}}
-    </body>
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-10 col-lg-8 col-md-9 col-11">
+        <div class="card text-center">
+          <h3>{{total['name']}} your Attendance for {{total['subject']}}</h3>
+          <br />
+          <table class="table table-responsive table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                {%for i in total['data']['col']%}
+                <th scope="col">{{i}}</th>
+                {%endfor%}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {%for i in total['data']['attendance']%}
+                <td scope="col">{{i}}</td>
+                {%endfor%}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
