@@ -91,14 +91,14 @@
                     </div>
                     
                     <div class="col">
-                        <h5>Batch - {{data[0][5]}}</h5>
+                        <h5>Batch - {{data[2]}}</h5>
                     </div>
                 </div>
                 
             </div>
           </div>
 
-        <form id="f" action="{{url_for('addAttendance')}}" method = "POST" enctype = "multipart/form-data">
+        <form id="f" action="{{url_for('addAttendance')}}" onsubmit="return confirm('Submit atttendance for \nYear={{data[0][0]}} \nDivision={{data[0][1]}} \nDate={{data[0][2]}} \nSubject={{data[0][3]}} \nBatch - {{data[0][4]}}');" method = "POST" enctype = "multipart/form-data">
             <!-- table -->
             <table class="table text-left table-bordered" style="height: 500px;">
                 <thead class="thead-dark">
@@ -128,8 +128,11 @@
                 <tr>
                 </tbody>
             </table>
+            <button type="button" class="btn btn-outline-success mb-3" id='d1' >Success</button>
+            <button type="button" class="btn btn-outline-danger mb-3" id='d2' >Success</button>
 
-            <input id="submitForm" onclick="myFunction()" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> 
+
+            <input id="submitForm"  type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> 
 
         </form>
         </div>
@@ -137,22 +140,20 @@
 </div>
 
 
-
-        
 <script>
-    var form = document.getElementById('f');
+    $(document).ready(function() {
+    $('input[type="checkbox"]').change(function(){
+    var total_checked=  $("input[type='checkbox']:checked").length 
+    $("#d1").html("Present  = " + total_checked );
+    var total_unchecked=  $("input[type='checkbox']:not(:checked)").length 
+    $("#d2").html("Absent  = " + total_unchecked );});
 
-    function myFunction() {
-			if (form.checkValidity()) {
-				alert("Attendance added");
-			}
-		}
+    var total_checked=  $("input[type='checkbox']:checked").length 
+    $("#d1").html("Present  = " + total_checked );
+    var total_unchecked=  $("input[type='checkbox']:not(:checked)").length 
+    $("#d2").html("Absent = " + total_unchecked );
+});
 </script>
-
-
-    
-
-	
 
 
 </body>

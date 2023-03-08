@@ -47,9 +47,23 @@ def subjectAttendance_theory (year,division,subject,sdate,edate):
                 sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,subject,division)
                 btech.execute(sql)
                 data = btech.fetchall()
-                if data[0][0] != -1:
-                    total[i] = data
+                # new------
+                temp = []
+                for pp in data:
+                    temp.append(pp[0])
+                total[i] = []
+                if 1 in temp:
+                    for cc in data:
+                        if cc[0] == -1:
+                            total[i].append((0,))
+                        else:
+                            total[i].append(cc)
                     new_dates.append(i)
+                print(total[i])
+                # ----------------------
+                # if data[0][0] != -1:
+                #     total[i] = data
+                # print(data)
             except:
                 print('except')
 
@@ -673,16 +687,23 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     btech.execute(sql)
                     data = btech.fetchall()
                     # print(data)
-                    if data[0][0] != -1:
+                    # new-------
+                    temp = []
+                    for cc in data:
+                        temp.append(cc[0])
+                           
+                    if 1 in temp:
                         total[sname] +=1
-                        print(data)
                         for k in range(len(data)):
                             data[k] = data[k][0]
                         ll.append(data)
+                    # --------------
+
                 except:
                     print('except')
-
+            
             su = [sum(x) for x in zip(*ll)]
+            # print(su)
             if len(su) == 0:
                 for l in range(len(total['roll'])):
                     su.append(0)
@@ -737,7 +758,7 @@ def defaulterData(year,division,sdate,edate,defaulter):
             if len(su) == 0:
                 for l in range(len(total['roll'])):
                     su.append(0)
-
+        
             for k in range(len(total['roll'])):
                 if su[k] ==-1:
                     total['roll'][k].append(0)
@@ -745,6 +766,7 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     total['roll'][k].append(su[k])
         
         sess_count=[0 for i in range(len(total['roll'])) ]
+        # print(sess_count)
         for j in subs['Theory'][year]:
             ss = j.split()
             sname = ''
@@ -752,7 +774,7 @@ def defaulterData(year,division,sdate,edate,defaulter):
                 sname+=i[0]
             for kk in range(len(sess_count)):
                 sess_count[kk] += total[sname]
-
+        # print(sess_count)
         for j in subs['Practical'][year]:
             ss = j.split()
             sname = ''
@@ -765,13 +787,27 @@ def defaulterData(year,division,sdate,edate,defaulter):
             for kk in range(len(total['roll'])):
                 # print(total[sname])
                 sess_count[kk] += total[sname][kk]
+        # print(total['roll'])
+
+        # new ----------------
+        for i in range(len(total['roll'])):
+            # print(total['roll'][i])
+            for jcb in range(3,len(total['roll'][i])):
+                if total['roll'][i][jcb] <0:
+                    # print(total['roll'][i][jcb])
+                    sess_count[i] += total['roll'][i][jcb]
+            # print(sess_count[i])
 
         # Session Attended
         for i in range(len(total['roll'])):
             # print(total['roll'][i])
             cnt = 0
             for j in range(3,len(total['roll'][i])):
-                cnt+=total['roll'][i][j]
+                if total['roll'][i][j] <0:
+                    cnt+=0
+                    total['roll'][i][j] = 0
+                else:
+                    cnt+=total['roll'][i][j]
             percentage = 0
             try:
                 percentage = (cnt/sess_count[i])*100
@@ -900,7 +936,11 @@ def defaulterData(year,division,sdate,edate,defaulter):
             ss = j.split()
             sname = ''
             for i in ss:
-                sname+=i[0]
+                if i[0]=='(':
+                    sname+=i[1]+i[2]
+                    # print(sname)
+                else:
+                    sname+=i[0]
             for kk in range(len(total['roll'])):
                 print(total[sname])
                 sess_count[kk] += total[sname][kk]

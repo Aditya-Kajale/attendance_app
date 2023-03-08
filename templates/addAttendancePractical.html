@@ -106,7 +106,7 @@
             </div>
           </div>
 
-        <form id="f" action="{{url_for('addAttendance__practical')}}" method = "POST" enctype = "multipart/form-data">
+        <form id="f" action="{{url_for('addAttendance__practical')}}" onsubmit="return confirm('Submit atttendance for \nYear={{data[0][0]}} \nDate={{data[0][2]}} \nSubject - {{data[0][3]}} \nBatch - {{data[0][5][0]}}');" method = "POST" enctype = "multipart/form-data">
             <!-- table -->
             <table class="table">
                 <thead class="thead-dark">
@@ -137,7 +137,10 @@
                 </tbody>
             </table>
 
-            <button id="submitForm" onclick="myFunction()" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Add Attendance  </button>
+            <button type="button" class="btn btn-outline-success mb-3" id='d1' >Success</button>
+            <button type="button" class="btn btn-outline-danger mb-3" id='d2' >Success</button>
+
+            <button id="submitForm" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Add Attendance  </button>
 
         </form>
         </div>
@@ -145,23 +148,20 @@
 </div>
 
 
-
-        
 <script>
-    var form = document.getElementById('f');
+    $(document).ready(function() {
+    $('input[type="checkbox"]').change(function(){
+    var total_checked=  $("input[type='checkbox']:checked").length 
+    $("#d1").html("Present  = " + total_checked );
+    var total_unchecked=  $("input[type='checkbox']:not(:checked)").length 
+    $("#d2").html("Absent  = " + total_unchecked );});
 
-    function myFunction() {
-			if (form.checkValidity()) {
-				alert("Attendance added");
-			}
-		}
+    var total_checked=  $("input[type='checkbox']:checked").length 
+    $("#d1").html("Present  = " + total_checked );
+    var total_unchecked=  $("input[type='checkbox']:not(:checked)").length 
+    $("#d2").html("Absent = " + total_unchecked );
+});
 </script>
-
-
-    
-
-	
-
 
 </body>
 </html>

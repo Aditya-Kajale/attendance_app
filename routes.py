@@ -304,7 +304,13 @@ def studentpracticalshow():
 @app.route('/studentdefaulter')
 def studentdefaulter():
    if 'loggedin' in session and session['authority'] == 'student' :
-      return render_template('studentdefaulter.html')
+      import studentattendance 
+      total = {}
+      year = session['year']  
+      roll = session['id']
+      total['name'] = session['username']
+      total['data'] = studentattendance.studenttAttendance_defaulter(roll,year)
+      return render_template('studentdefaulter.html',total=total)
    return redirect(url_for('login')) 
 
 
@@ -663,11 +669,11 @@ def searchStud_theory():
          subject = request.form.get('subject')
          timeslot = request.form.get('timeslot')
          batch = request.form.getlist('batch')
-         # print(batch)
+         bt = ', '.join(batch)
          searchStud_theory.atinfo = (year,division,date,subject,timeslot,batch)
          data = classRecordDBS.getData_batchvise(year,division,batch)
          data.sort()
-         total_data = (searchStud_theory.atinfo, data)
+         total_data = (searchStud_theory.atinfo, data,bt)
          roll = []
          for i in data:
             roll.append(i[0])
