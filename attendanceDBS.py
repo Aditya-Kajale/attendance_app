@@ -679,7 +679,7 @@ def defaulterData(year,division,sdate,edate,defaulter):
             sname = ''
             for i in ss:
                 sname+=i[0]
-            total['subs'].append(sname)
+            
             total[sname] = 0
             for i in dates:
                 try:
@@ -702,15 +702,18 @@ def defaulterData(year,division,sdate,edate,defaulter):
                 except:
                     print('except')
             
-            su = [sum(x) for x in zip(*ll)]
-            # print(su)
-            if len(su) == 0:
-                for l in range(len(total['roll'])):
-                    su.append(0)
-            # print('su',su)
+            if total[sname] != 0:
+                # print(j)
+                total['subs'].append(sname)
+                su = [sum(x) for x in zip(*ll)]
+                # print(su)
+                if len(su) == 0:
+                    for l in range(len(total['roll'])):
+                        su.append(0)
+                # print('su',su)
 
-            for k in range(len(total['roll'])):
-                total['roll'][k].append(su[k])
+                for k in range(len(total['roll'])):
+                    total['roll'][k].append(su[k])
         
         # For practical-------------------------------------------
         for j in subs['Practical'][year]:
@@ -724,8 +727,8 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     # print(sname)
                 else:
                     sname+=i[0]
-            total['subs'].append(sname)
             total[sname] = [0 for i in range(len(total['roll']))]
+            
             for i in dates:
                 try:
                     sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,j,division)
@@ -753,17 +756,21 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     ll.append(data)
                 except:
                     print('except')
-            su = [sum(x) for x in zip(*ll)]
-            # print('su',su)
-            if len(su) == 0:
-                for l in range(len(total['roll'])):
-                    su.append(0)
-        
-            for k in range(len(total['roll'])):
-                if su[k] ==-1:
-                    total['roll'][k].append(0)
-                else:
-                    total['roll'][k].append(su[k])
+
+            if any(i!=0 for i in total[sname]):
+                # print(j, total[sname])
+                total['subs'].append(sname)
+                su = [sum(x) for x in zip(*ll)]
+                # print('su',su)
+                if len(su) == 0:
+                    for l in range(len(total['roll'])):
+                        su.append(0)
+            
+                for k in range(len(total['roll'])):
+                    if su[k] ==-1:
+                        total['roll'][k].append(0)
+                    else:
+                        total['roll'][k].append(su[k])
         
         sess_count=[0 for i in range(len(total['roll'])) ]
         # print(sess_count)
