@@ -1,124 +1,242 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Subject Table</title>
-	<meta charset="utf-8">
-	<!-- Mobile Specific Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- Main Style Css -->
-	<style>body{color: #000;overflow-x: hidden;height: 100%;background-size: 100% 100%}.card{padding: 30px 40px;margin-top: 30px;margin-bottom: 30px;border: none !important;box-shadow: 0px 0px 50px 20px rgba(0,0,0,0.2)}.blue-text{color: #00BCD4}.form-control-label{margin-bottom: 0}input, textarea, button{padding: 4px 4px;border-radius: 5px !important;box-sizing: border-box;border: 1px solid #ccc;font-weight: 300}input:focus, textarea:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;border: 1px solid #00BCD4;outline-width: 0;font-weight: 400}.btn-block{text-transform: uppercase;font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}.btn-block:hover{color: #fff !important}button:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0}</style>
-	<link rel="stylesheet" href="css/bootstrap.css"/>
+  <head>
+    <title>Subject Table</title>
+    <meta charset="utf-8" />
+    <!-- Mobile Specific Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <!-- Main Style Css -->
+    <style>
+      body {
+        color: #000;
+        overflow-x: hidden;
+        height: 100%;
+        background-size: 100% 100%;
+      }
+      .card {
+        padding: 30px 40px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border: none !important;
+        box-shadow: 0px 0px 50px 20px rgba(0, 0, 0, 0.2);
+      }
+      .blue-text {
+        color: #00bcd4;
+      }
+      .form-control-label {
+        margin-bottom: 0;
+      }
+      input,
+      textarea,
+      button {
+        padding: 4px 4px;
+        border-radius: 5px !important;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        font-weight: 300;
+      }
+      input:focus,
+      textarea:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #00bcd4;
+        outline-width: 0;
+        font-weight: 400;
+      }
+      .btn-block {
+        text-transform: uppercase;
+        font-size: 15px !important;
+        font-weight: 400;
+        height: 43px;
+        cursor: pointer;
+      }
+      .btn-block:hover {
+        color: #fff !important;
+      }
+      button:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.css" />
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="static/js/table2excel.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="static/js/table2excel.js"></script>
+  </head>
 
-</head>
+  <body class="form-v10">
+    <!-- navbar start -->
 
-<body class="form-v10" >
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Attendance</a>
 
-	<!-- navbar start -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-	<nav  class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark " >
-		<a class="navbar-brand" href="#">Attendance</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Take Attendance
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{{url_for('theoryAttendance')}}"
+                >Theory</a
+              >
+              <a class="dropdown-item" href="{{url_for('practicalAttendance')}}"
+                >Practical</a
+              >
+            </div>
+          </li>
 
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		  <span class="navbar-toggler-icon"></span>
-		</button>
-	  
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		  <ul class="navbar-nav mr-auto">
-			<li class="nav-item ">
-				<a class="nav-link" href="{{ url_for('home') }}">Home</a>
-			  </li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Take Attendance
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="{{url_for('theoryAttendance')}}">Theory</a>
-					<a class="dropdown-item" href="{{url_for('practicalAttendance')}}">Practical</a>
-				</div>
-			</li>
-			
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				  Attendance Record
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="{{url_for('subjectAttendance_theory')}}">Theory</a>
-					<a class="dropdown-item" href="{{url_for('subjectAttendance_practical')}}">Practical</a>
-					<a class="dropdown-item" href="{{url_for('classAttendance')}}">Class</a>
-					<a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter</a>
-				</div>
-			</li>
-			
-			
-		  </ul>
-		  <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle active"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Attendance Record
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a
+                class="dropdown-item"
+                href="{{url_for('subjectAttendance_theory')}}"
+                >Theory</a
+              >
+              <a
+                class="dropdown-item"
+                href="{{url_for('subjectAttendance_practical')}}"
+                >Practical</a
+              >
+              <a class="dropdown-item" href="{{url_for('classAttendance')}}"
+                >Class</a
+              >
+              <a class="dropdown-item" href="{{url_for('defaulter')}}"
+                >Defaulter</a
+              >
+            </div>
+          </li>
 
-		</div>
-	</nav>
-	<!-- navbar ends -->
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dailyreport') }}"
+              >Daily Report</a
+            >
+          </li>
+        </ul>
+        <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+      </div>
+    </nav>
+    <!-- navbar ends -->
 
     <!-- table starts   -->
-	<div class="row d-flex justify-content-center">
-		<div class="col-xl-12 col-lg-8 col-md-9 col-11 ">
-			<div class="card text-center">
-                <h4 class="text-center mb-4">Attendance By Subject</h4>
-				<div class="row">
-					<div class="col">
-						<h5>Year : {{data['pre'][0]}}</h5>
-					</div>
-					<div class="col">
-						<h5>Division : {{data['pre'][1]}}</h5>
-					</div>
-					<div class="col">
-						<h5>Subject : {{data['pre'][2]}}</h5>
-					</div>
-					<div class="col">
-						<button onclick="tableToExcel()" type="button" class="btn btn-success">Export to Excel</button>
-					</div>
-				</div>
-				<hr>
-				<table class="table table-responsive table-bordered" style="height:500px;">
-					<thead class="thead-dark">
-					<tr>
-						<th scope="col">ROLL NO</th>
-						<th scope="col">NAME</th>
-						<th scope="col">DIV</th>
-						{% for i in data['dates'] %}
-						<th>
-							{{i}}
-						</th>
-						{% endfor %}
-					</tr>
-					</thead>
-					<tbody>
-					{% for row in data['roll'] %}
-					<tr>
-						{% for cell in row %}
-							<td>{{cell}}</td>
-						{% endfor %}
-					</tr>
-					{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-12 col-lg-8 col-md-9 col-11">
+        <div class="card text-center">
+          <h4 class="text-center mb-4">Attendance By Subject</h4>
+          <div class="row">
+            <div class="col">
+              <h5>Year : {{data['pre'][0]}}</h5>
+            </div>
+            <div class="col">
+              <h5>Division : {{data['pre'][1]}}</h5>
+            </div>
+            <div class="col">
+              <h5>Subject : {{data['pre'][2]}}</h5>
+            </div>
+            <div class="col">
+              <button
+                onclick="tableToExcel()"
+                type="button"
+                class="btn btn-success"
+              >
+                Export to Excel
+              </button>
+            </div>
+          </div>
+          <hr />
+          <table
+            class="table table-responsive table-bordered"
+            style="height: 500px"
+          >
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">ROLL NO</th>
+                <th scope="col">NAME</th>
+                <th scope="col">DIV</th>
+                {% for i in data['dates'] %}
+                <th>{{i}}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in data['roll'] %}
+              <tr>
+                {% for cell in row %}
+                <td>{{cell}}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
+    <!-- table ends -->
 
-	<!-- table ends -->
-
-	<script>
-		function tableToExcel(){
-			var table2excel = new Table2Excel();
-			table2excel.export(document.querySelectorAll("table.table"));
-		}
-	</script>
-
-</body>
+    <script>
+      function tableToExcel() {
+        var table2excel = new Table2Excel();
+        table2excel.export(document.querySelectorAll("table.table"));
+      }
+    </script>
+  </body>
 </html>

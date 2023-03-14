@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Deffaulter Table</title>
+    <title>Dailty Report</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -64,7 +64,7 @@
         outline-width: 0;
       }
     </style>
-    <!-- <link rel="stylesheet" href="css/bootstrap.css"/> -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
 
     <link
       rel="stylesheet"
@@ -87,7 +87,6 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="static/js/table2excel.js"></script>
   </head>
 
   <body class="form-v10">
@@ -115,7 +114,7 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle "
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -136,7 +135,7 @@
 
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle active"
+              class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -164,8 +163,9 @@
               >
             </div>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('dailyreport') }}"
+            <a class="nav-link active" href="{{ url_for('dailyreport') }}"
               >Daily Report</a
             >
           </li>
@@ -174,82 +174,65 @@
       </div>
     </nav>
 
-    <!-- navbar ends -->
-
-    <!-- table starts   -->
+    <!-- nav ends -->
+  <body>
+    
     <div class="row d-flex justify-content-center">
-      <div class="col-xl-11 col-lg-8 col-md-9 col-11">
-        <div class="card text-center">
-          <h4 class="text-center mb-4">Display Defaulter</h4>
-          <div class="row">
-            <div class="col">
-              <h5>Year : {{data['pre'][0]}}</h5>
-            </div>
-            <div class="col">
-              <h5>Division : {{data['pre'][1]}}</h5>
-            </div>
+      <div class="col-xl-5 col-lg-8 col-md-9 col-11 text-center">
+        <div class="card">
+          <h5 class="text-center mb-4">Daily Report</h5>
 
-            <div class="col">
-              <h5>From : <b>{{data['pre'][2]}}</b></h5>
-            </div>
-            <div class="col">
-              <h5>To : <b>{{data['pre'][3]}}</b></h5>
-            </div>
-            <div class="col">
-              <h5>Defaulter Percentage : <b>{{data['defaulter']}}</b></h5>
-            </div>
-            <div class="col">
+          <form
+              id="f"
+              action="{{ url_for('dailyreporttable') }}"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <div class="form-group row">
+                <div class="col">
+                  <div class="form-group text-left">
+                    <label for="year">Year</label>
+                    <select name="year" id="year" class="form-control">
+                      <option value="SY">SY</option>
+                      <option value="TY">TY</option>
+                      <option value="BTECH">B.Tech</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group text-left">
+                    <label for="division">Division</label>
+                    <select name="division" id="division" class="form-control">
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col">
+                  <div class="form-group text-left">
+                    <label for="sdate">Date</label>
+                    <input
+                      type="date"
+                      name="date"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              
               <button
-                onclick="tableToExcel()"
-                type="button"
-                class="btn btn-success"
-              >
-                Export to Excel
+                id="submitForm"
+                type="submit"
+                class="btn btn-primary btn-block rounded-pill shadow-sm">
+                Confirm
               </button>
-            </div>
-          </div>
-
-          <table
-            class="table table-responsive table-bordered"
-            style="height: 500px"
-          >
-            <thead class="thead-dark" style="position: sticky; top: 0">
-              <tr>
-                <th scope="col">ROLL NO</th>
-                <th scope="col">NAME</th>
-                <th scope="col">DIV</th>
-                {% for i in data['subs'] %}
-                <th>{{i}}</th>
-                {% endfor %}
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in data['roll'] %} {% if row[-1] < data['defaulter'] %}
-              <tr class="table-danger">
-                {% for cell in row %}
-                <td>{{cell}}</td>
-                {% endfor %}
-              </tr>
-              {% else %}
-              <tr>
-                {% for cell in row %}
-                <td>{{cell}}</td>
-                {% endfor %}
-              </tr>
-              {% endif %} {% endfor %}
-            </tbody>
-          </table>
+          </form>
         </div>
       </div>
     </div>
-
-    <!-- table ends -->
-
-    <script>
-      function tableToExcel() {
-        var table2excel = new Table2Excel();
-        table2excel.export(document.querySelectorAll("table.table"));
-      }
-    </script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Deffaulter Table</title>
+    <title>Dailty Report</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -64,7 +64,7 @@
         outline-width: 0;
       }
     </style>
-    <!-- <link rel="stylesheet" href="css/bootstrap.css"/> -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
 
     <link
       rel="stylesheet"
@@ -88,6 +88,7 @@
       crossorigin="anonymous"
     ></script>
     <script type="text/javascript" src="static/js/table2excel.js"></script>
+
   </head>
 
   <body class="form-v10">
@@ -115,7 +116,7 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle "
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -136,7 +137,7 @@
 
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle active"
+              class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -164,8 +165,9 @@
               >
             </div>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('dailyreport') }}"
+            <a class="nav-link active" href="{{ url_for('dailyreport') }}"
               >Daily Report</a
             >
           </li>
@@ -174,76 +176,105 @@
       </div>
     </nav>
 
-    <!-- navbar ends -->
-
-    <!-- table starts   -->
+    <!-- nav ends -->
+  <body>
     <div class="row d-flex justify-content-center">
-      <div class="col-xl-11 col-lg-8 col-md-9 col-11">
-        <div class="card text-center">
-          <h4 class="text-center mb-4">Display Defaulter</h4>
-          <div class="row">
-            <div class="col">
-              <h5>Year : {{data['pre'][0]}}</h5>
-            </div>
-            <div class="col">
-              <h5>Division : {{data['pre'][1]}}</h5>
-            </div>
+        <div class="col-xl-11 col-lg-8 col-md-9 col-11">
+          <div class="card text-center">
+            <h4 class="text-center mb-4">Display Daily Report</h4>
 
-            <div class="col">
-              <h5>From : <b>{{data['pre'][2]}}</b></h5>
+            <div class="row">
+                <div class="col">
+                   <h5> Year - {{data['default'][0]}}</h5>
+                </div>
+                <div class="col">
+                    <h5> Division - {{data['default'][1]}}</h5>
+                </div>
+                <div class="col">
+                    <h5> Date - {{data['default'][2]}}</h5>
+                </div>
+                <div class="col">
+                  <button
+                    onclick="tableToExcel()"
+                    type="button"
+                    class="btn btn-success"
+                  >
+                    Export to Excel
+                  </button>
+                </div>
             </div>
-            <div class="col">
-              <h5>To : <b>{{data['pre'][3]}}</b></h5>
-            </div>
-            <div class="col">
-              <h5>Defaulter Percentage : <b>{{data['defaulter']}}</b></h5>
-            </div>
-            <div class="col">
-              <button
-                onclick="tableToExcel()"
-                type="button"
-                class="btn btn-success"
-              >
-                Export to Excel
-              </button>
-            </div>
-          </div>
-
-          <table
+            <hr>
+            <form
+              id="f"
+              action="{{ url_for('updatedailyreport') }}"
+              method="POST"
+              enctype="multipart/form-data"
+              onsubmit="return confirm('Are you sure to submit ?')"
+            >
+        <table
             class="table table-responsive table-bordered"
-            style="height: 500px"
+            style="height: 450px"
           >
-            <thead class="thead-dark" style="position: sticky; top: 0">
-              <tr>
-                <th scope="col">ROLL NO</th>
-                <th scope="col">NAME</th>
-                <th scope="col">DIV</th>
-                {% for i in data['subs'] %}
-                <th>{{i}}</th>
-                {% endfor %}
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in data['roll'] %} {% if row[-1] < data['defaulter'] %}
-              <tr class="table-danger">
-                {% for cell in row %}
-                <td>{{cell}}</td>
-                {% endfor %}
-              </tr>
-              {% else %}
-              <tr>
-                {% for cell in row %}
-                <td>{{cell}}</td>
-                {% endfor %}
-              </tr>
-              {% endif %} {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+          <thead class="thead-dark" style="position: sticky; top: 0">
+            <tr>
+              {% for i in data['columns'] %}
+              <th>{{i}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in data['data'] %} {% if 0 in row %}
+            <tr class="table-danger">
+              {% for cell in range(data['len']) %}
+              <td>{{row[cell]}}</td>
+              {% endfor %}
+            <td >
+              <input
+                type="text"
+                name="remark"
+                placeholder="Remark"
+                value="{{row[-1]}}"
+                class="form-control"
+              />
+            </td>
+            
 
-    <!-- table ends -->
+            </tr>
+            {% else %}
+            <tr>
+              {% for cell in range(data['len']) %}
+              <td>{{row[cell]}}</td>
+              {% endfor %}
+              <td>
+                <input
+                  type="text"
+                  name="remark"
+                  placeholder="Remark"
+                  value="{{row[-1]}}"
+                  class="form-control"
+                />
+              </td>
+            </tr>
+            {% endif %} {% endfor %}
+          </tbody>
+
+            </table>
+            <button type="button" class="btn btn-outline-success">Present - {{data['pr'][0]}}</button>
+            <button type="button" class="btn btn-outline-danger">Absent - {{data['pr'][1]}}</button>
+
+            <hr>
+
+            <button
+                id="submitForm"
+                type="submit"
+                class="btn btn-primary btn-block rounded-pill shadow-sm"
+              >
+                Confirm
+              </button>
+            </form>
+          </div>
+        </div>
+    </div>
 
     <script>
       function tableToExcel() {
@@ -251,5 +282,6 @@
         table2excel.export(document.querySelectorAll("table.table"));
       }
     </script>
+
   </body>
-</html>
+  </html>

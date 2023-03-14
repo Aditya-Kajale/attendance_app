@@ -1,277 +1,435 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Take Attendance</title>
-	<meta charset="utf-8">
-	<!-- Mobile Specific Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- Main Style Css -->
-	<style>body{color: #000;overflow-x: hidden;height: 100%;background-size: 100% 100%}.card{padding: 30px 40px;margin-top: 30px;margin-bottom: 30px;border: none !important;box-shadow: 0px 0px 50px 20px rgba(0,0,0,0.2)}.blue-text{color: #00BCD4}.form-control-label{margin-bottom: 0}input, textarea, button{padding: 4px 4px;border-radius: 5px !important;box-sizing: border-box;border: 1px solid #ccc;font-weight: 300}input:focus, textarea:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;border: 1px solid #00BCD4;outline-width: 0;font-weight: 400}.btn-block{text-transform: uppercase;font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}.btn-block:hover{color: #fff !important}button:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0}</style>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <head>
+    <title>Take Attendance</title>
+    <meta charset="utf-8" />
+    <!-- Mobile Specific Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <!-- Main Style Css -->
+    <style>
+      body {
+        color: #000;
+        overflow-x: hidden;
+        height: 100%;
+        background-size: 100% 100%;
+      }
+      .card {
+        padding: 30px 40px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border: none !important;
+        box-shadow: 0px 0px 50px 20px rgba(0, 0, 0, 0.2);
+      }
+      .blue-text {
+        color: #00bcd4;
+      }
+      .form-control-label {
+        margin-bottom: 0;
+      }
+      input,
+      textarea,
+      button {
+        padding: 4px 4px;
+        border-radius: 5px !important;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        font-weight: 300;
+      }
+      input:focus,
+      textarea:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #00bcd4;
+        outline-width: 0;
+        font-weight: 400;
+      }
+      .btn-block {
+        text-transform: uppercase;
+        font-size: 15px !important;
+        font-weight: 400;
+        height: 43px;
+        cursor: pointer;
+      }
+      .btn-block:hover {
+        color: #fff !important;
+      }
+      button:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  </head>
 
-</head>
+  <body class="form-v10">
+    <!-- navbar start -->
 
-<body class="form-v10" >
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Attendance</a>
 
-	<!-- navbar start -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-	<nav  class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark " >
-		<a class="navbar-brand" href="#">Attendance</a>
-
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		  <span class="navbar-toggler-icon"></span>
-		</button>
-	  
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		  <ul class="navbar-nav mr-auto">
-			<li class="nav-item ">
-				<a class="nav-link" href="{{ url_for('home') }}">Home</a>
-			  </li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Take Attendance
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="{{url_for('theoryAttendance')}}">Theory</a>
-					<a class="dropdown-item" href="{{url_for('practicalAttendance')}}">Practical</a>
-				</div>
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				  Attendance Record
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="{{url_for('subjectAttendance_theory')}}">Theory</a>
-					<a class="dropdown-item" href="{{url_for('subjectAttendance_practical')}}">Practical</a>
-					<a class="dropdown-item" href="{{url_for('classAttendance')}}">Class</a>
-					<a class="dropdown-item" href="{{url_for('defaulter')}}">Defaulter</a>
-				</div>
-			</li>
-			
-			
-		  </ul>
-		  <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
-
-		</div>
-	</nav>
-
-	<!-- navbar ends -->
-
-	<div class="row d-flex justify-content-center">
-        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-            <div class="card" >
-
-                <h5 class="text-center mb-4">Theory Attendance</h5>
-				<form action="{{url_for('searchStud_theory')}}" method = "POST" enctype = "multipart/form-data">
-					<div class="row">
-					  <div class="col">
-						<div class="form-group text-left">
-							<label for="year">Year</label>
-							<select name="year" id="year" class="form-control">
-							  <option value="SY">SY</option>
-							  <option value="TY">TY</option>
-							  <option value="BTECH">B.Tech</option>
-							</select>
-						</div>
-					  </div>
-					  <div class="col">
-						<div class="form-group text-left">
-							<label for="division">Division</label>
-							<select name="division" id="division" class="form-control">
-							  <option value="A">A</option>
-							  <option value="B">B</option>
-							</select>
-						</div>					  
-					  </div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="form-group text-left">
-								<label for="date">Date</label>
-								<input type='date' name="date" class="form-control" required/>
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-group text-left">
-								<label for="batches">Batch</label>
-								<br>
-								<div class="form-check-inline" >
-		
-									<div class="row" id="batches">
-										<div class="col">
-											<input class="form-check-input" type="checkbox" name = 'batch' value="A1" id="A1" checked>
-											<label class="form-check-label" for="A1">A1</label>
-										</div>
-										<div class="col">
-											<input class="form-check-input" type="checkbox" name = 'batch' value="A2" id="A2" checked>
-											<label class="form-check-label" for="A2">A2</label>
-										</div>
-										<div class="col">
-											<input class="form-check-input" type="checkbox" name = 'batch' value="A3" id="A3" checked>
-											<label class="form-check-label" for="A3">A3</label>
-										</div>
-										<div class="col">
-											<input class="form-check-input" type="checkbox" name = 'batch' value="A4" id="A4" checked>
-											<label class="form-check-label" for="A4">A4</label>
-										</div>
-										<div class="col">
-											<input class="form-check-input" type="checkbox" name = 'batch' value="A5" id="A5" checked>
-											<label class="form-check-label" for="A5">A5</label>
-										</div>
-									</div>
-								</div>
-							</div>		
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="form-group text-left">
-								<label for="subject">Subject</label>
-								<select name="subject" id="subject" class="form-control">
-									{% for i in data['Theory'] %}
-									<option value="{{i}}">{{i}}</option>
-									{% endfor %}
-								</select>
-							</div>
-						</div>
-
-						<div class="col">
-							<div class="form-group text-left">
-								<label for="timeslot">Time slot</label>
-								<select name="timeslot" id="timeslot" class="form-control">
-									<option value="10:15 - 11:15" >10:15 - 11:15</option>
-									<option value="11:15 - 12:15" >11:15 - 12:15</option>
-									<option value="01:15 - 02:15" >01:15 - 02:15</option>
-									<option value="02:15 - 03:15" >02:15 - 03:15</option>
-									<option value="03:30 - 04:30" >03:30 - 04:30</option>
-									<option value="04:30 - 05:30" >04:30 - 05:30</option>
-								</select>
-							</div>
-						</div>
-						
-					</div>
-					
-					
-					
-					<button id="submitForm" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm"> Search  </button>
-				
-				</form>
-                
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle active"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Take Attendance
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{{url_for('theoryAttendance')}}"
+                >Theory</a
+              >
+              <a class="dropdown-item" href="{{url_for('practicalAttendance')}}"
+                >Practical</a
+              >
             </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Attendance Record
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a
+                class="dropdown-item"
+                href="{{url_for('subjectAttendance_theory')}}"
+                >Theory</a
+              >
+              <a
+                class="dropdown-item"
+                href="{{url_for('subjectAttendance_practical')}}"
+                >Practical</a
+              >
+              <a class="dropdown-item" href="{{url_for('classAttendance')}}"
+                >Class</a
+              >
+              <a class="dropdown-item" href="{{url_for('defaulter')}}"
+                >Defaulter</a
+              >
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dailyreport') }}"
+              >Daily Report</a
+            >
+          </li>
+        </ul>
+        <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+      </div>
+    </nav>
+
+    <!-- navbar ends -->
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+        <div class="card">
+          <h5 class="text-center mb-4">Theory Attendance</h5>
+          <form
+            action="{{url_for('searchStud_theory')}}"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="year">Year</label>
+                  <select name="year" id="year" class="form-control">
+                    <option value="SY">SY</option>
+                    <option value="TY">TY</option>
+                    <option value="BTECH">B.Tech</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="division">Division</label>
+                  <select name="division" id="division" class="form-control">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="date">Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="batches">Batch</label>
+                  <br />
+                  <div class="form-check-inline">
+                    <div class="row" id="batches">
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A1"
+                          id="A1"
+                          checked
+                        />
+                        <label class="form-check-label" for="A1">A1</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A2"
+                          id="A2"
+                          checked
+                        />
+                        <label class="form-check-label" for="A2">A2</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A3"
+                          id="A3"
+                          checked
+                        />
+                        <label class="form-check-label" for="A3">A3</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A4"
+                          id="A4"
+                          checked
+                        />
+                        <label class="form-check-label" for="A4">A4</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A5"
+                          id="A5"
+                          checked
+                        />
+                        <label class="form-check-label" for="A5">A5</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="subject">Subject</label>
+                  <select name="subject" id="subject" class="form-control">
+                    {% for i in data['Theory'] %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="timeslot">Time slot</label>
+                  <select name="timeslot" id="timeslot" class="form-control">
+                    <option value="10:15">10:15</option>
+                    <option value="11:15">11:15</option>
+                    <option value="1:15">1:15</option>
+                    <option value="2:15">2:15</option>
+                    <option value="3:30">3:30</option>
+                    <option value="4:30">4:30</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <button
+              id="submitForm"
+              type="submit"
+              class="btn btn-primary btn-block rounded-pill shadow-sm"
+            >
+              Search
+            </button>
+          </form>
         </div>
+      </div>
     </div>
 
-				
+    <script>
+      var form = document.getElementById("f");
+      var ltype = {
+        Theory: [
+          "10:15 - 11:15",
+          "11:15 - 12:15",
+          "01:15 - 02:15",
+          "02:15 - 03:15",
+          "03:30 - 04:30",
+          "04:30 - 05:30",
+        ],
+        Practical: ["10:15 - 12:15", "01:15 - 03:15", "03:30 - 05:30"],
+      };
+      // var subjects = {
+      // 	'FY':[
+      // 		'1',
+      // 		'2',
+      // 		'3',
+      // 		'4',
+      // 		'5',
+      // 		'6'
+      // 	],
+      // 	'SY':[
+      // 		'Engineering Mathematics-3',
+      // 		'Descrete Mathematics',
+      // 		'Data Structures',
+      // 		'Computer Architecture',
+      // 		'OOPS JAVA',
+      // 		'OOPS C++',
+      // 		'Seminar-1',],
+      // 	'TY':[
+      // 		'Database System',
+      // 		'Theory of Computation',
+      // 		'Human Computer Interaction',
+      // 		'Business Comunication',
+      // 		'Mini-Project-1'
+      // 	],
+      // 	'BTECH':[
+      // 		'Software Engineering',
+      // 		'Big Data Analytics',
+      // 		'Cloud Computing',
+      // 		'Blockchain Technology',
+      // 		'Full Stack Development',
+      // 		'System Administration',
+      // 	]
+      // };
 
-	<script>
-		var form = document.getElementById('f');
-		var ltype = {
-			"Theory":[
-					'10:15 - 11:15',
-					'11:15 - 12:15',
-					'01:15 - 02:15',
-					'02:15 - 03:15',
-					'03:30 - 04:30',
-					'04:30 - 05:30'
-				],
-			"Practical":[
-					'10:15 - 12:15',
-					'01:15 - 03:15',
-					'03:30 - 05:30'
-				]
-		} ;
-		// var subjects = {
-		// 	'FY':[
-		// 		'1',
-		// 		'2',
-		// 		'3',
-		// 		'4',
-		// 		'5',
-		// 		'6'
-		// 	],
-		// 	'SY':[
-		// 		'Engineering Mathematics-3',
-		// 		'Descrete Mathematics',
-		// 		'Data Structures',
-		// 		'Computer Architecture',
-		// 		'OOPS JAVA',
-		// 		'OOPS C++',
-		// 		'Seminar-1',],
-		// 	'TY':[
-		// 		'Database System',
-		// 		'Theory of Computation',
-		// 		'Human Computer Interaction',
-		// 		'Business Comunication',
-		// 		'Mini-Project-1'
-		// 	],
-		// 	'BTECH':[
-		// 		'Software Engineering',
-		// 		'Big Data Analytics',
-		// 		'Cloud Computing',
-		// 		'Blockchain Technology',
-		// 		'Full Stack Development',
-		// 		'System Administration',
-		// 	]
-		// };
-		
-		var batchess = {
-			'A':['A1','A2','A3','A4','A5'],
-			'B':['B1','B2','B3','B4','B5']
-		};
+      var batchess = {
+        A: ["A1", "A2", "A3", "A4", "A5"],
+        B: ["B1", "B2", "B3", "B4", "B5"],
+      };
 
-		var defaultOption = '<option value="" disabled>Please select lecture type</option>';
+      var defaultOption =
+        '<option value="" disabled>Please select lecture type</option>';
 
-		// $('input[name="lectype"]').on('change', function() {
-		// 	// Set selected option as variable
-		// 	$('#timeslot').html(defaultOption);
-		// 	var selectValue = $(this).val();
-		// 	// console.log(typeof(selectValue));
-		// 	// For each chocie in the selected option
-		// 	for (i = 0; i < ltype[selectValue].length; i++) {
-		// 		// Output choice in the target field
-		// 		$('#timeslot').append("<option value='" + ltype[selectValue][i] + "'>" + ltype[selectValue][i] + " </option>");
-		// 	}
-		// 	});
+      // $('input[name="lectype"]').on('change', function() {
+      // 	// Set selected option as variable
+      // 	$('#timeslot').html(defaultOption);
+      // 	var selectValue = $(this).val();
+      // 	// console.log(typeof(selectValue));
+      // 	// For each chocie in the selected option
+      // 	for (i = 0; i < ltype[selectValue].length; i++) {
+      // 		// Output choice in the target field
+      // 		$('#timeslot').append("<option value='" + ltype[selectValue][i] + "'>" + ltype[selectValue][i] + " </option>");
+      // 	}
+      // 	});
 
-		// $('#year').on('change', function() {
-		// 	// Set selected option as variable
-		// 	var selectValue = $(this).val();
+      // $('#year').on('change', function() {
+      // 	// Set selected option as variable
+      // 	var selectValue = $(this).val();
 
-		// 	// Empty the target field
-		// 	$('#subject').empty();
-			
-		// 	// For each chocie in the selected option
-		// 	for (i = 0; i < subjects[selectValue].length; i++) {
-		// 		// Output choice in the target field
-		// 		$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
-		// 	}
-		// 	});
+      // 	// Empty the target field
+      // 	$('#subject').empty();
 
-		$('#division').on('change', function() {
-			// Set selected option as variable
-			var selectValue = $(this).val();
+      // 	// For each chocie in the selected option
+      // 	for (i = 0; i < subjects[selectValue].length; i++) {
+      // 		// Output choice in the target field
+      // 		$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
+      // 	}
+      // 	});
 
-			// Empty the target field
-			$('#batches').empty();
-			
-			// For each chocie in the selected option
-			for (i = 0; i < batchess[selectValue].length; i++) {
-				// Output choice in the target field
-				$('#batches').append('<div class="col"><input class="form-check-input" type="checkbox" name="batch" value="'+batchess[selectValue][i]+'" id="'+batchess[selectValue][i]+'" checked><label class="form-check-label" for="'+batchess[selectValue][i]+'">'+batchess[selectValue][i]+'</label></div>');
-			}
-			});
+      $("#division").on("change", function () {
+        // Set selected option as variable
+        var selectValue = $(this).val();
 
-		function myFunction() {
-			if (form.checkValidity()) {
-				alert("Attendance added");
-			}
-		}
+        // Empty the target field
+        $("#batches").empty();
 
+        // For each chocie in the selected option
+        for (i = 0; i < batchess[selectValue].length; i++) {
+          // Output choice in the target field
+          $("#batches").append(
+            '<div class="col"><input class="form-check-input" type="checkbox" name="batch" value="' +
+              batchess[selectValue][i] +
+              '" id="' +
+              batchess[selectValue][i] +
+              '" checked><label class="form-check-label" for="' +
+              batchess[selectValue][i] +
+              '">' +
+              batchess[selectValue][i] +
+              "</label></div>"
+          );
+        }
+      });
 
-	</script>
-</body>
+      function myFunction() {
+        if (form.checkValidity()) {
+          alert("Attendance added");
+        }
+      }
+    </script>
+  </body>
 </html>

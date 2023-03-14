@@ -671,7 +671,8 @@ def defaulterData(year,division,sdate,edate,defaulter):
         total['roll'] = row
         # print(total)
         total['subs'] = []
-        
+        total['cnt'] = []
+
         for j in subs['Theory'][year]:
             ll = []
             # print(j)
@@ -714,6 +715,8 @@ def defaulterData(year,division,sdate,edate,defaulter):
 
                 for k in range(len(total['roll'])):
                     total['roll'][k].append(su[k])
+
+                total['cnt'].append(total[sname])
         
         # For practical-------------------------------------------
         for j in subs['Practical'][year]:
@@ -772,6 +775,7 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     else:
                         total['roll'][k].append(su[k])
         
+
         sess_count=[0 for i in range(len(total['roll'])) ]
         # print(sess_count)
         for j in subs['Theory'][year]:
@@ -794,7 +798,11 @@ def defaulterData(year,division,sdate,edate,defaulter):
             for kk in range(len(total['roll'])):
                 # print(total[sname])
                 sess_count[kk] += total[sname][kk]
-        # print(total['roll'])
+            # total['cnt'].append(total[sname])
+
+        print(total['cnt'])
+
+        # print(sess_count)
 
         # new ----------------
         for i in range(len(total['roll'])):

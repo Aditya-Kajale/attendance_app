@@ -673,6 +673,7 @@ def searchStud_theory():
          searchStud_theory.atinfo = (year,division,date,subject,timeslot,batch)
          data = classRecordDBS.getData_batchvise(year,division,batch)
          data.sort()
+         # print(data)
          total_data = (searchStud_theory.atinfo, data,bt)
          roll = []
          for i in data:
@@ -688,7 +689,9 @@ def addAttendance():
       if request.method == 'POST':
          present = request.form.getlist('present')
          # print(session['roll'])
+         # print(searchStud_theory.atinfo)
          addAttendance.addAttendance_theory(searchStud_theory.atinfo,present,session['roll'])
+         addAttendance.addattendance_daily(searchStud_theory.atinfo,present,session['roll'],"Theory")
       return redirect(url_for('theoryAttendance'))
    return redirect(url_for('login'))
 
@@ -735,7 +738,36 @@ def addAttendance__practical():
          # print(session['roll'])
          # print(searchstudents_practical.atinfo)
          addAttendance.addAttendance_practical(searchstudents_practical.atinfo,present,session['roll'])
+         addAttendance.addattendance_daily(searchstudents_practical.atinfo,present,session['roll'],"Practical")
+
       return redirect(url_for('practicalAttendance'))
+   return redirect(url_for('login'))
+
+@app.route('/dailyreport')
+def dailyreport():
+   if 'loggedin' in session and session['authority'] == 'Faculty': 
+      return render_template('dailyreport.html')
+   return redirect(url_for('login'))
+
+@app.route('/dailyreporttable',methods=['GET', 'POST'])
+def dailyreporttable():
+   if 'loggedin' in session and session['authority'] == 'Faculty': 
+      import dailyreport
+      year = request.form.get('year')
+      div = request.form.get('division')
+      date = request.form.get('date')
+      data = dailyreport.dailyreport(year,div,date)
+      dailyreporttable.atinfo = (year,div,date)
+      return render_template('dailyreporttable.html',data=data)
+   return redirect(url_for('login'))
+
+@app.route('/updatedailyreport',methods=['GET', 'POST'])
+def updatedailyreport():
+   if 'loggedin' in session and session['authority'] == 'Faculty': 
+      import dailyreport
+      reamrks = request.form.getlist('remark')
+      dailyreport.updatedailyreport(dailyreporttable.atinfo,reamrks)
+      return redirect(url_for('dailyreport'))
    return redirect(url_for('login'))
 
 if __name__ == '__main__':

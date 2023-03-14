@@ -82,7 +82,7 @@ def addInPractical(roll,name,year,div,batch):
 
 
 def addLoginInfo(roll,name,year):
-   print('in ad in login')
+   # print('in ad in login')
    logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
    lo_cur = logindbs.cursor()
    authoritiy = 'student'
@@ -96,13 +96,15 @@ def addLoginInfo(roll,name,year):
 
 def parseCSV(filePath,year,div):
    cur = mysql_stud.connection.cursor()
-   col_names = ['roll','name','batch']
+   col_names = ['roll','name','batch','sphone', 'pphone']
    csvData = pd.read_csv(filePath,names=col_names, header=None)
-   print(csvData)
+   # print(csvData)
    for i,row in csvData.iterrows():
+      # print(row)
       try:
-         sql = "INSERT INTO "+ year +" (ROLL_NO, NAME, YEAR, DIVISION, BATCH) VALUES (%s, %s, %s, %s, %s)"
-         value = (row['roll'],row['name'],year,div,row['batch'])
+         sql = "INSERT INTO "+ year +" (ROLL_NO, NAME, YEAR, DIVISION, BATCH, SPHONE, PPHONE) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+         value = (row['roll'],row['name'],year,div,row['batch'], row['sphone'], row['pphone'])
+         # print(value)
          cur.execute(sql, value)
          mysql_stud.connection.commit()
          addInSubject(row['roll'],row['name'],year,div)

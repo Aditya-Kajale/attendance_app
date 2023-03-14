@@ -23,6 +23,21 @@ Students new files-
 3. create thoer function in routes 
 4. create studentattendance.py file 
 
-
-
-
+Daily report -
+1. add daily report html page  
+2. add daily report in all faculty page navbars
+3. add dailyreport in routes file and addAttendance.addattendance_daily in /addattendance routes
+4. add time in take theory and practical attendance html page 
+5. add time in routes page and create route for dailyreport
+6. create function in addattendance.py file 
+*7. add phone number in test dataset 
+8. changes in add class file 
+*9. make changes in student database (add sphone no column and pphone column)
+10. create database name daily_cse
+11. change getData_batchvise sql to SELECT ROLL_NO,NAME,YEAR,DIVISION,BATCH 
+12. addin daily function in addattendance
+13. add dailyreport in routes file and addAttendance.addattendance_daily in /addAttendance__practical routes
+14. changes in dailyreport.heml file 
+15. create dailyreporttable.html and dailyreporttable function in routes
+16. create dailyreport.py file 
+17. create updatedailyreport function in routes
