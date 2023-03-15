@@ -41,3 +41,15 @@ Daily report -
 15. create dailyreporttable.html and dailyreporttable function in routes
 16. create dailyreport.py file 
 17. create updatedailyreport function in routes
+
+
+check session 
+1. create function in dailyreport file 
+2. chnages in searchstudents_theory
+3. chnages in addattendance.html 
+4. changes in total_data of searchstudents_theory
+5. add  check_session_practical in dailyreport.py
+6. chnages in searchstudents__practical
+7. changes in addAttendancePractical.html file
+
+

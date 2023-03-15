@@ -84,3 +84,99 @@ def updatedailyreport(info,remark):
 
     print(remark,info,roll)
     dcse.close()
+
+
+
+def check_session(year,division,date,timeslot):
+    cur = mysql_stud.connection.cursor()
+    dcse = mysql.connector.connect(user='root', password='', host='localhost', database='daily_cse')
+    dcse_cur = dcse.cursor()
+    msg = ''
+    tableName = date+'-'+year+'-'+division
+
+    sql = "SHOW TABLES LIKE '%{}%'".format(tableName)
+    dcse_cur.execute(sql)
+    table_exist = dcse_cur.fetchall()
+
+    if table_exist:
+        sql = "SHOW COLUMNS FROM `{}`".format(tableName)
+        dcse_cur.execute(sql)
+        cn = dcse_cur.fetchall()
+        col = []
+        for kk in cn:
+            col.append(kk[0])
+        
+        # print(col[ind-1])
+        try:
+            ind = col.index(timeslot)
+        except:
+            pass
+
+        try:
+            if timeslot not in col:    
+                msg = 'Attendance for this time slot is recorded already.'
+            else:
+                if 'pr' in col[ind-1]:
+                    msg = 'Attendance for this time slot is recorded already' 
+            # print(col[ind-1])
+        except:
+            pass
+
+    return msg
+    
+
+def check_session_practical(year,division,date,batch,timeslot):
+    cur = mysql_stud.connection.cursor()
+    dcse = mysql.connector.connect(user='root', password='', host='localhost', database='daily_cse')
+    dcse_cur = dcse.cursor()
+    msg = ''
+    tableName = date+'-'+year+'-'+division
+    batch = batch[0]
+    sql = "SHOW TABLES LIKE '%{}%'".format(tableName)
+    dcse_cur.execute(sql)
+    table_exist = dcse_cur.fetchall()
+
+    if table_exist:
+        sql = "SHOW COLUMNS FROM `{}`".format(tableName)
+        dcse_cur.execute(sql)
+        cn = dcse_cur.fetchall()
+        col = []
+        for kk in cn:
+            col.append(kk[0])
+        
+        
+        tt = {'10:15':3,
+            '11:15':4,
+            '1:15':5,
+            '2:15':6,
+            '3:30':7,
+            '4:30':8}
+        
+        print(col[tt[timeslot]])
+
+        try:
+            if timeslot not in col:    
+                msg = 'Attendance for this batch or time slot is already recorded'
+                sql = 'SELECT ROLL_NO FROM `{}` WHERE batch = "{}"'.format(year,batch)
+                cur.execute(sql)
+                temp = cur.fetchall()
+                
+                sql = "SELECT prsub FROM `{}` WHERE roll = '{}'".format(tableName,temp[0][0])
+                dcse_cur.execute(sql)
+                res = dcse_cur.fetchall()
+                print(res)
+                if 'pr' in col[tt[timeslot]]:
+                    if res[0][0] == '':
+                        msg = '' 
+                    else:
+                        msg = 'Attendance for this time slot is recorded already'
+            else:
+                if col[tt[timeslot]+1] not in tt:
+                    msg = 'Attendance for this time slot is recorded already'
+
+            # print(col[ind-1])
+        except:
+            pass
+
+
+    return msg
