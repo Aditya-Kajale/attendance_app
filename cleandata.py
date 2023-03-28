@@ -161,6 +161,20 @@ def cleanfromsubs(year):
         sql = "DELETE FROM `account` WHERE email = 'SY@gmail.com'"
         lo_cur.execute(sql)
         logindbs.commit()
+
+def cleanFromDaily(year):
+    dcse = mysql.connector.connect(user='root', password='', host='localhost', database='daily_cse')
+    dcse_cur = dcse.cursor()
+    sql = "SHOW TABLES"
+    dcse_cur.execute(sql)
+    aa = dcse_cur.fetchall()
+    for i in aa:
+        temp = i[0].split('-')
+        # print(temp[3])
+        if temp[3] == year.lower():
+            sql = "DROP TABLE `{}`".format(i[0])
+            dcse_cur.execute(sql)
+            dcse.commit()
         
 def cleandata(year):
     cur = mysql_stud.connection.cursor()
@@ -168,4 +182,6 @@ def cleandata(year):
     cur.execute(sql)
     mysql_stud.connection.commit()
     cleanfromsubs(year)
+    cleanFromDaily(year)
+
     

@@ -474,6 +474,57 @@ def adminProfile():
       return render_template('adminprofile.html',account=account)
    return redirect(url_for('login'))
 
+@app.route('/deletetheory')
+def deletetheory():
+   if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+      data = []
+      for i in ls:
+         if i.name == session['username']:
+            data = i.subject
+      return render_template('deletetheory.html',data=data)
+   return redirect(url_for('login'))
+
+@app.route('/deletetheoryAttendance',methods = ['GET', 'POST'])
+def deletetheoryAttendance():
+   if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+      import deleteattendance
+      year = request.form.get('year')
+      division = request.form.get('division')
+      date = request.form.get('date')
+      subject = request.form.get('subject')
+      batch = request.form.getlist('batch')
+      deleteattendance.deleteAttendanceTheory(year,division,date,subject,batch,"Theory")
+      return redirect(url_for('deletetheory'))
+   return redirect(url_for('login'))
+
+
+@app.route('/deletepractical')
+def deletepractical():
+   if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+      data = []
+      for i in ls:
+         if i.name == session['username']:
+            data = i.subject
+      return render_template('deletepractical.html',data=data)
+   return redirect(url_for('login'))
+
+@app.route('/deletepracticalAttendance',methods = ['GET', 'POST'])
+def deletepracticalAttendance():
+   if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+      import deleteattendance
+      year = request.form.get('year')
+      division = request.form.get('division')
+      date = request.form.get('date')
+      subject = request.form.get('subject')
+      timeslot = request.form.get('timeslot')
+      batch = request.form.getlist('batch')
+      deleteattendance.deleteAttendancePractical(year,division,date,subject,timeslot,batch,"Practical")
+      return redirect(url_for('deletepractical'))
+   return redirect(url_for('login'))
+
+
+
+
 
 # adding class to dataset -----------------------------------------------------------------------------
 @app.route('/addclass')

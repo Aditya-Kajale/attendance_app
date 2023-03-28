@@ -53,3 +53,12 @@ check session
 7. changes in addAttendancePractical.html file
 
 
+
+delete attendance 
+1. changes in navbra of admin panel 
+2. add deletetheory in routes 
+3. add deletetheory.html file
+4. add deletepractical in routes
+5. add deletepractical.html file
+6. add deleteattendance.py file
+7. 
