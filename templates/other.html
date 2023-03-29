@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Subject Attendance</title>
+    <title>Add student</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -64,6 +64,8 @@
         outline-width: 0;
       }
     </style>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -133,7 +135,7 @@
 
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle active"
+              class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -167,24 +169,21 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('other') }}">Other</a>
+            <a class="nav-link active" href="{{ url_for('other') }}">Other</a>
           </li>
         </ul>
+
         <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
       </div>
     </nav>
-
     <!-- navbar ends -->
-
-    <!-- form starts -->
 
     <div class="row d-flex justify-content-center">
       <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
         <div class="card">
-          <h5 class="text-center mb-4">Theory Attenddance by Subject</h5>
+          <h5 class="text-center mb-4">Other Attendance</h5>
           <form
-            id="f"
-            action="{{ url_for('subjectTable_theory') }}"
+            action="{{url_for('searchStudentOther')}}"
             method="POST"
             enctype="multipart/form-data"
           >
@@ -209,41 +208,99 @@
                 </div>
               </div>
             </div>
-
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="date">Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="batches">Batch</label>
+                  <br />
+                  <div class="form-check-inline">
+                    <div class="row" id="batches">
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A1"
+                          id="A1"
+                          checked
+                        />
+                        <label class="form-check-label" for="A1">A1</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A2"
+                          id="A2"
+                          checked
+                        />
+                        <label class="form-check-label" for="A2">A2</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A3"
+                          id="A3"
+                          checked
+                        />
+                        <label class="form-check-label" for="A3">A3</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A4"
+                          id="A4"
+                          checked
+                        />
+                        <label class="form-check-label" for="A4">A4</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="batch"
+                          value="A5"
+                          id="A5"
+                          checked
+                        />
+                        <label class="form-check-label" for="A5">A5</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col">
                 <div class="form-group text-left">
                   <label for="subject">Subject</label>
-                  <select name="subject" id="subject" class="form-control">
-                    {% for i in data['Theory'] %}
+                  <select
+                    name="subject"
+                    id="subject"
+                    class="form-control"
+                    required
+                  >
+                    {% for i in data['Theory'] %} {% if i == 'other attendance'
+                    %}
                     <option value="{{i}}">{{i}}</option>
-                    {% endfor %}
+                    {% endif %} {% endfor %}
                   </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <div class="form-group text-left">
-                  <label for="sdate">Start Date</label>
-                  <input
-                    type="date"
-                    name="sdate"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group text-left">
-                  <label for="edate">End Date</label>
-                  <input
-                    type="date"
-                    name="edate"
-                    class="form-control"
-                    required
-                  />
                 </div>
               </div>
             </div>
@@ -253,13 +310,123 @@
               type="submit"
               class="btn btn-primary btn-block rounded-pill shadow-sm"
             >
-              Confirm
+              Search
             </button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- form ends -->
+    <script>
+      var form = document.getElementById("f");
+      var ltype = {
+        Theory: [
+          "10:15 - 11:15",
+          "11:15 - 12:15",
+          "01:15 - 02:15",
+          "02:15 - 03:15",
+          "03:30 - 04:30",
+          "04:30 - 05:30",
+        ],
+        Practical: ["10:15 - 12:15", "01:15 - 03:15", "03:30 - 05:30"],
+      };
+      // var subjects = {
+      // 	'FY':[
+      // 		'1',
+      // 		'2',
+      // 		'3',
+      // 		'4',
+      // 		'5',
+      // 		'6'
+      // 	],
+      // 	'SY':[
+      // 		'Engineering Mathematics-3',
+      // 		'Descrete Mathematics',
+      // 		'Data Structures',
+      // 		'Computer Architecture',
+      // 		'OOPS JAVA',
+      // 		'OOPS C++',
+      // 		'Seminar-1',],
+      // 	'TY':[
+      // 		'Database System',
+      // 		'Theory of Computation',
+      // 		'Human Computer Interaction',
+      // 		'Business Comunication',
+      // 		'Mini-Project-1'
+      // 	],
+      // 	'BTECH':[
+      // 		'Software Engineering',
+      // 		'Big Data Analytics',
+      // 		'Cloud Computing',
+      // 		'Blockchain Technology',
+      // 		'Full Stack Development',
+      // 		'System Administration',
+      // 	]
+      // };
+
+      var batchess = {
+        A: ["A1", "A2", "A3", "A4", "A5"],
+        B: ["B1", "B2", "B3", "B4", "B5"],
+      };
+
+      var defaultOption =
+        '<option value="" disabled>Please select lecture type</option>';
+
+      // $('input[name="lectype"]').on('change', function() {
+      // 	// Set selected option as variable
+      // 	$('#timeslot').html(defaultOption);
+      // 	var selectValue = $(this).val();
+      // 	// console.log(typeof(selectValue));
+      // 	// For each chocie in the selected option
+      // 	for (i = 0; i < ltype[selectValue].length; i++) {
+      // 		// Output choice in the target field
+      // 		$('#timeslot').append("<option value='" + ltype[selectValue][i] + "'>" + ltype[selectValue][i] + " </option>");
+      // 	}
+      // 	});
+
+      // $('#year').on('change', function() {
+      // 	// Set selected option as variable
+      // 	var selectValue = $(this).val();
+
+      // 	// Empty the target field
+      // 	$('#subject').empty();
+
+      // 	// For each chocie in the selected option
+      // 	for (i = 0; i < subjects[selectValue].length; i++) {
+      // 		// Output choice in the target field
+      // 		$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
+      // 	}
+      // 	});
+
+      $("#division").on("change", function () {
+        // Set selected option as variable
+        var selectValue = $(this).val();
+
+        // Empty the target field
+        $("#batches").empty();
+
+        // For each chocie in the selected option
+        for (i = 0; i < batchess[selectValue].length; i++) {
+          // Output choice in the target field
+          $("#batches").append(
+            '<div class="col"><input class="form-check-input" type="checkbox" name="batch" value="' +
+              batchess[selectValue][i] +
+              '" id="' +
+              batchess[selectValue][i] +
+              '" checked><label class="form-check-label" for="' +
+              batchess[selectValue][i] +
+              '">' +
+              batchess[selectValue][i] +
+              "</label></div>"
+          );
+        }
+      });
+
+      function myFunction() {
+        if (form.checkValidity()) {
+          alert("Attendance added");
+        }
+      }
+    </script>
   </body>
 </html>

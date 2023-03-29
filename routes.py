@@ -523,9 +523,6 @@ def deletepracticalAttendance():
    return redirect(url_for('login'))
 
 
-
-
-
 # adding class to dataset -----------------------------------------------------------------------------
 @app.route('/addclass')
 def addClass():
@@ -574,7 +571,50 @@ def addStud():
 
 # -----------------------------------------------------------------------------------------------------
 
-# Display Attendacne record ---------------------------------------------------------------------------
+# other attendance ---------------------------------------------------------------------------
+@app.route('/other')
+def other():
+   if 'loggedin' in session and session['authority'] == 'Faculty': 
+      data = []
+      for i in ls:
+         if i.name == session['username']:
+            data = i.subject
+      return render_template('other.html',data=data)
+   redirect(url_for('login'))
+
+@app.route('/searchstudentother', methods=['GET', 'POST'])
+def searchStudentOther():
+   if 'loggedin' in session and session['authority'] == 'Faculty': 
+      import classRecordDBS
+      import dailyreport
+      if request.method == 'POST':
+         year = request.form.get('year')
+         division = request.form.get('division')
+         date = request.form.get('date')
+         subject = request.form.get('subject')
+         batch = request.form.getlist('batch')
+         bt = ', '.join(batch)
+         searchStudentOther.atinfo = (year,division,date,subject,batch)
+         data = classRecordDBS.getData_batchvise(year,division,batch)
+         data.sort()
+         # print(data)
+         total_data = (searchStudentOther.atinfo, data,bt)
+         roll = []
+         for i in data:
+            roll.append(i[0])
+         session['roll'] = roll
+      return render_template('addAttendanceOther.html',data = total_data)
+   return redirect(url_for('login'))
+
+@app.route('/addOtherAttendance', methods = ['GET','POST'])
+def addOtherAttendance():
+   if 'loggedin' in session and session['authority'] == 'Faculty': 
+      import addAttendance
+      count = request.form.getlist('count')
+      addAttendance.addOtherAttendance(searchStudentOther.atinfo,count,session['roll'])
+      return redirect(url_for('theoryAttendance'))
+   return redirect(url_for('login'))
+
 # Theory--------------------
 @app.route('/subjectAttendance_theory')
 def subjectAttendance_theory():

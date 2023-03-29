@@ -3,6 +3,58 @@ import pandas as pd
 from routes import mysql_stud
 import mysql.connector
 
+def addOtherAttendance (data,count,roll):
+    at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
+    at_ty = mysql.connector.connect(user='root', password='', host='localhost', database='theory_ty')
+    at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
+
+    btech = at_btech.cursor()
+    ty = at_ty.cursor()
+    sy = at_sy.cursor()
+
+    for i in range(len(count)):
+        count[i] = int(count[i])
+
+    print(data,count,roll)
+    if data[0]=="BTECH":
+        date = data[2].replace('-','_')
+        try:
+            for i in roll:
+                # print(i,date)
+                # print(data[4])
+                sql = "UPDATE `{}` SET {}=0 WHERE roll={} ".format(data[3],date,i)
+                btech.execute(sql)
+                at_btech.commit()
+
+            for i in range(len(roll)):
+                # print(i,date)
+                # print(data[4])
+                sql = "UPDATE `{}` SET {}={} WHERE roll={} ".format(data[3],date,count[i],roll[i])
+                btech.execute(sql)
+                at_btech.commit()
+            
+        except:
+            print('already exist')
+            
+            sql ='ALTER TABLE `{}` ADD {} int DEFAULT -1'.format(data[3],date)
+            btech.execute(sql)
+            at_btech.commit()
+
+            for i in roll:
+                # print(i,date)
+                # print(data[4])
+                sql = "UPDATE `{}` SET {}=0 WHERE roll={} ".format(data[3],date,i)
+                btech.execute(sql)
+                at_btech.commit()
+
+            for i in range(len(roll)):
+                # print(i,date)
+                # print(data[4])
+                sql = "UPDATE `{}` SET {}={} WHERE roll={} ".format(data[3],date,count[i],roll[i])
+                btech.execute(sql)
+                at_btech.commit()
+        at_btech.close()
+
 
 def addattendance_daily(data,present,roll,torp):
     dcse = mysql.connector.connect(user='root', password='', host='localhost', database='daily_cse')

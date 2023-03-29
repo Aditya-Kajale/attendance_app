@@ -62,3 +62,12 @@ delete attendance
 5. add deletepractical.html file
 6. add deleteattendance.py file
 7. 
+
+other attendance 
+1. add other in navbar 
+2. add other.html file
+3. add other route 
+4. add below other routes
+5. add addattendanceother.html file
+6. add addotherattendance funtion addattendance.py
+7. changes in attendanceDBS.py file

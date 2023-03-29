@@ -693,17 +693,18 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     for cc in data:
                         temp.append(cc[0])
                            
-                    if 1 in temp:
-                        total[sname] +=1
+                    if any(tenz >0 for tenz in temp):
                         for k in range(len(data)):
                             data[k] = data[k][0]
                         ll.append(data)
+                        if j != 'other attendance':
+                            total[sname] +=1
                     # --------------
 
                 except:
                     print('except')
             
-            if total[sname] != 0:
+            if total[sname] != 0 or j == 'other attendance':
                 # print(j)
                 total['subs'].append(sname)
                 su = [sum(x) for x in zip(*ll)]
@@ -841,7 +842,6 @@ def defaulterData(year,division,sdate,edate,defaulter):
         total['subs'].append('Attendance Percentage')
         total['defaulter'] = int(defaulter)
 
-
     elif year == "TY":
         # for theory----------------------------------
         try:
@@ -871,13 +871,16 @@ def defaulterData(year,division,sdate,edate,defaulter):
                     sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(i,j,division)
                     ty.execute(sql)
                     data = ty.fetchall()
-                    print(data)
-                    if data[0][0] != -1:
-                        total[sname] +=1
-                        print(data)
+                    temp = []
+                    for cc in data:
+                        temp.append(cc[0])
+                           
+                    if any(tenz >0 for tenz in temp):
                         for k in range(len(data)):
                             data[k] = data[k][0]
                         ll.append(data)
+                        if j != 'other attendance':
+                            total[sname] +=1
                 except:
                     print('except')
 
