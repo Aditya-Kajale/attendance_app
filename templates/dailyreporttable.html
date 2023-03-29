@@ -10,6 +10,12 @@
     />
     <!-- Main Style Css -->
     <style>
+      @media print {
+        @page {
+          margin: 0;
+        }
+      }
+
       body {
         color: #000;
         overflow-x: hidden;
@@ -88,7 +94,6 @@
       crossorigin="anonymous"
     ></script>
     <script type="text/javascript" src="static/js/table2excel.js"></script>
-
   </head>
 
   <body class="form-v10">
@@ -116,7 +121,7 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle "
+              class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -180,33 +185,59 @@
     </nav>
 
     <!-- nav ends -->
-  <body>
-    <div class="row d-flex justify-content-center">
+    <body>
+      <div class="row d-flex justify-content-center">
         <div class="col-xl-11 col-lg-8 col-md-9 col-11">
           <div class="card text-center">
-            <h4 class="text-center mb-4">Display Daily Report</h4>
-
-            <div class="row">
-                <div class="col">
-                   <h5> Year - {{data['default'][0]}}</h5>
-                </div>
-                <div class="col">
-                    <h5> Division - {{data['default'][1]}}</h5>
-                </div>
-                <div class="col">
-                    <h5> Date - {{data['default'][2]}}</h5>
-                </div>
-                <div class="col">
-                  <button
-                    onclick="tableToExcel()"
-                    type="button"
-                    class="btn btn-success"
-                  >
-                    Export to Excel
-                  </button>
-                </div>
+            <div class="d-none d-print-block">
+              <p style="margin-bottom: 0">M.S.P.M MANDALS's</p>
+              <p style="margin-bottom: 0">
+                DEOGIRI INSTITUTE OF ENGINEERING AND MANAGEMENT STUDIES,
+                AURANGABD
+              </p>
+              <p>MECHANICAL ENGINEERING REPORT</p>
             </div>
-            <hr>
+
+            <h5 class="text-center mb-4">
+              {{data['default'][0]}} - Daily Report
+            </h5>
+            <div class="d-none d-print-block">
+              <div class="d-flex justify-content-end">
+                Date : {{data['default'][2]}}
+              </div>
+              <div class="d-flex justify-content-end">Day : _____________</div>
+              <br />
+            </div>
+            <div class="row d-print-none">
+              <div class="col">
+                <h5>Year - {{data['default'][0]}}</h5>
+              </div>
+              <div class="col">
+                <h5>Division - {{data['default'][1]}}</h5>
+              </div>
+              <div class="col">
+                <h5>Date - {{data['default'][2]}}</h5>
+              </div>
+              <div class="col">
+                <button
+                  onclick="tableToExcel()"
+                  type="button"
+                  class="btn btn-success"
+                >
+                  Export to Excel
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onclick="window.print()"
+                >
+                  Print
+                </button>
+              </div>
+            </div>
+            <hr class="d-print-none" />
             <form
               id="f"
               action="{{ url_for('updatedailyreport') }}"
@@ -214,77 +245,93 @@
               enctype="multipart/form-data"
               onsubmit="return confirm('Are you sure to submit ?')"
             >
-        <table
-            class="table table-responsive table-bordered"
-            style="height: 450px"
-          >
-          <thead class="thead-dark" style="position: sticky; top: 0">
-            <tr>
-              {% for i in data['columns'] %}
-              <th>{{i}}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            {% for row in data['data'] %} {% if 0 in row %}
-            <tr class="table-danger">
-              {% for cell in range(data['len']) %}
-              <td>{{row[cell]}}</td>
-              {% endfor %}
-            <td >
-              <input
-                type="text"
-                name="remark"
-                placeholder="Remark"
-                value="{{row[-1]}}"
-                class="form-control"
-              />
-            </td>
-            
+              <table class="table table-bordered" style="height: 450px">
+                <tbody>
+                  <tr class="thead-dark">
+                    {% for i in data['columns'] %}
+                    <th>{{i}}</th>
+                    {% endfor %}
+                  </tr>
+                  {% for row in data['data'] %} {% if 0 in row %}
+                  <tr class="table-danger">
+                    {% for cell in range(data['len']) %}
+                    <td>{{row[cell]}}</td>
+                    {% endfor %}
+                    <td>
+                      <input
+                        type="text"
+                        name="remark"
+                        placeholder="Remark"
+                        value="{{row[-1]}}"
+                        class="form-control"
+                      />
+                    </td>
+                  </tr>
+                  {% else %}
+                  <tr>
+                    {% for cell in range(data['len']) %}
+                    <td>{{row[cell]}}</td>
+                    {% endfor %}
+                    <td>
+                      <input
+                        type="text"
+                        name="remark"
+                        placeholder="Remark"
+                        value="{{row[-1]}}"
+                        class="form-control"
+                      />
+                    </td>
+                  </tr>
+                  {% endif %} {% endfor %}
+                  <tr>
+                    <td colspan="2">Sign of Faculty</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="button" class="btn btn-outline-success">
+                Present - {{data['pr'][0]}}
+              </button>
+              <button type="button" class="btn btn-outline-danger">
+                Absent - {{data['pr'][1]}}
+              </button>
 
-            </tr>
-            {% else %}
-            <tr>
-              {% for cell in range(data['len']) %}
-              <td>{{row[cell]}}</td>
-              {% endfor %}
-              <td>
-                <input
-                  type="text"
-                  name="remark"
-                  placeholder="Remark"
-                  value="{{row[-1]}}"
-                  class="form-control"
-                />
-              </td>
-            </tr>
-            {% endif %} {% endfor %}
-          </tbody>
-
-            </table>
-            <button type="button" class="btn btn-outline-success">Present - {{data['pr'][0]}}</button>
-            <button type="button" class="btn btn-outline-danger">Absent - {{data['pr'][1]}}</button>
-
-            <hr>
-
-            <button
+              <hr class="d-print-none" />
+              <button
                 id="submitForm"
                 type="submit"
-                class="btn btn-primary btn-block rounded-pill shadow-sm"
+                class="btn btn-primary btn-block rounded-pill shadow-sm d-print-none"
               >
                 Confirm
               </button>
+
+              <div class="d-none d-print-block">
+                <br /><br /><br /><br /><br /><br /><br />
+                <div class="row">
+                  <div class="col">Class Teacher</div>
+                  <div class="col">Co-ordinator</div>
+                  <div class="col">HMED</div>
+                </div>
+              </div>
             </form>
           </div>
         </div>
-    </div>
+      </div>
 
-    <script>
-      function tableToExcel() {
-        var table2excel = new Table2Excel();
-        table2excel.export(document.querySelectorAll("table.table"));
-      }
-    </script>
-
+      <script>
+        function tableToExcel() {
+          var table2excel = new Table2Excel();
+          table2excel.export(document.querySelectorAll("table.table"));
+        }
+      </script>
+    </body>
   </body>
-  </html>
+</html>

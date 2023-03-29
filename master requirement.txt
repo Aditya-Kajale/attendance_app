@@ -71,3 +71,6 @@ other attendance
 5. add addattendanceother.html file
 6. add addotherattendance funtion addattendance.py
 7. changes in attendanceDBS.py file
+
+daily report template print
+1.
