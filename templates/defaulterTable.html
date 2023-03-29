@@ -10,6 +10,20 @@
     />
     <!-- Main Style Css -->
     <style>
+      @media print {
+        @page {
+          margin: 0;
+          margin: 10mm 0mm 0mm 0mm;
+        }
+      }
+      table {
+        page-break-inside: auto;
+      }
+      tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
+
       body {
         color: #000;
         overflow-x: hidden;
@@ -183,8 +197,19 @@
     <div class="row d-flex justify-content-center">
       <div class="col-xl-11 col-lg-8 col-md-9 col-11">
         <div class="card text-center">
-          <h4 class="text-center mb-4">Display Defaulter</h4>
-          <div class="row">
+          <div class="d-none d-print-block">
+            <p style="margin-bottom: 0">M.S.P.M MANDALS's</p>
+            <p style="margin-bottom: 0">
+              DEOGIRI INSTITUTE OF ENGINEERING AND MANAGEMENT STUDIES, AURANGABD
+            </p>
+            <p>COMMPUTER SCIENCE and ENGINEERING DEPARTMENT</p>
+          </div>
+
+          <h5 class="text-center mb-4">
+            Attendance Report From {{data['pre'][2]}} To {{data['pre'][3]}}
+          </h5>
+
+          <div class="row d-print-none">
             <div class="col">
               <h5>Year : {{data['pre'][0]}}</h5>
             </div>
@@ -210,14 +235,23 @@
                 Export to Excel
               </button>
             </div>
+            <div class="col">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="window.print()"
+              >
+                Print
+              </button>
+            </div>
           </div>
 
           <table
-            class="table table-responsive table-bordered"
+            class="table table-bordered d-print-table"
             style="height: 500px"
           >
-            <thead class="thead-dark" style="position: sticky; top: 0">
-              <tr>
+            <tbody>
+              <tr class="thead-dark">
                 <th scope="col">ROLL NO</th>
                 <th scope="col">NAME</th>
                 <th scope="col">DIV</th>
@@ -225,8 +259,6 @@
                 <th>{{i}}</th>
                 {% endfor %}
               </tr>
-            </thead>
-            <tbody>
               {% for row in data['roll'] %} {% if row[-1] < data['defaulter'] %}
               <tr class="table-danger">
                 {% for cell in row %}
@@ -242,6 +274,14 @@
               {% endif %} {% endfor %}
             </tbody>
           </table>
+          <div class="d-none d-print-block">
+            <br /><br /><br /><br /><br /><br /><br />
+            <div class="row">
+              <div class="col">Class Teacher</div>
+              <div class="col">Co-ordinator</div>
+              <div class="col">HMED</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
