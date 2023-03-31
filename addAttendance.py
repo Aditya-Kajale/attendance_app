@@ -120,7 +120,7 @@ def addattendance_daily(data,present,roll,torp):
                 
                 # rename time column name
                 try:
-                    newcolumn = time+'('+sname+')'
+                    newcolumn = time+' ('+sname+')'
                     print(newcolumn)
                     sql = 'ALTER TABLE `{}` CHANGE `{}` `{}` INT(11) NOT NULL DEFAULT "-1"'.format(tableName,col[tt[time]],newcolumn)
                     dcse_cur.execute(sql)
@@ -236,7 +236,7 @@ def addattendance_daily(data,present,roll,torp):
                 
                 # rename time column name
                 try:
-                    newcolumn = time+'('+sname+')'
+                    newcolumn = time+' ('+sname+')'
                     print(newcolumn)
                     sql = 'ALTER TABLE `{}` CHANGE `{}` `{}` INT(11) NOT NULL DEFAULT "-1"'.format(tableName,col[tt[time]],newcolumn)
                     dcse_cur.execute(sql)

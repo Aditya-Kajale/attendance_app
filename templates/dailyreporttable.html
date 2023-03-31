@@ -12,10 +12,25 @@
     <style>
       @media print {
         @page {
+          margin: 0;
           margin: 10mm 0mm 5mm 0mm;
+          color: #000;
+        }
+        body {
+          color: #000;
+        }
+        td {
+          width: 0;
         }
         .remark {
-          width: 20%;
+          width: 300px;
+        }
+        .Name {
+          width: 300px;
+        }
+        .Student,
+        .Parent {
+          width: 0px;
         }
       }
 
@@ -193,7 +208,7 @@
         <div class="col-xl-11 col-lg-8 col-md-9 col-11">
           <div class="card text-center">
             <div class="d-none d-print-block">
-              <p style="margin-bottom: 0">M.S.P.M MANDALS's</p>
+              <p style="margin-bottom: 0">M.S.P. MANDALS's</p>
               <p style="margin-bottom: 0">
                 DEOGIRI INSTITUTE OF ENGINEERING AND MANAGEMENT STUDIES,
                 AURANGABD
@@ -252,7 +267,7 @@
                 <tbody>
                   <tr class="thead-dark">
                     {% for i in data['columns'] %}
-                    <th>{{i}}</th>
+                    <th class="{{i}}">{{i}}</th>
                     {% endfor %}
                   </tr>
                   {% for row in data['data'] %} {% if 0 in row %}
