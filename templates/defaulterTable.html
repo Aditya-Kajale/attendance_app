@@ -246,9 +246,47 @@
             </div>
           </div>
 
+          <div class="row d-print-none">
+            <div class="col">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="65"
+                  value="65"
+                  name="below"
+                />
+                <label class="form-check-label" for="65">Below 65</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="75"
+                  value="75"
+                  name="below"
+                />
+                <label class="form-check-label" for="75">Below 75</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="85"
+                  value="85"
+                  name="below"
+                />
+                <label class="form-check-label" for="85">Below 85</label>
+              </div>
+            </div>
+            <br />
+            <br />
+          </div>
+
           <table
             class="table table-bordered d-print-table"
             style="height: 500px"
+            id="mytable"
           >
             <tbody>
               <tr class="thead-dark">
@@ -292,6 +330,32 @@
       function tableToExcel() {
         var table2excel = new Table2Excel();
         table2excel.export(document.querySelectorAll("table.table"));
+      }
+
+      const radioButtons = document.getElementsByName("below");
+      const table = document.getElementById("mytable");
+
+      // Add event listener to radio buttons
+      for (let i = 0; i < radioButtons.length; i++) {
+        radioButtons[i].addEventListener("click", function () {
+          // Get the filter value
+          const filterValue = parseInt(radioButtons[i].value);
+
+          // Loop through all table rows
+          for (let j = 1; j < table.rows.length; j++) {
+            // Get the last column value of the current row as a number
+            const lastColumnValue = parseInt(
+              table.rows[j].cells[table.rows[j].cells.length - 1].innerHTML
+            );
+
+            // Check if the current row matches the filter value
+            if (lastColumnValue <= filterValue) {
+              table.rows[j].style.display = "";
+            } else {
+              table.rows[j].style.display = "none";
+            }
+          }
+        });
       }
     </script>
   </body>
