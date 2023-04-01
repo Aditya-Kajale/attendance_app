@@ -18,7 +18,7 @@ def getData_batchvise(year,division,batch):
     cur = mysql_stud.connection.cursor()
     data = []
     for i in batch:
-        sql = "SELECT ROLL_NO,NAME,YEAR,DIVISION,BATCH FROM "+year+" WHERE DIVISION = %s AND BATCH = %s"
+        sql = "SELECT ROLL_NO,NAME,BATCH FROM "+year+" WHERE DIVISION = %s AND BATCH = %s"
         val = (division,i)
         cur.execute(sql,val)
         temp = cur.fetchall()

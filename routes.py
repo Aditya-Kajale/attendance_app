@@ -616,18 +616,19 @@ def other():
 def searchStudentOther():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         import classRecordDBS
-        import dailyreport
+        import attendanceDBS
         if request.method == 'POST':
             year = request.form.get('year')
             division = request.form.get('division')
-            date = request.form.get('date')
+            sdate = request.form.get('sdate')
+            edate = request.form.get('edate')
             subject = request.form.get('subject')
             batch = request.form.getlist('batch')
             bt = ', '.join(batch)
-            searchStudentOther.atinfo = (year, division, date, subject, batch)
+            searchStudentOther.atinfo = (year, division, sdate, subject, batch)
             data = classRecordDBS.getData_batchvise(year, division, batch)
             data.sort()
-            # print(data)
+            # attendanceDBS.defaulterData(year,division)
             total_data = (searchStudentOther.atinfo, data, bt)
             roll = []
             for i in data:
