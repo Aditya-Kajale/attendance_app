@@ -624,7 +624,6 @@ def classAttendance(year,division,sdate,edate):
     return total
 
 def defaulterData(year,division,sdate,edate,defaulter):
-
     at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(user='root', password='', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
@@ -699,8 +698,6 @@ def defaulterData(year,division,sdate,edate,defaulter):
                         ll.append(data)
                         if j != 'other attendance':
                             total[sname] +=1
-                    # --------------
-
                 except:
                     print('except')
             
@@ -830,6 +827,7 @@ def defaulterData(year,division,sdate,edate,defaulter):
                 percentage = round(percentage,2)
                 if percentage > 100:
                     percentage = 100.0
+                    cnt = sess_count[i]
             except:
                 print('division error')
             

@@ -2,8 +2,10 @@ import pandas as pd
 import mysql.connector
 from datetime import date, timedelta
 import pickle
+import sys
+sys.path.append('D:/PRojects/college/attendance_app')
 
-fs = 'subinfo.pkl'
+fs = 'D:/PRojects/college/attendance_app/subinfo.pkl'
 
 def studenttAttendance_theory(roll,year,subject):
     at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
@@ -265,7 +267,6 @@ def studenttAttendance_defaulter(roll,year) :
             sname = ''
             for j in ss:
                 sname+=j[0]
-            total['subs'].append(sname)
             total[sname] = 0
 
             sql = "SHOW COLUMNS FROM `{}`".format(i)
@@ -284,9 +285,12 @@ def studenttAttendance_defaulter(roll,year) :
                 # print(i,j,data)
                 if data[0][0] != -1:
                     attended+=data[0][0]
-                    total[sname] +=1  
-            total['sessios_attended'].append(attended)
-            total['sessios_happend'].append(total[sname])
+                    if 'other attendance' not in i:
+                        total[sname] +=1
+            if total[sname] != 0 or 'other attendance' in i:
+                total['sessios_attended'].append(attended)
+                total['sessios_happend'].append(total[sname])
+                total['subs'].append(sname)
         
         # for practical 
         for j in subs['Practical'][year]:
@@ -300,7 +304,6 @@ def studenttAttendance_defaulter(roll,year) :
                     # print(sname)
                 else:
                     sname+=i[0]
-            total['subs'].append(sname)
             total[sname] = 0
             sql = "SHOW COLUMNS FROM `{}`".format(j)
             btechP.execute(sql)
@@ -316,15 +319,16 @@ def studenttAttendance_defaulter(roll,year) :
                 btechP.execute(sql)
                 data = btechP.fetchall()
                 # print(data)
-                # print(j,data)
                 if data[0][0] == -1:
                     pass
                 else:
                     total[sname] += 2
                     attended+=data[0][0]
             # print(j,column)
-            total['sessios_attended'].append(attended)
-            total['sessios_happend'].append(total[sname])
+            if total[sname] != 0 :
+                total['sessios_attended'].append(attended)
+                total['sessios_happend'].append(total[sname])
+                total['subs'].append(sname)
 
         # session count 
         sess_count = [0]
@@ -350,8 +354,14 @@ def studenttAttendance_defaulter(roll,year) :
         # print(sess_count)
         session_happend = sum(total['sessios_happend'])
         session_attended = sum(total['sessios_attended'])
-        percentage = (session_attended/session_happend)*100
-        percentage = round(percentage,2)
+        try:
+            percentage = (session_attended/session_happend)*100
+            percentage = round(percentage,2)
+            if percentage > 100:
+                percentage = 100
+                session_attended = session_happend
+        except Exception as e:
+            print(e)
         # print(percentage)
         total['sessios_happend'].append(session_happend)
         total['sessios_attended'].append(session_attended)
