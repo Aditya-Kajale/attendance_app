@@ -283,11 +283,15 @@ def studenttAttendance_defaulter(roll,year) :
                 btech.execute(sql)
                 data = btech.fetchall()
                 # print(i,j,data)
-                if data[0][0] != -1:
-                    attended+=data[0][0]
-                    if 'other attendance' not in i:
-                        total[sname] +=1
-            if total[sname] != 0 or 'other attendance' in i:
+                try:
+                    if data[0][0] != -1:
+                        attended+=data[0][0]
+                        if 'other attendance' not in i.lower():
+                            total[sname] +=1
+                except Exception as e:
+                    print(e)
+
+            if total[sname] != 0 or 'other attendance' in i.lower():
                 total['sessios_attended'].append(attended)
                 total['sessios_happend'].append(total[sname])
                 total['subs'].append(sname)

@@ -696,12 +696,12 @@ def defaulterData(year,division,sdate,edate,defaulter):
                         for k in range(len(data)):
                             data[k] = data[k][0]
                         ll.append(data)
-                        if j != 'other attendance':
+                        if 'other attendance' not in j.lower():
                             total[sname] +=1
                 except:
                     print('except')
             
-            if total[sname] != 0 or j == 'other attendance':
+            if total[sname] != 0 or 'other attendance' in j.lower():
                 # print(j)
                 total['subs'].append(sname)
                 su = [sum(x) for x in zip(*ll)]
@@ -796,11 +796,6 @@ def defaulterData(year,division,sdate,edate,defaulter):
             for kk in range(len(total['roll'])):
                 # print(total[sname])
                 sess_count[kk] += total[sname][kk]
-            # total['cnt'].append(total[sname])
-
-        print(total['cnt'])
-
-        # print(sess_count)
 
         # new ----------------
         for i in range(len(total['roll'])):
@@ -884,13 +879,19 @@ def defaulterData(year,division,sdate,edate,defaulter):
                 except:
                     print('except')
 
-            su = [sum(x) for x in zip(*ll)]
-            if len(su) == 0:
-                for l in range(len(total['roll'])):
-                    su.append(0)
+            if total[sname] != 0:
+                total['subs'].append(sname)
+                su = [sum(x) for x in zip(*ll)]
+                if len(su) == 0:
+                    for l in range(len(total['roll'])):
+                        su.append(0)
+                # print('su',su)
 
-            for k in range(len(total['roll'])):
-                total['roll'][k].append(su[k])
+                for k in range(len(total['roll'])):
+                    if su[k] ==-1:
+                        total['roll'][k].append(0)
+                    else:
+                        total['roll'][k].append(su[k])
         
         # For practical-------------------------------------------
         for j in subs['Practical'][year]:
