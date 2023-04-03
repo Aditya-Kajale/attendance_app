@@ -323,11 +323,14 @@ def studenttAttendance_defaulter(roll,year) :
                 btechP.execute(sql)
                 data = btechP.fetchall()
                 # print(data)
-                if data[0][0] == -1:
-                    pass
-                else:
-                    total[sname] += 2
-                    attended+=data[0][0]
+                try:
+                    if data[0][0] == -1:
+                        pass
+                    else:
+                        total[sname] += 2
+                        attended+=data[0][0]
+                except Exception as e:
+                    print(e)
             # print(j,column)
             if total[sname] != 0 :
                 total['sessios_attended'].append(attended)
