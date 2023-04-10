@@ -1,0 +1,622 @@
+<html>
+  <head>
+    <title>Select Subject</title>
+    <meta charset="utf-8" />
+    <!-- Mobile Specific Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <!-- Main Style Css -->
+    <style>
+      body {
+        color: #000;
+        overflow-x: hidden;
+        height: 100%;
+        background-size: 100% 100%;
+      }
+      .card {
+        padding: 30px 40px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border: none !important;
+        box-shadow: 0px 0px 50px 20px rgba(0, 0, 0, 0.2);
+      }
+      .blue-text {
+        color: #00bcd4;
+      }
+      .form-control-label {
+        margin-bottom: 0;
+      }
+      input,
+      textarea,
+      button {
+        padding: 4px 4px;
+        border-radius: 5px !important;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        font-weight: 300;
+      }
+      input:focus,
+      textarea:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #00bcd4;
+        outline-width: 0;
+        font-weight: 400;
+      }
+      .btn-block {
+        text-transform: uppercase;
+        font-size: 15px !important;
+        font-weight: 400;
+        height: 43px;
+        cursor: pointer;
+      }
+      .btn-block:hover {
+        color: #fff !important;
+      }
+      button:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .list-group {
+        max-height: 300px;
+        overflow: scroll;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Attendance</a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('adminHome') }}">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('manageFaculty') }}"
+              >Manage-Faculty</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('manageSubject') }}"
+              >Manage-Subject</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('addClass') }}">Add-Class</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('addStudent') }}"
+              >Add-Student</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('classRecord') }}"
+              >Class-Record</a
+            >
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Delete Attendance
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{{url_for('deletetheory')}}"
+                >Theory</a
+              >
+              <a class="dropdown-item" href="{{url_for('deletepractical')}}"
+                >Practical</a
+              >
+            </div>
+          </li>
+        </ul>
+
+        <a class="nav-link" href="{{ url_for('adminProfile') }}">Profile</a>
+      </div>
+    </nav>
+    <!-- nav ends -->
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-9 col-lg-8 col-md-9 col-11 text-center">
+        <form
+          id="f"
+          action="{{ url_for('assignSubjectFaculty') }}"
+          method="POST"
+          enctype="multipart/form-data"
+          onsubmit="return confirm('Do you conferm the changes?')"
+        >
+          <h3 class="mt-5 mb-5">Assign Subject to {{dict['fc']}}</h3>
+          <div class="card">
+            <!-- theory section -->
+            <h4 class="mt-0">Theory</h4>
+            <hr />
+
+            {% for key, value in dict.subs.Theory.items() %} {% if key !="FY" %}
+            <li class="list-group-item list-group-item-dark text-left">
+              <h5>{{ key }}</h5>
+            </li>
+            <br />
+            {% for course in value %}
+            <li class="list-group-item">
+              <div class="row text-left">
+                <div class="col-4">
+                  <br />
+                  <b> <p>{{course}}</p></b>
+                </div>
+                <!-- division column -->
+                <div class="col-3">
+                  <b><label for="">Division</label></b>
+                  {% if course in dict['fcsub'][key]['A']['THEORY'] %}
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="division"
+                      id="division-{{course}}-A"
+                      value="{{key}}/A/THEORY/{{course}}"
+                      onclick="checkAll('{{course}}-A')"
+                      checked
+                    />
+                    <label class="form-check-label" for="division-{{course}}-A">
+                      A
+                    </label>
+                  </div>
+                  {% else %}
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="division"
+                      id="division-{{course}}-A"
+                      value="{{key}}/A/THEORY/{{course}}"
+                      onclick="checkAll('{{course}}-A')"
+                    />
+                    <label class="form-check-label" for="division-{{course}}-A">
+                      A
+                    </label>
+                  </div>
+                  {% endif %}
+
+                  <!-- for B division -->
+                  {% if course in dict['fcsub'][key]['B']['THEORY'] %}
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="division"
+                      id="division-{{course}}-B"
+                      value="{{key}}/B/THEORY/{{course}}"
+                      onclick="checkAll('{{course}}-B')"
+                      checked
+                    />
+                    <label class="form-check-label" for="division-{{course}}-B">
+                      B
+                    </label>
+                  </div>
+                  {% else %}
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="division"
+                      id="division-{{course}}-B"
+                      value="{{key}}/B/THEORY/{{course}}"
+                      onclick="checkAll('{{course}}-B')"
+                    />
+                    <label class="form-check-label" for="division-{{course}}-B">
+                      B
+                    </label>
+                  </div>
+                  {% endif %}
+                </div>
+
+                <!-- batch column -->
+                <div class="col">
+                  <b> <label for="">Batch</label></b>
+                  <div class="row">
+                    {% for i in ['A1','A2','A3','A4','A5'] %} {% if i in
+                    dict['fcsub'][key]['A']['THEORY'][course] %}
+                    <div class="col">
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="branch-{{course}}-{{i}}"
+                          value="{{key}}/A/THEORY/{{course}}/{{i}}"
+                          name="branch"
+                          checked
+                        />
+                        <label
+                          class="form-check-label"
+                          for="branch-{{course}}-{{i}}"
+                          >{{i}}</label
+                        >
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="col">
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="branch-{{course}}-{{i}}"
+                          value="{{key}}/A/THEORY/{{course}}/{{i}}"
+                          name="branch"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="branch-{{course}}-{{i}}"
+                          >{{i}}</label
+                        >
+                      </div>
+                    </div>
+                    {% endif %} {% endfor %}
+                  </div>
+                  <div class="row">
+                    {% for i in ['B1','B2','B3','B4','B5'] %} {% if i in
+                    dict['fcsub'][key]['B']['THEORY'][course] %}
+                    <div class="col">
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="branch-{{course}}-{{i}}"
+                          value="{{key}}/B/THEORY/{{course}}/{{i}}"
+                          name="branch"
+                          checked
+                        />
+                        <label
+                          class="form-check-label"
+                          for="branch-{{course}}-{{i}}"
+                          >{{i}}</label
+                        >
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="col">
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="branch-{{course}}-{{i}}"
+                          value="{{key}}/B/THEORY/{{course}}/{{i}}"
+                          name="branch"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="branch-{{course}}-{{i}}"
+                          >{{i}}</label
+                        >
+                      </div>
+                    </div>
+                    {% endif %} {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </li>
+            <br />
+            {% endfor %}
+            <hr />
+            {% endif %} {% endfor %}
+          </div>
+
+          <!-- practical section -->
+          <div class="card mt-5">
+            <div>
+              <h4 class="mt-0">Practical</h4>
+              <hr />
+
+              {% for key, value in dict.subs.Practical.items() %} {% if key
+              !="FY" %}
+              <li class="list-group-item text-left list-group-item-dark">
+                <h5>{{ key }}</h5>
+              </li>
+              <br />
+              {% for course in value %}
+              <li class="list-group-item">
+                <div class="row text-left">
+                  <div class="col-4">
+                    <br />
+                    <b> <p>{{course}}</p></b>
+                  </div>
+                  <!-- division column -->
+                  <div class="col-3">
+                    <b><label for="">Division</label></b>
+                    {% if course in dict['fcsub'][key]['A']['PRACTICAL'] %}
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="division"
+                        id="division-{{course}}-A"
+                        value="{{key}}/A/PRACTICAL/{{course}}"
+                        onclick="checkone('{{course}}-A')"
+                        checked
+                      />
+                      <label
+                        class="form-check-label"
+                        for="division-{{course}}-A"
+                      >
+                        A
+                      </label>
+                    </div>
+                    {% else %}
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="division"
+                        id="division-{{course}}-A"
+                        value="{{key}}/A/PRACTICAL/{{course}}"
+                        onclick="checkone('{{course}}-A')"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="division-{{course}}-A"
+                      >
+                        A
+                      </label>
+                    </div>
+                    {% endif %}
+                    <!-- for B -->
+                    {% if course in dict['fcsub'][key]['B']['PRACTICAL'] %}
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="division"
+                        id="division-{{course}}-B"
+                        value="{{key}}/B/PRACTICAL/{{course}}"
+                        onclick="checkone('{{course}}-B')"
+                        checked
+                      />
+                      <label
+                        class="form-check-label"
+                        for="division-{{course}}-B"
+                      >
+                        B
+                      </label>
+                    </div>
+                    {% else %}
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="division"
+                        id="division-{{course}}-B"
+                        value="{{key}}/B/PRACTICAL/{{course}}"
+                        onclick="checkone('{{course}}-B')"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="division-{{course}}-B"
+                      >
+                        B
+                      </label>
+                    </div>
+                    {% endif %}
+                  </div>
+                  <!-- batch column -->
+                  <div class="col">
+                    <b> <label for="">Batch</label></b>
+                    <div class="row">
+                      {% for i in ['A1','A2','A3','A4','A5'] %} {% if i in
+                      dict['fcsub'][key]['A']['PRACTICAL'][course] %}
+                      <div class="col">
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="branch-{{course}}-{{i}}"
+                            value="{{key}}/A/PRACTICAL/{{course}}/{{i}}"
+                            name="branch"
+                            checked
+                          />
+                          <label
+                            class="form-check-label"
+                            for="branch-{{course}}-{{i}}"
+                            >{{i}}</label
+                          >
+                        </div>
+                      </div>
+                      {% else %}
+                      <div class="col">
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="branch-{{course}}-{{i}}"
+                            value="{{key}}/A/PRACTICAL/{{course}}/{{i}}"
+                            name="branch"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="branch-{{course}}-{{i}}"
+                            >{{i}}</label
+                          >
+                        </div>
+                      </div>
+                      {% endif %} {% endfor %}
+                    </div>
+                    <div class="row">
+                      {% for i in ['B1','B2','B3','B4','B5'] %} {% if i in
+                      dict['fcsub'][key]['B']['PRACTICAL'][course] %}
+                      <div class="col">
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="branch-{{course}}-{{i}}"
+                            value="{{key}}/B/PRACTICAL/{{course}}/{{i}}"
+                            name="branch"
+                            checked
+                          />
+                          <label
+                            class="form-check-label"
+                            for="branch-{{course}}-{{i}}"
+                            >{{i}}</label
+                          >
+                        </div>
+                      </div>
+                      {% else %}
+                      <div class="col">
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="branch-{{course}}-{{i}}"
+                            value="{{key}}/B/PRACTICAL/{{course}}/{{i}}"
+                            name="branch"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="branch-{{course}}-{{i}}"
+                            >{{i}}</label
+                          >
+                        </div>
+                      </div>
+                      {% endif %} {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <br />
+              {% endfor %}
+              <hr />
+              {% endif %} {% endfor %}
+            </div>
+            <!-- submit button -->
+            <button
+              id="submitForm"
+              type="submit"
+              class="btn btn-primary btn-block rounded-pill shadow-sm"
+            >
+              Confirm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript to update the second dropdown -->
+    <!-- JavaScript to update the second dropdown -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      function checkAll(id) {
+        var mainCheckbox = document.getElementById("division-" + id);
+        var childCheckboxes = document.querySelectorAll(
+          '[id^="' + "branch-" + id + '"]'
+        );
+
+        console.log(mainCheckbox, childCheckboxes, "[id^=" + id + "]");
+
+        for (var i = 0; i < childCheckboxes.length; i++) {
+          childCheckboxes[i].checked = mainCheckbox.checked;
+        }
+      }
+      function checkone(id) {
+        var mainCheckbox = document.getElementById("division-" + id);
+        var childCheckboxes = document.querySelectorAll(
+          '[id^="' + "branch-" + id + '"]'
+        );
+        console.log(mainCheckbox, childCheckboxes, "[id^=" + id + "]");
+        childCheckboxes[0].checked = mainCheckbox.checked;
+      }
+    </script>
+    <!-- <script>
+      var batches = {
+        A: ["A1", "A2", "A3", "A4", "A5"],
+        B: ["B1", "B2", "B3", "B4", "B5"],
+      };
+
+      $("imput[id^='branch-{{course}}-A']").on("change", function () {
+        // Set selected option as variable
+        var selectValue = $(this).val();
+        var checkboxId = $(this).data("checkbox-id");
+        // Empty the target field
+        $("div[id='" + checkboxId + "']").empty();
+        
+
+        // For each chocie in the selected option
+        for (i = 0; i < batches[selectValue].length; i++) {
+          // Output choice in the target field
+          console.log(checkboxId, selectValue);
+          $("div[id='" + checkboxId + "']").append(
+            '<div class="col"><input class="form-check-input" type="checkbox" name="batch" value="{{key}}/' +
+      /       batches[selectValue][i] +
+              '" id="' +
+              batches[selectValue][i] +
+              '" ><label class="form-check-label" for="' +
+              batches[selectValue][i] +
+              '">' +
+              batches[selectValue][i] +
+              "</label></div>"
+          );
+        }
+      });
+
+      $(function () {
+        var $course = $("#course");
+
+        // Update the options of the second dropdown when the value of the first dropdown changes
+
+        // Update the value of the second dropdown when a paragraph element is clicked
+        $(".course-divisions p").click(function () {
+          var course = $(this).text();
+          $course.val(course);
+        });
+      });
+    </script> -->
+  </body>
+</html>
