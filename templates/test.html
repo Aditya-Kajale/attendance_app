@@ -1,107 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Attendance Form</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        var dict = {
-          BTECH: {
-            A: {
-              "Software Engineering": [
-                "A1",
-                "A2",
-                "A3",
-                "A4",
-                "A5",
-                "Other Attendance",
-              ],
-              "Big Data Analytics": ["A1", "A2", "A3", "A4", "A5"],
-            },
-          },
-          TY: { A: { "Compiler Design": ["A1", "A2", "A3", "A4", "A5"] } },
-          SY: { B: { "Second Year Sub": ["B1", "B2", "B3", "B4", "B5"] } },
-        };
-
-        // populate year dropdown
-        var years = Object.keys(dict);
-        var $yearDropdown = $("#year-dropdown");
-        $.each(years, function (i, year) {
-          $yearDropdown.append($("<option></option>").val(year).html(year));
-        });
-
-        // populate division dropdown based on year selection
-        $yearDropdown.change(function () {
-          var selectedYear = $(this).val();
-          var divisions = Object.keys(dict[selectedYear]);
-          var $divisionDropdown = $("#division-dropdown");
-          $divisionDropdown.empty();
-          $.each(divisions, function (i, division) {
-            $divisionDropdown.append(
-              $("<option></option>").val(division).html(division)
-            );
-          });
-          $divisionDropdown.trigger("change");
-        });
-
-        // populate subject dropdown based on division selection
-        $("#division-dropdown").change(function () {
-          var selectedYear = $("#year-dropdown").val();
-          var selectedDivision = $(this).val();
-          var subjects = Object.keys(dict[selectedYear][selectedDivision]);
-          var $subjectDropdown = $("#subject-dropdown");
-          $subjectDropdown.empty();
-          $.each(subjects, function (i, subject) {
-            if (subject.includes("Other Attendance")) {
-              $subjectDropdown.append(
-                $("<option></option>").val(subject).html(subject)
-              );
-            }
-          });
-          $subjectDropdown.trigger("change");
-        });
-
-        // populate checkboxes based on subject selection
-        $("#subject-dropdown").change(function () {
-          var selectedYear = $("#year-dropdown").val();
-          var selectedDivision = $("#division-dropdown").val();
-          var selectedSubject = $(this).val();
-          var checkboxes =
-            dict[selectedYear][selectedDivision][selectedSubject];
-          var $checkboxesContainer = $("#checkboxes-container");
-          $checkboxesContainer.empty();
-          $.each(checkboxes, function (i, checkbox) {
-            $checkboxesContainer.append(
-              $("<label></label>")
-                .html(checkbox)
-                .append(
-                  $("<input></input>")
-                    .attr("type", "checkbox")
-                    .attr("value", checkbox)
-                )
-            );
-          });
-        });
-      });
-    </script>
+    <title>Table Filtering</title>
   </head>
   <body>
-    <h1>Attendance Form</h1>
-    <form>
-      <label for="year-dropdown">Year:</label>
-      <select id="year-dropdown"></select>
+    <input type="radio" name="filter" value="0" checked />0
+    <input type="radio" name="filter" value="1" />1
+    <input type="radio" name="filter" value="2" />2
 
-      <label for="division-dropdown">Division:</label>
-      <select id="division-dropdown"></select>
+    <br /><br />
 
-      <div id="subject-container" style="display: none">
-        <label for="subject-dropdown">Subject:</label>
-        <select id="subject-dropdown"></select>
-      </div>
+    <table id="myTable">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Age</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>30</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Jane</td>
+          <td>Doe</td>
+          <td>25</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>Bob</td>
+          <td>Smith</td>
+          <td>40</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Alice</td>
+          <td>Jones</td>
+          <td>35</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
 
-      <div id="checkboxes-container"></div>
+    <script>
+      // Get the radio buttons and table
+      const radioButtons = document.getElementsByName("filter");
+      const table = document.getElementById("myTable");
 
-      <button type="submit">Submit</button>
-    </form>
+      // Add event listener to radio buttons
+      for (let i = 0; i < radioButtons.length; i++) {
+        radioButtons[i].addEventListener("click", function () {
+          // Get the filter value
+          const filterValue = parseInt(radioButtons[i].value);
+
+          // Loop through all table rows
+          for (let j = 1; j < table.rows.length; j++) {
+            // Get the last column value of the current row as a number
+            const lastColumnValue = parseInt(
+              table.rows[j].cells[table.rows[j].cells.length - 1].innerHTML
+            );
+
+            // Check if the current row matches the filter value
+            if (lastColumnValue === filterValue) {
+              table.rows[j].style.display = "";
+            } else {
+              table.rows[j].style.display = "none";
+            }
+          }
+        });
+      }
+    </script>
   </body>
 </html>

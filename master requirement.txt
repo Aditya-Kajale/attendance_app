@@ -72,17 +72,5 @@ other attendance
 6. add addotherattendance funtion addattendance.py
 7. changes in attendanceDBS.py file
 
-
-Manage Faculty new changes:
-1. add new SUB column in login account table and assiggn default format to that table
-2. add sub in registration format
-3. import json in routes.py anf get assignd sub in session['sub]
-4. chnages in manageFaculty route
-5. changes in selectSubject routes file
-6. add selectSubjectFaculty.html file
-8. create route assignSubjectFaculty 
-9. changes in routes file_path
-10. changes in thery and practical attendance 
-11. make changes in subjectattendacne_theory
-12. make chnages in subjectattendacne_practical
-13. 
+daily report template print
+1. 
