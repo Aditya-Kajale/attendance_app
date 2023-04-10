@@ -112,23 +112,23 @@
 # # # f = 'fcinfo.pkl'
 # # f = 'subinfo.pkl'
 
-# # subs = {"Theory":{"BTECH":['Software Engineering',
-# #         'Big Data Analytics',
-# #         'Cloud Computing',
-# #         'Blockchain Technology',
-# #         'Full Stack Development',
-# #         'System Administration'],
-# #         "TY":[],
-# #         "SY":[],
-# #         "FY":[]},
-# #         "Practical":{"BTECH":['Big Data Analytics (PR)',
-# #         'Cloud Computing (PR)',
-# #         'Full Stack Development (PR)',
-# #         'System Administration (PR)'],
-# #         "TY":[],
-# #         "SY":[],
-# #         "FY":[]
-# #         }}
+subs = {"Theory":{"BTECH":['Software Engineering',
+        'Big Data Analytics',
+        'Cloud Computing',
+        'Blockchain Technology',
+        'Full Stack Development',
+        'System Administration'],
+        "TY":[],
+        "SY":[],
+        "FY":[]},
+        "Practical":{"BTECH":['Big Data Analytics (PR)',
+        'Cloud Computing (PR)',
+        'Full Stack Development (PR)',
+        'System Administration (PR)'],
+        "TY":[],
+        "SY":[],
+        "FY":[]
+        }}
 # # # fc = []
 # # # # # for reading 
 # # frobj = open(f,'rb')
@@ -167,11 +167,37 @@
 #     gap +=2
 #     pre-=1
 
+temp = {"Theory":{"BTECH":['Software Engineering',
+        'Big Data Analytics',
+        'Cloud Computing',
+        'Blockchain Technology',
+        'Full Stack Development',
+        'System Administration'],
+        "TY":[],
+        "SY":[],
+        "FY":[]},   
+        "Practical":{"BTECH":['Big Data Analytics (PR)',
+        'Cloud Computing (PR)',
+        'Full Stack Development (PR)',
+        'System Administration (PR)'],
+        "TY":[],
+        "SY":[],
+        "FY":[]
+        }}
+
+import json
+
+sub = {"BTECH":{"A":{"THEORY":{},"PRACTICAL":{}},
+                "B":{"THEORY":{},"PRACTICAL":{}}},
+        "TY":{"A":{"THEORY":{},"PRACTICAL":{}},
+                "B":{"THEORY":{},"PRACTICAL":{}}},
+        "SY":{"A":{"THEORY":{},"PRACTICAL":{}},
+                "B":{"THEORY":{},"PRACTICAL":{}}}}
 
 
-
-
-
+res = json.loads(sub)
+res['BTECH']['A']['THEORY']['Software Engineering'] = ['A1', 'A2', 'A3']
+print(res['BTECH']['A']['THEORY'].keys())
 
 
 

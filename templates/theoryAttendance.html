@@ -188,21 +188,43 @@
             <div class="row">
               <div class="col">
                 <div class="form-group text-left">
-                  <label for="year">Year</label>
-                  <select name="year" id="year" class="form-control">
-                    <option value="SY">SY</option>
-                    <option value="TY">TY</option>
-                    <option value="BTECH">B.Tech</option>
+                  <label for="branch-dropdown">Year:</label>
+                  <select name="year" id="branch-dropdown" class="form-control">
+                    <option selected disabled>Select a year</option>
                   </select>
                 </div>
               </div>
               <div class="col">
                 <div class="form-group text-left">
-                  <label for="division">Division</label>
-                  <select name="division" id="division" class="form-control">
-                    <option value="A">A</option>
-                    <option value="B">B</option>
+                  <label for="division-dropdown">Division:</label>
+                  <select
+                    name="division"
+                    id="division-dropdown"
+                    class="form-control"
+                  >
+                    <option selected disabled>Select a division</option>
                   </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="subject-dropdown">Subject:</label>
+                  <select
+                    name="subject"
+                    id="subject-dropdown"
+                    class="form-control"
+                  >
+                    <option selected disabled>Select a subject</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="checkboxes-container">Batch</label>
+                  <br />
+                  <div class="row" id="checkboxes-container"></div>
                 </div>
               </div>
             </div>
@@ -218,84 +240,6 @@
                   />
                 </div>
               </div>
-              <div class="col">
-                <div class="form-group text-left">
-                  <label for="batches">Batch</label>
-                  <br />
-                  <div class="form-check-inline">
-                    <div class="row" id="batches">
-                      <div class="col">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          name="batch"
-                          value="A1"
-                          id="A1"
-                          checked
-                        />
-                        <label class="form-check-label" for="A1">A1</label>
-                      </div>
-                      <div class="col">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          name="batch"
-                          value="A2"
-                          id="A2"
-                          checked
-                        />
-                        <label class="form-check-label" for="A2">A2</label>
-                      </div>
-                      <div class="col">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          name="batch"
-                          value="A3"
-                          id="A3"
-                          checked
-                        />
-                        <label class="form-check-label" for="A3">A3</label>
-                      </div>
-                      <div class="col">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          name="batch"
-                          value="A4"
-                          id="A4"
-                          checked
-                        />
-                        <label class="form-check-label" for="A4">A4</label>
-                      </div>
-                      <div class="col">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          name="batch"
-                          value="A5"
-                          id="A5"
-                          checked
-                        />
-                        <label class="form-check-label" for="A5">A5</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group text-left">
-                  <label for="subject">Subject</label>
-                  <select name="subject" id="subject" class="form-control">
-                    {% for i in data['Theory'] %}
-                    <option value="{{i}}">{{i}}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-
               <div class="col">
                 <div class="form-group text-left">
                   <label for="timeslot">Time slot</label>
@@ -324,115 +268,66 @@
     </div>
 
     <script>
-      var form = document.getElementById("f");
-      var ltype = {
-        Theory: [
-          "10:15 - 11:15",
-          "11:15 - 12:15",
-          "01:15 - 02:15",
-          "02:15 - 03:15",
-          "03:30 - 04:30",
-          "04:30 - 05:30",
-        ],
-        Practical: ["10:15 - 12:15", "01:15 - 03:15", "03:30 - 05:30"],
-      };
-      // var subjects = {
-      // 	'FY':[
-      // 		'1',
-      // 		'2',
-      // 		'3',
-      // 		'4',
-      // 		'5',
-      // 		'6'
-      // 	],
-      // 	'SY':[
-      // 		'Engineering Mathematics-3',
-      // 		'Descrete Mathematics',
-      // 		'Data Structures',
-      // 		'Computer Architecture',
-      // 		'OOPS JAVA',
-      // 		'OOPS C++',
-      // 		'Seminar-1',],
-      // 	'TY':[
-      // 		'Database System',
-      // 		'Theory of Computation',
-      // 		'Human Computer Interaction',
-      // 		'Business Comunication',
-      // 		'Mini-Project-1'
-      // 	],
-      // 	'BTECH':[
-      // 		'Software Engineering',
-      // 		'Big Data Analytics',
-      // 		'Cloud Computing',
-      // 		'Blockchain Technology',
-      // 		'Full Stack Development',
-      // 		'System Administration',
-      // 	]
-      // };
+      $(document).ready(function () {
+        var dict = {{ data | tojson | safe }};
 
-      var batchess = {
-        A: ["A1", "A2", "A3", "A4", "A5"],
-        B: ["B1", "B2", "B3", "B4", "B5"],
-      };
-
-      var defaultOption =
-        '<option value="" disabled>Please select lecture type</option>';
-
-      // $('input[name="lectype"]').on('change', function() {
-      // 	// Set selected option as variable
-      // 	$('#timeslot').html(defaultOption);
-      // 	var selectValue = $(this).val();
-      // 	// console.log(typeof(selectValue));
-      // 	// For each chocie in the selected option
-      // 	for (i = 0; i < ltype[selectValue].length; i++) {
-      // 		// Output choice in the target field
-      // 		$('#timeslot').append("<option value='" + ltype[selectValue][i] + "'>" + ltype[selectValue][i] + " </option>");
-      // 	}
-      // 	});
-
-      // $('#year').on('change', function() {
-      // 	// Set selected option as variable
-      // 	var selectValue = $(this).val();
-
-      // 	// Empty the target field
-      // 	$('#subject').empty();
-
-      // 	// For each chocie in the selected option
-      // 	for (i = 0; i < subjects[selectValue].length; i++) {
-      // 		// Output choice in the target field
-      // 		$('#subject').append("<option value='" + subjects[selectValue][i] + "'>" + subjects[selectValue][i] + "</option>");
-      // 	}
-      // 	});
-
-      $("#division").on("change", function () {
-        // Set selected option as variable
-        var selectValue = $(this).val();
-
-        // Empty the target field
-        $("#batches").empty();
-
-        // For each chocie in the selected option
-        for (i = 0; i < batchess[selectValue].length; i++) {
-          // Output choice in the target field
-          $("#batches").append(
-            '<div class="col"><input class="form-check-input" type="checkbox" name="batch" value="' +
-              batchess[selectValue][i] +
-              '" id="' +
-              batchess[selectValue][i] +
-              '" checked><label class="form-check-label" for="' +
-              batchess[selectValue][i] +
-              '">' +
-              batchess[selectValue][i] +
-              "</label></div>"
+        // populate branch dropdown
+        var branches = Object.keys(dict);
+        var $branchDropdown = $("#branch-dropdown");
+        $.each(branches, function (i, branch) {
+          $branchDropdown.append(
+            $("<option></option>").val(branch).html(branch)
           );
-        }
-      });
+        });
 
-      function myFunction() {
-        if (form.checkValidity()) {
-          alert("Attendance added");
-        }
-      }
+        // populate division dropdown based on branch selection
+        $branchDropdown.change(function () {
+          var selectedBranch = $(this).val();
+          var divisions = Object.keys(dict[selectedBranch]);
+          var $divisionDropdown = $("#division-dropdown");
+          $divisionDropdown.empty();
+          $.each(divisions, function (i, division) {
+            $divisionDropdown.append(
+              $("<option></option>").val(division).html(division)
+            );
+          });
+          $divisionDropdown.trigger("change");
+        });
+
+        // populate subject dropdown based on division selection
+        $("#division-dropdown").change(function () {
+          var selectedBranch = $("#branch-dropdown").val();
+          var selectedDivision = $(this).val();
+          var subjects = Object.keys(dict[selectedBranch][selectedDivision]);
+          var $subjectDropdown = $("#subject-dropdown");
+          $subjectDropdown.empty();
+          $.each(subjects, function (i, subject) {
+            $subjectDropdown.append(
+              $("<option></option>").val(subject).html(subject)
+            );
+          });
+          $subjectDropdown.trigger("change");
+        });
+
+        // populate checkboxes based on subject selection
+        $("#subject-dropdown").change(function () {
+          var selectedBranch = $("#branch-dropdown").val();
+          var selectedDivision = $("#division-dropdown").val();
+          var selectedSubject = $(this).val();
+          var checkboxes = dict[selectedBranch][selectedDivision][selectedSubject];
+          var $checkboxesContainer = $("#checkboxes-container");
+          $checkboxesContainer.empty();
+          $.each(checkboxes, function (i, checkbox) {
+            $checkboxesContainer.append(
+              $("<div></div>").addClass("col").append(
+                $("<label></label>").html(checkbox+" -").append(
+                  $("<input></input>").attr("type", "checkbox").val(checkbox).prop("checked", true).attr("name", "batch")
+                )
+              )
+            );
+          });
+        });
+      });
     </script>
   </body>
 </html>
