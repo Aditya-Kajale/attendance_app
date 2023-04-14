@@ -190,7 +190,7 @@
                 <p class="mb-0">ID</p>
               </div>
               <div class="col">
-                <p class="mb-0">{{ account['data'][0] }}</p>
+                <p class="mb-0">{{ account[0] }}</p>
               </div>
             </div>
             <hr />
@@ -199,7 +199,7 @@
                 <p class="mb-0">USERNAME</p>
               </div>
               <div class="col">
-                <p class="mb-0">{{ account['data'][1] }}</p>
+                <p class="mb-0">{{ account[2] }}</p>
               </div>
             </div>
             <hr />
@@ -208,33 +208,7 @@
                 <p class="mb-0">EMAIL</p>
               </div>
               <div class="col">
-                <p class="mb-0">{{ account['data'][3] }}</p>
-              </div>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col">
-                <p class="mb-0">Theory Subjects</p>
-              </div>
-              <div class="col">
-                <ul class="list-group list-group-flush">
-                  {% for i in account['subject']['Theory'] %}
-                  <li class="list-group-item">{{i}}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col">
-                <p class="mb-0">Practical Subjects</p>
-              </div>
-              <div class="col">
-                <ul class="list-group list-group-flush">
-                  {% for i in account['subject']['Practical'] %}
-                  <li class="list-group-item">{{i}}</li>
-                  {% endfor %}
-                </ul>
+                <p class="mb-0">{{ account[4] }}</p>
               </div>
             </div>
             <hr />

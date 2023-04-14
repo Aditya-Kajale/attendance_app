@@ -246,15 +246,9 @@ def logout():
 def profile():
     # Check if user is loggedin
     if 'loggedin' in session and session['authority'] == 'Faculty':
-        account = {}
         # We need all the account info for the user so we can display it on the profile page
-        lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
-        account['data'] = lo_cur.fetchone()
-        for i in ls:
-            # print(i.name,session['username'])
-            if i.name == session['username']:
-                account['subject'] = i.subject
-
+        lo_cur.execute('SELECT * FROM account WHERE username = %s', (session['username'],))
+        account = lo_cur.fetchone()
         # Show the profile page with account info
         return render_template('profile.html', account=account)
     # User is not loggedin redirect to login page
