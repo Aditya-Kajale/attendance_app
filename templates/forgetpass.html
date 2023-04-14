@@ -93,8 +93,8 @@
         <div class="card">
           <h2 class="text-center">Attendance App</h2>
           <br />
-          <form action="{{ url_for('login') }}" method="post">
-            <h4 class="form-group text-center">Login</h4>
+          <form action="{{ url_for('forgetPass') }}" method="post">
+            <h4 class="form-group text-center">Foreget pass</h4>
             <!-- Email input -->
             <div class="form-group form-outline">
               <label class="form-label" for="username">Username -</label>
@@ -108,35 +108,21 @@
               />
             </div>
 
-            <!-- Password input -->
-            <div class="form-group form-outline">
-              <label class="form-label" for="password">Password -</label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                class="form-control"
-                placeholder="Password"
-                required
-              />
-            </div>
-            <a href="{{ url_for('forgetPass')}}">- forget password</a>
             <!-- Submit button -->
-            <div class="form-group msg text-center" style="color: red">
+            <div class="form-group msg text-center" style="color: green">
               {{ msg }}
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block mb-4">
-              Sign in
+            <button type="submit" class="btn btn-primary btn-block">
+              Send Mail
             </button>
 
             <!-- Register buttons -->
-            <div class="text-center">
-              <p>
-                Not a member? <a href="{{ url_for('register') }}">Register</a>.
-              </p>
-            </div>
           </form>
+          <div class="text-center">
+            Now,
+            <a href="{{url_for('login')}}">login</a>.
+          </div>
         </div>
       </div>
     </div>

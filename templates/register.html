@@ -94,8 +94,11 @@
         <div class="card">
           <h2 class="text-center">Attendance App</h2>
           <form action="{{ url_for('register') }}" method="post">
-            <h2 class="form-group text-center">Register</h2>
+            <h4 class="form-group text-center">Register</h4>
             <!-- Email input -->
+            <b>
+              <p class="text-danger text-center">This is not for students</p>
+            </b>
             <div class="form-group form-outline">
               <label class="form-label" for="username">User ID -</label>
               <input

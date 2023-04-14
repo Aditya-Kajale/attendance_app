@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from addClass import *
 from flask_mysqldb import MySQL
+from flask_mail import Mail, Message
 import mysql.connector
 import os
 import re
@@ -89,6 +90,14 @@ app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "students"
 mysql_stud = MySQL(app)
 
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'adityakajale@dietms.org'
+app.config['MAIL_PASSWORD'] = '9763836736'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
 UPLOAD_FOLDER = 'static/files'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -139,6 +148,40 @@ def login():
             msg = 'Incorrect username/password!'
     logindbs.close()
     return render_template('login.html', msg=msg)
+
+
+@app.route('/forgetPass', methods=['POST', 'GET'])
+def forgetPass():
+    logindbs = mysql.connector.connect(
+        user='root', password='', host='localhost', database='login')
+    lo_cur = logindbs.cursor()
+    msg = ''
+    if request.method == 'POST':
+        username = request.form['username']
+        sql = 'SELECT * FROM account WHERE username = "{}"'.format(
+            username)
+        lo_cur.execute(sql)
+        account = lo_cur.fetchall()
+        if account:
+            auth = account[0][1]
+            if auth == 'student':
+                msg = 'Students cant receive mails.'
+                return render_template('forgetPass.html', msg=msg)
+            print(account)
+            message = Message('Attendance App', sender='adityakajale@dietms.org',
+                              recipients=[account[0][4]])
+            message.body = '''Your login credential are - \n\nID = {} \nUsername = {} \nPassword = {} \nemail = {} \n\nThank you.'''.format(
+                account[0][0], account[0][2], account[0][3], account[0][4])
+            mail.send(message)
+            print(message)
+            msg = 'Your credentials are sent to your email'
+            render_template('forgetPass.html', msg=msg)
+        else:
+            msg = 'This username dosen`t exist'
+            return render_template('forgetPass.html', msg=msg)
+
+    logindbs.close()
+    return render_template('forgetPass.html', msg=msg)
 
 
 @app.route('/register', methods=['GET', 'POST'])

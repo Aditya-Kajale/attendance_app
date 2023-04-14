@@ -86,3 +86,6 @@ Manage Faculty new changes:
 11. make changes in subjectattendacne_theory
 12. make chnages in subjectattendacne_practical
 13. 
+
+
+Forget pass link:
