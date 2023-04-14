@@ -75,7 +75,8 @@ except:
 # print(1,ls[0].name)
 obj = Faculty(0, '', {}, '')
 
-logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+logindbs = mysql.connector.connect(
+    user='root', password='', host='localhost', database='login')
 lo_cur = logindbs.cursor()
 
 app = Flask(__name__)
@@ -95,7 +96,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # log in and logout ----------------------------------------------------------
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+    logindbs = mysql.connector.connect(
+        user='root', password='', host='localhost', database='login')
     lo_cur = logindbs.cursor()
 
     # Output message if something goes wrong...
@@ -105,7 +107,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
         # print(type(username),type(password))
-        sql = 'SELECT * FROM account WHERE username = "{}" and password= "{}"'.format(username, password)
+        sql = 'SELECT * FROM account WHERE username = "{}" and password= "{}"'.format(
+            username, password)
         lo_cur.execute(sql)
         account = lo_cur.fetchall()
         print(account)
@@ -140,7 +143,8 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+    logindbs = mysql.connector.connect(
+        user='root', password='', host='localhost', database='login')
     lo_cur = logindbs.cursor()
     # Output message if something goes wrong...
     msg = ''
@@ -169,7 +173,8 @@ def register():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             sub = '{"BTECH":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"TY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"SY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}}}'
-            obj.accept(id, username, {"Theory": [], "Practical": []}, authoritiy)
+            obj.accept(id, username, {"Theory": [],
+                       "Practical": []}, authoritiy)
             lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s, %s, %s)',
                            (id, authoritiy, username, password, email, sub))
             logindbs.commit()
@@ -293,7 +298,8 @@ def studenttheoryshow():
         total['name'] = session['username']
         subject = request.form.get('subject')
         total['subject'] = subject
-        total['data'] = studentattendance.studenttAttendance_theory(roll, year, subject)
+        total['data'] = studentattendance.studenttAttendance_theory(
+            roll, year, subject)
         return render_template('studenttheoryshow.html', total=total)
     return redirect(url_for('login'))
 
@@ -319,7 +325,8 @@ def studentpracticalshow():
         total['name'] = session['username']
         subject = request.form.get('subject')
         total['subject'] = subject
-        total['data'] = studentattendance.studenttAttendance_practical(roll, year, subject)
+        total['data'] = studentattendance.studenttAttendance_practical(
+            roll, year, subject)
         return render_template('studentpracticalshow.html', total=total)
     return redirect(url_for('login'))
 
@@ -332,7 +339,8 @@ def studentdefaulter():
         year = session['year']
         roll = session['id']
         total['name'] = session['username']
-        total['data'] = studentattendance.studenttAttendance_defaulter(roll, year)
+        total['data'] = studentattendance.studenttAttendance_defaulter(
+            roll, year)
         return render_template('studentdefaulter.html', total=total)
     return redirect(url_for('login'))
 
@@ -357,14 +365,15 @@ def adminHome():
 def manageFaculty():
     if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
         faculty = []
-        logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         # for i in ls:
         #     faculty.append(i.name)
         # print(session['SUB'])
         # new
         sql = "SELECT * FROM `account` WHERE `authorities` = 'yearcoordinator' OR `authorities` = 'Faculty'"
-        lo_cur.execute (sql)
+        lo_cur.execute(sql)
         dt = lo_cur.fetchall()
         # print(dt)
         for i in dt:
@@ -375,15 +384,16 @@ def manageFaculty():
         return render_template('managefaculty.html', faculty=faculty)
     return redirect(url_for('login'))
 
+
 @app.route('/selectSubject', methods=['GET', 'POST'])
 def selectSubject():
     if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
         fsub = open(fs, 'rb')
         subs = pickle.load(fsub)
-        
+
         faculty = request.form.get('faculty')
         session['fc'] = faculty
-        
+
         for i in session['managefc']:
             if i[2] == faculty:
                 session['fcdetails'] = i
@@ -420,11 +430,12 @@ def selectSubject():
             all['fc'] = faculty
             all['subs'] = subs
             all['fcsub'] = session['fcdetails']
-            all['fcsub'] = json.loads(all['fcsub'][-1])            
+            all['fcsub'] = json.loads(all['fcsub'][-1])
             print(all['fcsub'])
-            return render_template('selectSubjectFaculty.html',dict = all)
-        
+            return render_template('selectSubjectFaculty.html', dict=all)
+
     return redirect(url_for('login'))
+
 
 @app.route('/assignSubjectFaculty', methods=['GET', 'POST'])
 def assignSubjectFaculty():
@@ -432,8 +443,9 @@ def assignSubjectFaculty():
     if request.method == 'POST':
         divs = request.form.getlist('division')
         br = request.form.getlist('branch')
-        managefaculty.assignSubjectToFaculty(divs,br,session['fcdetails'])
+        managefaculty.assignSubjectToFaculty(divs, br, session['fcdetails'])
     return redirect(url_for('manageFaculty'))
+
 
 @app.route('/assignSubject', methods=['GET', 'POST'])
 def assignSubject():
@@ -480,7 +492,8 @@ def registerFaculty():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             obj.accept(id, username, {"Theory": [], "Practical": []})
-            lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s)', (id, username, password, email,))
+            lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s)',
+                           (id, username, password, email,))
             logindbs.commit()
 
     elif request.method == 'POST':
@@ -562,7 +575,8 @@ def deletetheoryAttendance():
         date = request.form.get('date')
         subject = request.form.get('subject')
         batch = request.form.getlist('batch')
-        deleteattendance.deleteAttendanceTheory(year, division, date, subject, batch, "Theory")
+        deleteattendance.deleteAttendanceTheory(
+            year, division, date, subject, batch, "Theory")
         return redirect(url_for('deletetheory'))
     return redirect(url_for('login'))
 
@@ -588,7 +602,8 @@ def deletepracticalAttendance():
         subject = request.form.get('subject')
         timeslot = request.form.get('timeslot')
         batch = request.form.getlist('batch')
-        deleteattendance.deleteAttendancePractical(year, division, date, subject, timeslot, batch, "Practical")
+        deleteattendance.deleteAttendancePractical(
+            year, division, date, subject, timeslot, batch, "Practical")
         return redirect(url_for('deletepractical'))
     return redirect(url_for('login'))
 
@@ -609,7 +624,8 @@ def addDataset():
             year = request.form.get('year')
             div = request.form.get('division')
             if uploaded_file.filename != '':
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
+                file_path = os.path.join(
+                    app.config['UPLOAD_FOLDER'], uploaded_file.filename)
                 uploaded_file.save(file_path)
                 parseCSV(file_path, str(year), str(div))
         return redirect(url_for('addClass'))
@@ -649,15 +665,16 @@ def addStud():
 @app.route('/other')
 def other():
     if 'loggedin' in session and session['authority'] == 'Faculty':
-        logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
-        lo_cur.execute (sql)
+        lo_cur.execute(sql)
         dt = lo_cur.fetchall()
         for i in dt:
             if i[2] == session['username']:
                 subs = json.loads(i[-1])
-        newdic={}
+        newdic = {}
         for i in subs:
             for j in subs[i]:
                 if subs[i][j]['THEORY']:
@@ -703,7 +720,8 @@ def addOtherAttendance():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         import addAttendance
         count = request.form.getlist('count')
-        addAttendance.addOtherAttendance(session['searchother'], count, session['roll'])
+        addAttendance.addOtherAttendance(
+            session['searchother'], count, session['roll'])
         return redirect(url_for('other'))
     return redirect(url_for('login'))
 
@@ -712,15 +730,16 @@ def addOtherAttendance():
 @app.route('/subjectAttendance_theory')
 def subjectAttendance_theory():
     if 'loggedin' in session and session['authority'] == 'Faculty':
-        logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
-        lo_cur.execute (sql)
+        lo_cur.execute(sql)
         dt = lo_cur.fetchall()
         for i in dt:
             if i[2] == session['username']:
                 subs = json.loads(i[-1])
-        newdic={}
+        newdic = {}
         for i in subs:
             for j in subs[i]:
                 if subs[i][j]['THEORY']:
@@ -744,7 +763,8 @@ def subjectTable_theory():
             subject = request.form.get('subject')
             sdate = request.form.get('sdate')
             edate = request.form.get('edate')
-            data = attendanceDBS.subjectAttendance_theory(year, division, subject, sdate, edate)
+            data = attendanceDBS.subjectAttendance_theory(
+                year, division, subject, sdate, edate)
         return render_template('subjectTable_theory.html', data=data)
     return redirect(url_for('login'))
 
@@ -753,15 +773,16 @@ def subjectTable_theory():
 @app.route('/subjectAttendance_practical')
 def subjectAttendance_practical():
     if 'loggedin' in session and session['authority'] == 'Faculty':
-        logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
-        lo_cur.execute (sql)
+        lo_cur.execute(sql)
         dt = lo_cur.fetchall()
         for i in dt:
             if i[2] == session['username']:
                 subs = json.loads(i[-1])
-        newdic={}
+        newdic = {}
         for i in subs:
             print(subs[i])
             for j in subs[i]:
@@ -787,7 +808,8 @@ def subjectTable_practical():
             batch = request.form.get('batch')
             sdate = request.form.get('sdate')
             edate = request.form.get('edate')
-            data = attendanceDBS.subjectAttendance_practical(year, division, subject, batch, sdate, edate)
+            data = attendanceDBS.subjectAttendance_practical(
+                year, division, subject, batch, sdate, edate)
         return render_template('subjectTable_practical.html', data=data)
     return redirect(url_for('login'))
 
@@ -834,7 +856,8 @@ def defaulterTable():
             edate = request.form.get('edate')
             defaulter = request.form.get('defaulter')
             # print(defaulter)
-            data = attendanceDBS.defaulterData(year, division, sdate, edate, defaulter)
+            data = attendanceDBS.defaulterData(
+                year, division, sdate, edate, defaulter)
             # print(data)
         return render_template('defaulterTable.html', data=data)
     return redirect(url_for('login'))
@@ -873,15 +896,16 @@ def showRecord():
 def theoryAttendance():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         # new
-        logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
-        lo_cur.execute (sql)
+        lo_cur.execute(sql)
         dt = lo_cur.fetchall()
         for i in dt:
             if i[2] == session['username']:
                 subs = json.loads(i[-1])
-        newdic={}
+        newdic = {}
         for i in subs:
             print(subs[i])
             for j in subs[i]:
@@ -909,7 +933,8 @@ def searchStud_theory():
             timeslot = request.form.get('timeslot')
             batch = request.form.getlist('batch')
             bt = ', '.join(batch)
-            session['searchtheory'] = (year, division, date, subject, timeslot, batch)
+            session['searchtheory'] = (
+                year, division, date, subject, timeslot, batch)
             data = classRecordDBS.getData_batchvise(year, division, batch)
             msg = dailyreport.check_session(year, division, date, timeslot)
             print(msg)
@@ -932,8 +957,10 @@ def addAttendance():
             present = request.form.getlist('present')
             # print(session['roll'])
             # print(session['searchtheory'])
-            addAttendance.addAttendance_theory(session['searchtheory'], present, session['roll'])
-            addAttendance.addattendance_daily(session['searchtheory'], present, session['roll'], "Theory")
+            addAttendance.addAttendance_theory(
+                session['searchtheory'], present, session['roll'])
+            addAttendance.addattendance_daily(
+                session['searchtheory'], present, session['roll'], "Theory")
         return redirect(url_for('theoryAttendance'))
     return redirect(url_for('login'))
 
@@ -942,15 +969,16 @@ def addAttendance():
 @app.route('/practicalAttendance')
 def practicalAttendance():
     if 'loggedin' in session and session['authority'] == 'Faculty':
-        logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
-        lo_cur.execute (sql)
+        lo_cur.execute(sql)
         dt = lo_cur.fetchall()
         for i in dt:
             if i[2] == session['username']:
                 subs = json.loads(i[-1])
-        newdic={}
+        newdic = {}
         for i in subs:
             print(subs[i])
             for j in subs[i]:
@@ -977,10 +1005,12 @@ def searchstudents_practical():
             subject = request.form.get('subject')
             timeslot = request.form.get('timeslot')
             batch = request.form.getlist('batch')
-            msg = dailyreport.check_session_practical(year, division, date, batch, timeslot)
+            msg = dailyreport.check_session_practical(
+                year, division, date, batch, timeslot)
             print(msg)
             # print(batch)
-            session['searchpractical'] = (year, division, date, subject, timeslot, batch)
+            session['searchpractical'] = (
+                year, division, date, subject, timeslot, batch)
             data = classRecordDBS.getData_batchvise(year, division, batch)
             data.sort()
             total_data = (session['searchpractical'], data, msg)
@@ -1000,8 +1030,10 @@ def addAttendance__practical():
             present = request.form.getlist('present')
             # print(session['roll'])
             # print(session['searchpractical'])
-            addAttendance.addAttendance_practical(session['searchpractical'], present, session['roll'])
-            addAttendance.addattendance_daily(session['searchpractical'], present, session['roll'], "Practical")
+            addAttendance.addAttendance_practical(
+                session['searchpractical'], present, session['roll'])
+            addAttendance.addattendance_daily(
+                session['searchpractical'], present, session['roll'], "Practical")
 
         return redirect(url_for('practicalAttendance'))
     return redirect(url_for('login'))
@@ -1038,4 +1070,4 @@ def updatedailyreport():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=4000)
+    app.run(debug=True, port=4000)

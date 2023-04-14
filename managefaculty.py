@@ -3,8 +3,9 @@ import json
 import mysql.connector
 
 
-def assignSubjectToFaculty(divs,branch,faculty):
-    logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+def assignSubjectToFaculty(divs, branch, faculty):
+    logindbs = mysql.connector.connect(
+        user='root', password='', host='localhost', database='login')
     lo_cur = logindbs.cursor()
     # print('OLD - ', faculty[-1] )
     subs = json.loads(faculty[-1])
@@ -26,7 +27,6 @@ def assignSubjectToFaculty(divs,branch,faculty):
         data = i.split('/')
         subs[data[0]][data[1]][data[2]][data[3]].append(data[4])
 
-
     delind = []
     for i in subs:
         for j in subs[i]:
@@ -34,15 +34,15 @@ def assignSubjectToFaculty(divs,branch,faculty):
                 for h in subs[i][j][k]:
                     if subs[i][j][k][h] == []:
                         # del subs[i][j][k][h]
-                        delind.append([i,j,k,h])
+                        delind.append([i, j, k, h])
     for i in delind:
         del subs[i[0]][i[1]][i[2]][i[3]]
-        
+
     subs = json.dumps(subs)
-    print('NEW - ',subs)
-    
+    print('NEW - ', subs)
+
     sql = "UPDATE `account` SET `SUB`= %s WHERE `username`=%s "
-    val = (subs,username,)
-    lo_cur.execute(sql,val)
+    val = (subs, username,)
+    lo_cur.execute(sql, val)
     logindbs.commit()
     logindbs.close()

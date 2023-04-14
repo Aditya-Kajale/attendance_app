@@ -2,7 +2,7 @@
 # # # # import pandas as pd
 # # # # # import connection as cn
 # # # # from datetime import date, timedelta
-# # # # import mysql.connector 
+# # # # import mysql.connector
 
 
 # # # # # # at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
@@ -44,9 +44,6 @@
 
 # # # # # # print(faculty.obj.getName(2))
 
-    
-
-
 
 # # # # # # class Faculty:
 # # # # # #   # Constructor
@@ -54,14 +51,14 @@
 # # # # # #         self.id = id
 # # # # # #         self.name = name
 # # # # # #         self.subject  = subject
- 
+
 # # # # # #     # Function to create and append new student
 # # # # # #     def accept(self, id, Name, Subject):
 # # # # # #         ob = Faculty(id, Name, Subject)
 # # # # # #         ls.append(ob)
 # # # # # #         fwobj = open(f,'wb')
 # # # # # #         pickle.dump(ls,fwobj)
- 
+
 # # # # # #     # Function to display student details
 # # # # # #     def display(self, ob):
 # # # # # #         frobj = open(f,'rb')
@@ -73,7 +70,7 @@
 # # # # # #         for i in range(len(ls)):
 # # # # # #             if(ls[i].id == rn):
 # # # # # #                 return i
- 
+
 # # # # # #     # Delete Function
 # # # # # #     def delete(self, rn):
 # # # # # #         i = obj.search(rn)
@@ -98,7 +95,7 @@
 # # # # # #         i = obj.search(rn)
 # # # # # #         print(i)
 # # # # # #         return ls[i].name
-# # # # # # try : 
+# # # # # # try :
 # # # # # #     frobj = open(f,'rb')
 # # # # # #     ff = pickle.load(frobj)
 # # # # # #     ls = ff
@@ -108,34 +105,34 @@
 # # # # # # obj = Faculty(0,'', [])
 
 
-
 # # # f = 'fcinfo.pkl'
 # # f = 'subinfo.pkl'
 
-subs = {"Theory":{"BTECH":['Software Engineering',
+import json
+subs = {"Theory": {"BTECH": ['Software Engineering',
         'Big Data Analytics',
-        'Cloud Computing',
-        'Blockchain Technology',
-        'Full Stack Development',
-        'System Administration'],
-        "TY":[],
-        "SY":[],
-        "FY":[]},
-        "Practical":{"BTECH":['Big Data Analytics (PR)',
-        'Cloud Computing (PR)',
-        'Full Stack Development (PR)',
-        'System Administration (PR)'],
-        "TY":[],
-        "SY":[],
-        "FY":[]
-        }}
+                             'Cloud Computing',
+                             'Blockchain Technology',
+                             'Full Stack Development',
+                             'System Administration'],
+                   "TY": [],
+                   "SY": [],
+                   "FY": []},
+        "Practical": {"BTECH": ['Big Data Analytics (PR)',
+                                'Cloud Computing (PR)',
+                                'Full Stack Development (PR)',
+                                'System Administration (PR)'],
+                      "TY": [],
+                      "SY": [],
+                      "FY": []
+                      }}
 # # # fc = []
-# # # # # for reading 
+# # # # # for reading
 # # frobj = open(f,'rb')
 # # ff = pickle.load(frobj)
 # # # fwobj = open(f,'wb')
 # # # pickle.dump(subs,fwobj)
- 
+
 
 # # print(ff)
 
@@ -144,7 +141,7 @@ subs = {"Theory":{"BTECH":['Software Engineering',
 # for i in range (1,6):
 #     for k in range(pre):
 #         print(' ',end='')
-    
+
 #     print(i,end='')
 #     for j in range (gap):
 #         print(' ',end='')
@@ -167,41 +164,33 @@ subs = {"Theory":{"BTECH":['Software Engineering',
 #     gap +=2
 #     pre-=1
 
-temp = {"Theory":{"BTECH":['Software Engineering',
+temp = {"Theory": {"BTECH": ['Software Engineering',
         'Big Data Analytics',
-        'Cloud Computing',
-        'Blockchain Technology',
-        'Full Stack Development',
-        'System Administration'],
-        "TY":[],
-        "SY":[],
-        "FY":[]},   
-        "Practical":{"BTECH":['Big Data Analytics (PR)',
-        'Cloud Computing (PR)',
-        'Full Stack Development (PR)',
-        'System Administration (PR)'],
-        "TY":[],
-        "SY":[],
-        "FY":[]
-        }}
+                             'Cloud Computing',
+                             'Blockchain Technology',
+                             'Full Stack Development',
+                             'System Administration'],
+                   "TY": [],
+                   "SY": [],
+                   "FY": []},
+        "Practical": {"BTECH": ['Big Data Analytics (PR)',
+                                'Cloud Computing (PR)',
+                                'Full Stack Development (PR)',
+                                'System Administration (PR)'],
+                      "TY": [],
+                      "SY": [],
+                      "FY": []
+                      }}
 
-import json
 
-sub = {"BTECH":{"A":{"THEORY":{},"PRACTICAL":{}},
-                "B":{"THEORY":{},"PRACTICAL":{}}},
-        "TY":{"A":{"THEORY":{},"PRACTICAL":{}},
-                "B":{"THEORY":{},"PRACTICAL":{}}},
-        "SY":{"A":{"THEORY":{},"PRACTICAL":{}},
-                "B":{"THEORY":{},"PRACTICAL":{}}}}
+sub = {"BTECH": {"A": {"THEORY": {}, "PRACTICAL": {}},
+                 "B": {"THEORY": {}, "PRACTICAL": {}}},
+       "TY": {"A": {"THEORY": {}, "PRACTICAL": {}},
+              "B": {"THEORY": {}, "PRACTICAL": {}}},
+       "SY": {"A": {"THEORY": {}, "PRACTICAL": {}},
+              "B": {"THEORY": {}, "PRACTICAL": {}}}}
 
 
 res = json.loads(sub)
 res['BTECH']['A']['THEORY']['Software Engineering'] = ['A1', 'A2', 'A3']
 print(res['BTECH']['A']['THEORY'].keys())
-
-
-
-
-
-
-

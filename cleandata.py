@@ -4,24 +4,31 @@ from routes import mysql_stud
 import pickle
 
 fs = 'subinfo.pkl'
-fsub = open(fs,'rb')
+fsub = open(fs, 'rb')
 subs = pickle.load(fsub)
 
 
 def cleanfromsubs(year):
-    logindbs = mysql.connector.connect(user='root', password='', host='localhost', database='login')
+    logindbs = mysql.connector.connect(
+        user='root', password='', host='localhost', database='login')
     lo_cur = logindbs.cursor()
 
-    at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
-    at_ty = mysql.connector.connect(user='root', password='', host='localhost', database='theory_ty')
-    at_sy = mysql.connector.connect(user='root', password='', host='localhost', database='theory_sy')
+    at_btech = mysql.connector.connect(
+        user='root', password='', host='localhost', database='theory_btech')
+    at_ty = mysql.connector.connect(
+        user='root', password='', host='localhost', database='theory_ty')
+    at_sy = mysql.connector.connect(
+        user='root', password='', host='localhost', database='theory_sy')
     btech = at_btech.cursor()
     ty = at_ty.cursor()
     sy = at_sy.cursor()
 
-    ap_btech = mysql.connector.connect(user='root', password='', host='localhost', database='practical_btech')
-    ap_ty = mysql.connector.connect(user='root', password='', host='localhost', database='practical_ty')
-    ap_sy = mysql.connector.connect(user='root', password='', host='localhost', database='practical_sy')
+    ap_btech = mysql.connector.connect(
+        user='root', password='', host='localhost', database='practical_btech')
+    ap_ty = mysql.connector.connect(
+        user='root', password='', host='localhost', database='practical_ty')
+    ap_sy = mysql.connector.connect(
+        user='root', password='', host='localhost', database='practical_sy')
     btechP = ap_btech.cursor()
     tyP = ap_ty.cursor()
     syP = ap_sy.cursor()
@@ -34,7 +41,7 @@ def cleanfromsubs(year):
             tableT.append(i)
         for i in subs['Practical'][year]:
             tableP.append(i)
-        
+
         # for theory ---------------------------------------------------
         for i in tableT:
             sql = "SHOW COLUMNS FROM `{}`".format(i)
@@ -45,12 +52,12 @@ def cleanfromsubs(year):
                 column.append(k[0])
             column = column[3:]
             for j in column:
-                sql = "ALTER TABLE `{}` DROP `{}`".format(i,j)
+                sql = "ALTER TABLE `{}` DROP `{}`".format(i, j)
                 btech.execute(sql)
 
             sql = "TRUNCATE `{}`".format(i)
             btech.execute(sql)
-        
+
         # for practical ------------------------------------------------
         for i in tableP:
             sql = "SHOW COLUMNS FROM `{}`".format(i)
@@ -61,17 +68,17 @@ def cleanfromsubs(year):
                 column.append(k[0])
             column = column[4:]
             for j in column:
-                sql = "ALTER TABLE `{}` DROP `{}`".format(i,j)
+                sql = "ALTER TABLE `{}` DROP `{}`".format(i, j)
                 btechP.execute(sql)
-            
+
             sql = "TRUNCATE `{}`".format(i)
             btechP.execute(sql)
-        
+
         # for login ----------------------------------------------------
         sql = "DELETE FROM `account` WHERE email = 'BTECH@gmail.com'"
         lo_cur.execute(sql)
         logindbs.commit()
-    
+
     elif year == 'TY':
         tableT = []
         tableP = []
@@ -79,7 +86,7 @@ def cleanfromsubs(year):
             tableT.append(i)
         for i in subs['Practical'][year]:
             tableP.append(i)
-        
+
         # for theory ---------------------------------------------------
         for i in tableT:
             sql = "SHOW COLUMNS FROM `{}`".format(i)
@@ -90,12 +97,12 @@ def cleanfromsubs(year):
                 column.append(k[0])
             column = column[3:]
             for j in column:
-                sql = "ALTER TABLE `{}` DROP `{}`".format(i,j)
+                sql = "ALTER TABLE `{}` DROP `{}`".format(i, j)
                 ty.execute(sql)
 
             sql = "TRUNCATE `{}`".format(i)
             ty.execute(sql)
-        
+
         # for practical ------------------------------------------------
         for i in tableP:
             sql = "SHOW COLUMNS FROM `{}`".format(i)
@@ -106,12 +113,12 @@ def cleanfromsubs(year):
                 column.append(k[0])
             column = column[4:]
             for j in column:
-                sql = "ALTER TABLE `{}` DROP `{}`".format(i,j)
+                sql = "ALTER TABLE `{}` DROP `{}`".format(i, j)
                 tyP.execute(sql)
-            
+
             sql = "TRUNCATE `{}`".format(i)
             tyP.execute(sql)
-        
+
         # for login ----------------------------------------------------
         sql = "DELETE FROM `account` WHERE email = 'TY@gmail.com'"
         lo_cur.execute(sql)
@@ -124,7 +131,7 @@ def cleanfromsubs(year):
             tableT.append(i)
         for i in subs['Practical'][year]:
             tableP.append(i)
-        
+
         # for theory ---------------------------------------------------
         for i in tableT:
             sql = "SHOW COLUMNS FROM `{}`".format(i)
@@ -135,12 +142,12 @@ def cleanfromsubs(year):
                 column.append(k[0])
             column = column[3:]
             for j in column:
-                sql = "ALTER TABLE `{}` DROP `{}`".format(i,j)
+                sql = "ALTER TABLE `{}` DROP `{}`".format(i, j)
                 sy.execute(sql)
 
             sql = "TRUNCATE `{}`".format(i)
             sy.execute(sql)
-        
+
         # for practical ------------------------------------------------
         for i in tableP:
             sql = "SHOW COLUMNS FROM `{}`".format(i)
@@ -151,19 +158,21 @@ def cleanfromsubs(year):
                 column.append(k[0])
             column = column[4:]
             for j in column:
-                sql = "ALTER TABLE `{}` DROP `{}`".format(i,j)
+                sql = "ALTER TABLE `{}` DROP `{}`".format(i, j)
                 syP.execute(sql)
-            
+
             sql = "TRUNCATE `{}`".format(i)
             syP.execute(sql)
-        
+
         # for login ----------------------------------------------------
         sql = "DELETE FROM `account` WHERE email = 'SY@gmail.com'"
         lo_cur.execute(sql)
         logindbs.commit()
 
+
 def cleanFromDaily(year):
-    dcse = mysql.connector.connect(user='root', password='', host='localhost', database='daily_cse')
+    dcse = mysql.connector.connect(
+        user='root', password='', host='localhost', database='daily_cse')
     dcse_cur = dcse.cursor()
     sql = "SHOW TABLES"
     dcse_cur.execute(sql)
@@ -175,7 +184,8 @@ def cleanFromDaily(year):
             sql = "DROP TABLE `{}`".format(i[0])
             dcse_cur.execute(sql)
             dcse.commit()
-        
+
+
 def cleandata(year):
     cur = mysql_stud.connection.cursor()
     sql = "DELETE FROM {}".format(year)
@@ -183,5 +193,3 @@ def cleandata(year):
     mysql_stud.connection.commit()
     cleanfromsubs(year)
     cleanFromDaily(year)
-
-    
