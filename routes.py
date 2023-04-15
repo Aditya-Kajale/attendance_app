@@ -564,6 +564,7 @@ def manageSubject():
             subtype = request.form.get('subtype')
             all['year'] = year
             all['subs'] = subs[subtype][year]
+            all['subtype'] = subtype
             session['year_for_subject'] = year
             session['subtype'] = subtype
             return render_template('manageSubject2.html', all=all)
