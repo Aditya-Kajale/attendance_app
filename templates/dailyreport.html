@@ -114,7 +114,7 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle "
+              class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -161,6 +161,7 @@
               <a class="dropdown-item" href="{{url_for('defaulter')}}"
                 >Defaulter</a
               >
+              <a class="dropdown-item" href="{{ url_for('other') }}">Other</a>
             </div>
           </li>
 
@@ -169,23 +170,19 @@
               >Daily Report</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('other') }}">Other</a>
-          </li>
         </ul>
         <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
       </div>
     </nav>
 
     <!-- nav ends -->
-  <body>
-    
-    <div class="row d-flex justify-content-center">
-      <div class="col-xl-5 col-lg-8 col-md-9 col-11 text-center">
-        <div class="card">
-          <h5 class="text-center mb-4">Daily Report</h5>
+    <body>
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-5 col-lg-8 col-md-9 col-11 text-center">
+          <div class="card">
+            <h5 class="text-center mb-4">Daily Report</h5>
 
-          <form
+            <form
               id="f"
               action="{{ url_for('dailyreporttable') }}"
               method="POST"
@@ -226,16 +223,18 @@
                   </div>
                 </div>
               </div>
-              
+
               <button
                 id="submitForm"
                 type="submit"
-                class="btn btn-primary btn-block rounded-pill shadow-sm">
+                class="btn btn-primary btn-block rounded-pill shadow-sm"
+              >
                 Confirm
               </button>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </body>
   </body>
 </html>

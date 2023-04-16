@@ -155,6 +155,7 @@
               <a class="dropdown-item" href="{{url_for('practicalAttendance')}}"
                 >Practical</a
               >
+              <a class="dropdown-item" href="{{ url_for('other') }}">Other</a>
             </div>
           </li>
 
@@ -193,9 +194,6 @@
             <a class="nav-link active" href="{{ url_for('dailyreport') }}"
               >Daily Report</a
             >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('other') }}">Other</a>
           </li>
         </ul>
         <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
