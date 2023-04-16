@@ -583,6 +583,35 @@ def addSubject():
         return redirect(url_for('manageSubject'))
     return redirect(url_for('login'))
 
+@app.route('/renamesubject', methods=['GET', 'POST'])
+def renamesubject():
+    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+        if request.method == 'POST':
+            fsub = open(fs, 'rb')
+            subs = pickle.load(fsub)
+            all = {}
+            year = request.form.get('delyear')
+            subtype = request.form.get('delsubtype')
+            all['year'] = year
+            all['subs'] = subs[subtype][year]
+            all['subtype'] = subtype
+            session['yeardelete'] = year
+            session['subtypedelete'] = subtype
+            return render_template('renamesubject.html',all = all)
+        return render_template('manageSubject1.html')
+    return redirect(url_for('login'))
+
+@app.route('/renamesub', methods=['GET', 'POST'])
+def renamesub():
+    if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+        import addSubject
+        delsub = request.form.getlist('rename')
+        year = session['yeardelete']
+        subtype = session['subtypedelete']
+        addSubject.renamesubject(subtype,year,delsub)
+        return redirect(url_for('manageSubject'))
+    return redirect(url_for('login'))
+
 
 @app.route('/adminProfile')
 def adminProfile():

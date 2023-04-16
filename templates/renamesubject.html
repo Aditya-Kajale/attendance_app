@@ -164,86 +164,63 @@
         <a class="nav-link" href="{{ url_for('adminProfile') }}">Profile</a>
       </div>
     </nav>
-
-    <div class="mt-5 row d-flex justify-content-center">
-      <div class="col-xl-5 col-lg-8 col-md-9 col-11 text-center">
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
         <div class="card">
-          <h4 class="text-center mb-4">Add Subjects</h4>
+          <h4 class="text-center mb-4">
+            Rename {{all['year']}}-{{all['subtype']}} Subjects
+          </h4>
+          <h5 class="mb-2">Select subject to rename</h5>
+          <div class="alert alert-info" role="alert">
+            {% if all['subtype'] == 'Theory' %}Note : If the subject name is
+            <b>'Full Stack Development'</b> then it will show <b>'FSD'</b> in
+            attendance record. {% else %} Note : You should provide
+            <b>'(PR)'</b> infront of practical subject name. <br />
+            If the subject name is
+            <b>'Full Stack Development (PR)'</b> then it will show
+            <b>'FSDPR'</b> in attendance record. <br />
+            If the subject name is <b>'Seminar -I'</b> or
+            <b>'Seminar -II'</b> then give name as <b>'Seminar (01)'</b> or
+            <b>'Seminar (02)'</b>.{% endif %}
+          </div>
+          <br />
           <form
-            action="{{url_for('manageSubject')}}"
+            action="{{url_for('renamesub')}}"
             method="POST"
             enctype="multipart/form-data"
+            onsubmit="return confirm('Are you sure you want to delete?')"
           >
             <div class="row">
               <div class="col">
-                <div class="form-group text-left">
-                  <label for="year"
-                    >Select year in which you would like to add subject</label
-                  >
-                  <select name="year" id="year" class="form-control">
-                    <option value="SY">SY</option>
-                    <option value="TY">TY</option>
-                    <option value="BTECH">BTECH</option>
-                  </select>
-                </div>
-                <div class="form-group text-left">
-                  <label for="subtype">Select subject type</label>
-                  <select name="subtype" id="subtype" class="form-control">
-                    <option value="Theory">Theory</option>
-                    <option value="Practical">Practical</option>
-                  </select>
-                </div>
+                <h6>Current Subjects</h6>
+              </div>
+              <div class="col">
+                <h6>Rename Subjects</h6>
               </div>
             </div>
+            <hr />
+            {% for i in all['subs'] %}
+            <div class="row">
+              <div class="col">
+                <p>{{i}}</p>
+              </div>
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  placeholder="{{i}}"
+                  name="rename"
+                />
+              </div>
+            </div>
+            <hr />
+            {% endfor %}
             <button
-              id="submitForm"
               type="submit"
               class="btn btn-primary btn-block rounded-pill shadow-sm"
             >
-              Add Subject
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <!-- delete subject -->
-      <div class="col-xl-5 col-lg-8 col-md-9 col-11 text-center">
-        <div class="card">
-          <h4 class="text-center mb-4">Rename Subjects</h4>
-
-          <form
-            action="{{url_for('renamesubject')}}"
-            method="POST"
-            enctype="multipart/form-data"
-          >
-            <div class="row">
-              <div class="col">
-                <div class="form-group text-left">
-                  <label for="year"
-                    >Select year from which you would like to rename the
-                    subject</label
-                  >
-                  <select name="delyear" id="year" class="form-control">
-                    <option value="SY">SY</option>
-                    <option value="TY">TY</option>
-                    <option value="BTECH">BTECH</option>
-                  </select>
-                </div>
-                <div class="form-group text-left">
-                  <label for="subtype">Select subject type</label>
-                  <select name="delsubtype" id="subtype" class="form-control">
-                    <option value="Theory">Theory</option>
-                    <option value="Practical">Practical</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <button
-              id="submitForm"
-              type="submit"
-              class="btn btn-info btn-block rounded-pill shadow-sm"
-            >
-              Rename Subject
+              Rename
             </button>
           </form>
         </div>
