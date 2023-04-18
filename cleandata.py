@@ -185,6 +185,24 @@ def cleanFromDaily(year):
             dcse_cur.execute(sql)
             dcse.commit()
 
+def cleanmarks(year):
+    marks = mysql.connector.connect(
+    user='root', password='', host='localhost', database='marks')
+    markCur = marks.cursor()
+    sql = 'SHOW TABLES'
+    markCur.execute(sql)
+    tbs = markCur.fetchall()
+    delete = []
+    for i in tbs:
+        temp = i[0].split('-')
+        print(temp)
+        if temp[1]==year.lower():
+            delete.append(i[0])
+    print(delete)
+    for i in delete:
+        sql = 'DROP TABLE `{}`'.format(i)
+        markCur.execute(sql) 
+        marks.commit()
 
 def cleandata(year):
     cur = mysql_stud.connection.cursor()
@@ -193,3 +211,4 @@ def cleandata(year):
     mysql_stud.connection.commit()
     cleanfromsubs(year)
     cleanFromDaily(year)
+    cleanmarks(year)

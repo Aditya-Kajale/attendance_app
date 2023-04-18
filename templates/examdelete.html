@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Take Attendance</title>
+    <meta charset="utf-8" />
+    <!-- Mobile Specific Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <!-- Main Style Css -->
+    <style>
+      body {
+        color: #000;
+        overflow-x: hidden;
+        height: 100%;
+        background-size: 100% 100%;
+      }
+      .card {
+        padding: 30px 40px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border: none !important;
+        box-shadow: 0px 0px 50px 20px rgba(0, 0, 0, 0.2);
+      }
+      .blue-text {
+        color: #00bcd4;
+      }
+      .form-control-label {
+        margin-bottom: 0;
+      }
+      input,
+      textarea,
+      button {
+        padding: 4px 4px;
+        border-radius: 5px !important;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        font-weight: 300;
+      }
+      input:focus,
+      textarea:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #00bcd4;
+        outline-width: 0;
+        font-weight: 400;
+      }
+      .btn-block {
+        text-transform: uppercase;
+        font-size: 15px !important;
+        font-weight: 400;
+        height: 43px;
+        cursor: pointer;
+      }
+      .btn-block:hover {
+        color: #fff !important;
+      }
+      button:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/table2excel.js"></script>
+  </head>
+
+  <body class="form-v10">
+    <!-- navbar start -->
+
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Attendance</a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('examhome') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('exammarks') }}">Marks</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('examdisplay') }}">Display</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('examdelete') }}">Delete</a>
+          </li>
+        </ul>
+        <a class="nav-link" href="{{ url_for('examprofile') }}">Profile</a>
+      </div>
+    </nav>
+    <!-- nav end -->
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-5 col-lg-8 col-md-9 col-11 text-center">
+        <div class="card">
+          <h4 class="mb-5">Delete Marks</h4>
+          <form
+            id="f"
+            action="{{ url_for('examdelete') }}"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="year">Year</label>
+                  <select name="year" id="year" class="form-control">
+                    <option value="SY">SY</option>
+                    <option value="TY">TY</option>
+                    <option value="BTECH">B.Tech</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="division">Division</label>
+                  <select name="division" id="division" class="form-control">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <button
+              id="submitForm"
+              onclick="myFunction()"
+              type="submit"
+              class="btn btn-primary btn-block rounded-pill shadow-sm mt-3"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
