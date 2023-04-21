@@ -103,9 +103,10 @@ def addLoginInfo(roll, name, year):
     username = name.split()[0]
     password = str(roll)
     email = year+'@gmail.com'
+    sub = '[]'
     # print(type(authoritiy),type(username),type(password),type(email))
-    lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s, %s)',
-                   (roll, authoritiy, username, password, email,))
+    lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s, %s, %s)',
+                   (roll, authoritiy, username, password, email, sub))
     logindbs.commit()
 
 

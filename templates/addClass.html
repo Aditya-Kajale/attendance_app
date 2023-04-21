@@ -166,25 +166,50 @@
       <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
         <div class="card">
           <h5 class="text-center mb-4">Add Class</h5>
+          <div class="alert alert-info" role="alert">
+            Make sure file is in <b>"CSV (Comma elimited) (*.csv)"</b> format
+            only in Ms Excel.
+          </div>
+          <div class="alert alert-info" role="alert">
+            CSV file should have student data as in following format of columns
+            (Do not mention column nmaes in csv file) <br />
+            <b>ROLL NO. - NAME - BATCH - STUDENT PHONE - PARENT PHONE</b>
+          </div>
+
           <form
             id="f"
             action="{{ url_for('addDataset') }}"
             method="POST"
             enctype="multipart/form-data"
+            onsubmit="return confirm('Are you sure you want to add?')"
           >
-            <div class="mb-3 text-left">
-              <label for="formFile " class="form-label">Add Dataset</label>
-              <input
-                class="form-control"
-                type="file"
-                id="formFile"
-                accept=".csv"
-                name="file"
-                required
-              />
+            <div class="row">
+              <div class="col-8">
+                <div class="form-group text-left">
+                  <label for="formFile " class="form-label">Add Dataset</label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    id="formFile"
+                    accept=".csv"
+                    name="file"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <p>CSV Format</p>
+                <a
+                  class="btn btn-success"
+                  href="/static/csvFormats/addclassformat.csv"
+                  role="button"
+                  download
+                  >Downlaod</a
+                >
+              </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
               <div class="col">
                 <div class="form-group text-left">
                   <label for="year">Year</label>
@@ -208,7 +233,6 @@
 
             <button
               id="submitForm"
-              onclick="myFunction()"
               type="submit"
               class="btn btn-primary btn-block rounded-pill shadow-sm"
             >
@@ -220,14 +244,5 @@
     </div>
 
     <!-- form ends -->
-
-    <script>
-      var form = document.getElementById("f");
-      function myFunction() {
-        if (form.checkValidity()) {
-          alert("Class Added Successfully!");
-        }
-      }
-    </script>
   </body>
 </html>

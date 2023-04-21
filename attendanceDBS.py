@@ -711,8 +711,11 @@ def defaulterData(year, division, sdate, edate, defaulter):
         total['subs'] = []
         total['cnt'] = []
 
+        supsdd = []
+
         for j in subs['Theory'][year]:
             ll = []
+            dd = []
             # print(j)
             ss = j.split()
             sname = ''
@@ -726,8 +729,6 @@ def defaulterData(year, division, sdate, edate, defaulter):
                         i, j, division)
                     btech.execute(sql)
                     data = btech.fetchall()
-                    # print(data)
-                    # new-------
                     temp = []
                     for cc in data:
                         temp.append(cc[0])
@@ -735,27 +736,45 @@ def defaulterData(year, division, sdate, edate, defaulter):
                     if any(tenz > 0 for tenz in temp):
                         for k in range(len(data)):
                             data[k] = data[k][0]
+                        yay = []
+                        for huh in data:
+                            if huh == -1:
+                                yay.append(-1)
+                            elif huh != -1:
+                                yay.append(0)
+                        dd.append(yay)
+
+                        for heh in range(len(data)):
+                            if data[heh] == -1:
+                                data[heh] = 0
                         ll.append(data)
+
                         if 'other attendance' not in j.lower():
                             total[sname] += 1
                 except:
                     print('except')
 
             if total[sname] != 0 or 'other attendance' in j.lower():
-                # print(j)
                 total['subs'].append(sname)
                 su = [sum(x) for x in zip(*ll)]
-                # print(su)
                 if len(su) == 0:
                     for l in range(len(total['roll'])):
                         su.append(0)
-                # print('su',su)
+                sdd = [sum(x) for x in zip(*dd)]
 
+                if len(sdd) == 0:
+                    for l in range(len(total['roll'])):
+                        sdd.append(0)
+
+                if len(supsdd) == 0:
+                    supsdd = sdd
+                else:
+                    supsdd = [sum(i) for i in zip(supsdd, sdd)]
                 for k in range(len(total['roll'])):
                     total['roll'][k].append(su[k])
 
                 total['cnt'].append(total[sname])
-
+        print(supsdd)
         # For practical-------------------------------------------
         for j in subs['Practical'][year]:
             ll = []
@@ -838,12 +857,12 @@ def defaulterData(year, division, sdate, edate, defaulter):
                 sess_count[kk] += total[sname][kk]
 
         # new ----------------
-        for i in range(len(total['roll'])):
-            # print(total['roll'][i])
-            for jcb in range(3, len(total['roll'][i])):
-                if total['roll'][i][jcb] < 0:
-                    # print(total['roll'][i][jcb])
-                    sess_count[i] += total['roll'][i][jcb]
+        # for i in range(len(total['roll'])):
+        #     # print(total['roll'][i])
+        #     for jcb in range(3, len(total['roll'][i])):
+        #         if total['roll'][i][jcb] < 0:
+        #             # print(total['roll'][i][jcb])
+        #             sess_count[i] += total['roll'][i][jcb]
             # print(sess_count[i])
 
         # Session Attended
@@ -851,12 +870,9 @@ def defaulterData(year, division, sdate, edate, defaulter):
             # print(total['roll'][i])
             cnt = 0
             for j in range(3, len(total['roll'][i])):
-                if total['roll'][i][j] < 0:
-                    cnt += 0
-                    total['roll'][i][j] = 0
-                else:
-                    cnt += total['roll'][i][j]
+                cnt += total['roll'][i][j]
             percentage = 0
+            sess_count[i] += supsdd[i]
             try:
                 percentage = (cnt/sess_count[i])*100
                 percentage = round(percentage, 2)
