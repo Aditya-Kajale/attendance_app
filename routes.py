@@ -249,7 +249,8 @@ def profile():
     # Check if user is loggedin
     if 'loggedin' in session and session['authority'] == 'Faculty':
         # We need all the account info for the user so we can display it on the profile page
-        lo_cur.execute('SELECT * FROM account WHERE username = %s', (session['username'],))
+        lo_cur.execute('SELECT * FROM account WHERE username = %s',
+                       (session['username'],))
         account = lo_cur.fetchone()
         # Show the profile page with account info
         return render_template('profile.html', account=account)
@@ -585,6 +586,7 @@ def addSubject():
         return redirect(url_for('manageSubject'))
     return redirect(url_for('login'))
 
+
 @app.route('/renamesubject', methods=['GET', 'POST'])
 def renamesubject():
     if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
@@ -599,9 +601,10 @@ def renamesubject():
             all['subtype'] = subtype
             session['yeardelete'] = year
             session['subtypedelete'] = subtype
-            return render_template('renamesubject.html',all = all)
+            return render_template('renamesubject.html', all=all)
         return render_template('manageSubject1.html')
     return redirect(url_for('login'))
+
 
 @app.route('/renamesub', methods=['GET', 'POST'])
 def renamesub():
@@ -610,7 +613,7 @@ def renamesub():
         delsub = request.form.getlist('rename')
         year = session['yeardelete']
         subtype = session['subtypedelete']
-        addSubject.renamesubject(subtype,year,delsub)
+        addSubject.renamesubject(subtype, year, delsub)
         return redirect(url_for('manageSubject'))
     return redirect(url_for('login'))
 
@@ -976,7 +979,6 @@ def theoryAttendance():
                 subs = json.loads(i[-1])
         newdic = {}
         for i in subs:
-            print(subs[i])
             for j in subs[i]:
                 if subs[i][j]['THEORY']:
                     if i not in newdic:
@@ -1006,7 +1008,6 @@ def searchStud_theory():
                 year, division, date, subject, timeslot, batch)
             data = classRecordDBS.getData_batchvise(year, division, batch)
             msg = dailyreport.check_session(year, division, date, timeslot)
-            print(msg)
             data.sort()
             # print(data)
             total_data = (session['searchtheory'], data, bt, msg)
@@ -1138,21 +1139,23 @@ def updatedailyreport():
     return redirect(url_for('login'))
 
 
-# for marks coordinator login 
+# for marks coordinator login
 
 @app.route('/examhome')
 def examhome():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
-        return render_template('examhome.html',username=session['username'])
+        return render_template('examhome.html', username=session['username'])
     return redirect(url_for('login'))
+
 
 @app.route('/exammarks')
 def exammarks():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
-        return render_template('exammarks.html',subs= subs)
+        return render_template('exammarks.html', subs=subs)
     return redirect(url_for('login'))
 
-@app.route('/addmarks', methods = ['GET', 'POST'])
+
+@app.route('/addmarks', methods=['GET', 'POST'])
 def addmarks():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         import addmarks
@@ -1164,16 +1167,17 @@ def addmarks():
             if uploaded_file.filename != '':
                 file_path = os.path.join(
                     app.config['UPLOAD_FOLDER'], uploaded_file.filename)
-                uploaded_file.save(file_path)            
-            addmarks.addmarks(file_path,exam,year,div)
+                uploaded_file.save(file_path)
+            addmarks.addmarks(file_path, exam, year, div)
         return redirect(url_for('exammarks'))
     return redirect(url_for('login'))
 
-@app.route('/examdisplay', methods = ['GET', 'POST'])
+
+@app.route('/examdisplay', methods=['GET', 'POST'])
 def examdisplay():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         marks = mysql.connector.connect(
-        user='root', password='', host='localhost', database='marks')
+            user='root', password='', host='localhost', database='marks')
         markCur = marks.cursor()
         if request.method == 'POST':
             all = {}
@@ -1181,7 +1185,7 @@ def examdisplay():
             exam = request.form.get('exam')
             year = request.form.get('year')
             div = request.form.get('division')
-            all['pre'] = [exam,year,div]
+            all['pre'] = [exam, year, div]
             tablename = exam+'-'+year+'-'+div
             try:
                 sql = "SHOW COLUMNS FROM `{}`".format(tablename)
@@ -1202,17 +1206,18 @@ def examdisplay():
         return render_template('examdisplay.html')
     return redirect(url_for('login'))
 
-@app.route('/examdelete', methods = ['GET', 'POST'])
+
+@app.route('/examdelete', methods=['GET', 'POST'])
 def examdelete():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         marks = mysql.connector.connect(
-        user='root', password='', host='localhost', database='marks')
+            user='root', password='', host='localhost', database='marks')
         markCur = marks.cursor()
         if request.method == 'POST':
             all = {}
             year = request.form.get('year')
             div = request.form.get('division')
-            all['pre'] = [year,div]
+            all['pre'] = [year, div]
             sql = 'SHOW TABLES'
             markCur.execute(sql)
             tbs = markCur.fetchall()
@@ -1223,31 +1228,35 @@ def examdelete():
                     table.append(tbs[i][0])
             all['tables'] = table
             marks.close()
-            return render_template('examdelete1.html',data=all)
+            return render_template('examdelete1.html', data=all)
         return render_template('examdelete.html')
     return redirect(url_for('login'))
 
-@app.route('/examdelete1', methods = ['GET', 'POST'])
+
+@app.route('/examdelete1', methods=['GET', 'POST'])
 def examdelete1():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         marks = mysql.connector.connect(
-        user='root', password='', host='localhost', database='marks')
+            user='root', password='', host='localhost', database='marks')
         markCur = marks.cursor()
         delist = request.form.getlist('delete')
         for i in delist:
             sql = 'DROP TABLE `{}`'.format(i)
-            markCur.execute(sql) 
+            markCur.execute(sql)
             marks.commit()
         return redirect(url_for('examdelete'))
     return redirect(url_for('login'))
 
+
 @app.route('/examprofile')
 def examprofile():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
-        lo_cur.execute('SELECT * FROM account WHERE username = %s', (session['username'],))
+        lo_cur.execute('SELECT * FROM account WHERE username = %s',
+                       (session['username'],))
         account = lo_cur.fetchone()
-        return render_template('examprofile.html',account=account)
+        return render_template('examprofile.html', account=account)
     return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

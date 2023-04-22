@@ -115,14 +115,12 @@ def check_session(year, division, date, timeslot):
             ind = col.index(timeslot)
         except:
             pass
-
         try:
             if timeslot not in col:
                 msg = 'Attendance for this time slot is recorded already.'
             else:
-                if 'pr' in col[ind-1]:
+                if 'pr' in col[ind-1] and timeslot != '10:15':
                     msg = 'Attendance for this time slot is recorded already'
-            # print(col[ind-1])
         except:
             pass
 

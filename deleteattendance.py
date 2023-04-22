@@ -80,7 +80,6 @@ def deleteAttendanceTheory(year, division, date, subject, batch, torp):
     date = date.replace('-', '_')
 
     if year == "BTECH":
-
         roll = []
         try:
             for i in batch:
@@ -101,6 +100,53 @@ def deleteAttendanceTheory(year, division, date, subject, batch, torp):
 
         date = date.replace('_', '-')
         deletteFromDailyReport(year, division, date, subject, torp, roll)
+        at_btech.close()
+
+    elif year == "TY":
+        roll = []
+        try:
+            for i in batch:
+                sql = "SELECT ROLL_NO from `{}` WHERE batch='{}'".format(
+                    year, i)
+                cur.execute(sql)
+                temp = cur.fetchall()
+                for k in temp:
+                    roll.append(k[0])
+
+            for i in roll:
+                sql = "UPDATE `{}` SET {}=-1 WHERE roll={}".format(
+                    subject, date, i)
+                ty.execute(sql)
+                at_ty.commit()
+        except:
+            print('something wrong with date ')
+
+        date = date.replace('_', '-')
+        deletteFromDailyReport(year, division, date, subject, torp, roll)
+        at_ty.close()
+
+    elif year == "SY":
+        roll = []
+        try:
+            for i in batch:
+                sql = "SELECT ROLL_NO from `{}` WHERE batch='{}'".format(
+                    year, i)
+                cur.execute(sql)
+                temp = cur.fetchall()
+                for k in temp:
+                    roll.append(k[0])
+
+            for i in roll:
+                sql = "UPDATE `{}` SET {}=-1 WHERE roll={}".format(
+                    subject, date, i)
+                sy.execute(sql)
+                at_sy.commit()
+        except:
+            print('something wrong with date ')
+
+        date = date.replace('_', '-')
+        deletteFromDailyReport(year, division, date, subject, torp, roll)
+        at_sy.close()
 
 
 def deleteAttendancePractical(year, division, date, subject, timeslot, batch, torp):
@@ -140,3 +186,52 @@ def deleteAttendancePractical(year, division, date, subject, timeslot, batch, to
 
         date = date.replace('_', '-')
         deletteFromDailyReport(year, division, date, subject, torp, roll)
+        ap_btech.close()
+
+    elif year == "TY":
+        roll = []
+        roll = []
+        try:
+            for i in batch:
+                sql = "SELECT ROLL_NO from `{}` WHERE batch='{}'".format(
+                    year, i)
+                cur.execute(sql)
+                temp = cur.fetchall()
+                for k in temp:
+                    roll.append(k[0])
+            print(roll)
+            for i in roll:
+                sql = "UPDATE `{}` SET {}=-1 WHERE roll={}".format(
+                    subject, date, i)
+                tyP.execute(sql)
+                ap_ty.commit()
+        except:
+            print('something wrong with date ')
+
+        date = date.replace('_', '-')
+        deletteFromDailyReport(year, division, date, subject, torp, roll)
+        ap_ty.close()
+
+    elif year == "SY":
+        roll = []
+        roll = []
+        try:
+            for i in batch:
+                sql = "SELECT ROLL_NO from `{}` WHERE batch='{}'".format(
+                    year, i)
+                cur.execute(sql)
+                temp = cur.fetchall()
+                for k in temp:
+                    roll.append(k[0])
+            print(roll)
+            for i in roll:
+                sql = "UPDATE `{}` SET {}=-1 WHERE roll={}".format(
+                    subject, date, i)
+                syP.execute(sql)
+                ap_sy.commit()
+        except:
+            print('something wrong with date ')
+
+        date = date.replace('_', '-')
+        deletteFromDailyReport(year, division, date, subject, torp, roll)
+        ap_sy.close()
