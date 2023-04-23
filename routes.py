@@ -1003,9 +1003,11 @@ def searchStud_theory():
             subject = request.form.get('subject')
             timeslot = request.form.get('timeslot')
             batch = request.form.getlist('batch')
+            attype = request.form.get('attype')
+            session['attype'] = attype
             bt = ', '.join(batch)
             session['searchtheory'] = (
-                year, division, date, subject, timeslot, batch)
+                year, division, date, subject, timeslot, batch, attype)
             data = classRecordDBS.getData_batchvise(year, division, batch)
             msg = dailyreport.check_session(year, division, date, timeslot)
             data.sort()
@@ -1027,8 +1029,12 @@ def addAttendance():
             present = request.form.getlist('present')
             # print(session['roll'])
             # print(session['searchtheory'])
-            addAttendance.addAttendance_theory(
-                session['searchtheory'], present, session['roll'])
+            if session['attype'] == 'Overwrite':
+                addAttendance.addAttendance_theory(
+                    session['searchtheory'], present, session['roll'])
+            elif session['attype'] == 'Addition':
+                addAttendance.addDoubleAttendance_theory(
+                    session['searchtheory'], present, session['roll'])
             addAttendance.addattendance_daily(
                 session['searchtheory'], present, session['roll'], "Theory")
         return redirect(url_for('theoryAttendance'))

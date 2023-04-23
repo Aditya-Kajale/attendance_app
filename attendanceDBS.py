@@ -58,18 +58,13 @@ def subjectAttendance_theory(year, division, subject, sdate, edate):
                 for pp in data:
                     temp.append(pp[0])
                 total[i] = []
-                if 1 in temp:
+                if any(tenz > 0 for tenz in temp):
                     for cc in data:
                         if cc[0] == -1:
                             total[i].append((0,))
                         else:
                             total[i].append(cc)
                     new_dates.append(i)
-                print(total[i])
-                # ----------------------
-                # if data[0][0] != -1:
-                #     total[i] = data
-                # print(data)
             except:
                 print('except')
 
@@ -750,7 +745,7 @@ def defaulterData(year, division, sdate, edate, defaulter):
                         ll.append(data)
 
                         if 'other attendance' not in j.lower():
-                            total[sname] += 1
+                            total[sname] += max(data)
                 except:
                     print('except')
 
@@ -774,7 +769,6 @@ def defaulterData(year, division, sdate, edate, defaulter):
                     total['roll'][k].append(su[k])
 
                 total['cnt'].append(total[sname])
-        print(supsdd)
         # For practical-------------------------------------------
         for j in subs['Practical'][year]:
             ll = []

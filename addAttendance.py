@@ -469,6 +469,54 @@ def addAttendance_theory(data, present, roll):
                 at_sy.commit()
         at_sy.close()
 
+def addDoubleAttendance_theory(data, present, roll):
+    at_btech = mysql.connector.connect(
+        user='root', password='', host='localhost', database='theory_btech')
+    at_ty = mysql.connector.connect(
+        user='root', password='', host='localhost', database='theory_ty')
+    at_sy = mysql.connector.connect(
+        user='root', password='', host='localhost', database='theory_sy')
+
+    btech = at_btech.cursor()
+    ty = at_ty.cursor()
+    sy = at_sy.cursor()
+    print('data',data)
+    if data[0] == "BTECH":
+        date = data[2].replace('-', '_')
+        for i in present:
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(date, data[3],i)
+            btech.execute(sql)
+            curattendance = btech.fetchone()[0]
+            curattendance+=1
+            sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
+                data[3], date, curattendance, i)
+            btech.execute(sql)
+            at_btech.commit()
+
+    elif data[0] == "TY":
+        date = data[2].replace('-', '_')
+        for i in present:
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(date, data[3],i)
+            ty.execute(sql)
+            curattendance = ty.fetchone()[0]
+            curattendance+=1
+            sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
+                data[3], date, curattendance, i)
+            ty.execute(sql)
+            at_ty.commit()
+
+    elif data[0] == "SY":
+        date = data[2].replace('-', '_')
+        for i in present:
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(date, data[3],i)
+            sy.execute(sql)
+            curattendance = sy.fetchone()[0]
+            curattendance+=1
+            sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
+                data[3], date, curattendance, i)
+            sy.execute(sql)
+            at_sy.commit()
+
 
 def addAttendance_practical(data, present, roll):
 
