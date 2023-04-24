@@ -1029,7 +1029,7 @@ def addAttendance():
             present = request.form.getlist('present')
             # print(session['roll'])
             # print(session['searchtheory'])
-            if session['attype'] == 'Overwrite':
+            if session['attype'] == 'Regular':
                 addAttendance.addAttendance_theory(
                     session['searchtheory'], present, session['roll'])
             elif session['attype'] == 'Addition':
