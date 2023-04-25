@@ -276,6 +276,22 @@
                     <td class="remark">
                       <input
                         type="text"
+                        name="sphone"
+                        value="{{row[-3]}}"
+                        class="form-control"
+                      />
+                    </td>
+                    <td class="remark">
+                      <input
+                        type="text"
+                        name="pphone"
+                        value="{{row[-2]}}"
+                        class="form-control"
+                      />
+                    </td>
+                    <td class="remark">
+                      <input
+                        type="text"
                         name="remark"
                         placeholder="Remark"
                         value="{{row[-1]}}"
@@ -288,6 +304,22 @@
                     {% for cell in range(data['len']) %}
                     <td>{{row[cell]}}</td>
                     {% endfor %}
+                    <td>
+                      <input
+                        type="text"
+                        name="sphone"
+                        value="{{row[-3]}}"
+                        class="form-control"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="pphone"
+                        value="{{row[-2]}}"
+                        class="form-control"
+                      />
+                    </td>
                     <td>
                       <input
                         type="text"

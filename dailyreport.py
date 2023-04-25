@@ -37,19 +37,20 @@ def dailyreport(year, div, date):
         prcount = prcount - abcount
         total['pr'] = [prcount, abcount]
 
-        sql = "SELECT sphone,pphone FROM `{}`".format(year)
+        sql = "SELECT sphone,pphone FROM `{}` WHERE division='{}'".format(
+            year, div)
         cur.execute(sql)
         phone = cur.fetchall()
 
-        total['columns'].insert(9, 'Student Phone')
         total['columns'].insert(9, 'Parent Phone')
+        total['columns'].insert(9, 'Student Phone')
 
         for i in range(len(total['data'])):
             total['data'][i] = list(total['data'][i])
             total['data'][i].insert(9, phone[i][1])
             total['data'][i].insert(9, phone[i][0])
 
-        total['len'] = len(data[0])-1
+        total['len'] = len(data[0])-3
 
     except:
         print('table not exist')
@@ -57,7 +58,7 @@ def dailyreport(year, div, date):
     return total
 
 
-def updatedailyreport(info, remark):
+def updatedailyreport(info, remark, sphone, pphone):
     cur = mysql_stud.connection.cursor()
     dcse = mysql.connector.connect(
         user='root', password='', host='localhost', database='daily_cse')
@@ -68,7 +69,7 @@ def updatedailyreport(info, remark):
     date = info[2]
     tableName = date+'-'+year+'-'+div
 
-    sql = 'SELECT ROLL_NO FROM {}'.format(info[0])
+    sql = 'SELECT ROLL_NO FROM {} WHERE division="{}"'.format(info[0], div)
     cur.execute(sql)
     temp = cur.fetchall()
     roll = []
@@ -86,7 +87,16 @@ def updatedailyreport(info, remark):
     except:
         print('table not exist')
 
-    print(remark, info, roll)
+    for i in range(len(roll)):
+        print(roll[i], sphone[i], pphone[i])
+        cur = mysql_stud.connection.cursor()
+        sql = "UPDATE `{}` SET `sphone`='{}', `pphone`='{}' WHERE `ROLL_NO`='%s'".format(
+            year, sphone[i], pphone[i])
+        val = (roll[i],)
+        cur.execute(sql, val)
+        mysql_stud.connection.commit()
+
+    mysql_stud.connection.close()
     dcse.close()
 
 
