@@ -100,7 +100,7 @@ def addLoginInfo(roll, name, year):
         user='root', password='', host='localhost', database='login')
     lo_cur = logindbs.cursor()
     authoritiy = 'student'
-    username = name.split()[0]
+    username = name.split()[0] + name.split()[-1]
     password = str(roll)
     email = year+'@gmail.com'
     sub = '[]'
