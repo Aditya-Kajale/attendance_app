@@ -42,13 +42,13 @@ def dailyreport(year, div, date):
         cur.execute(sql)
         phone = cur.fetchall()
 
-        total['columns'].insert(9, 'Parent Phone')
-        total['columns'].insert(9, 'Student Phone')
+        total['columns'].insert(11, 'Parent Phone')
+        total['columns'].insert(11, 'Student Phone')
 
         for i in range(len(total['data'])):
             total['data'][i] = list(total['data'][i])
-            total['data'][i].insert(9, phone[i][1])
-            total['data'][i].insert(9, phone[i][0])
+            total['data'][i].insert(11, phone[i][1])
+            total['data'][i].insert(11, phone[i][0])
 
         total['len'] = len(data[0])-3
 
@@ -129,7 +129,7 @@ def check_session(year, division, date, timeslot):
             if timeslot not in col:
                 msg = 'Attendance for this time slot is recorded already.'
             else:
-                if 'pr' in col[ind-1] and timeslot != '10:15':
+                if 'pr' in col[ind-1] and timeslot != '8:00':
                     msg = 'Attendance for this time slot is recorded already'
         except:
             pass

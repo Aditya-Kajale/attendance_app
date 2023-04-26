@@ -88,12 +88,14 @@ def addattendance_daily(data, present, roll, torp):
         else:
             sname += i[0]
 
-    tt = {'10:15': 3,
-          '11:15': 4,
-          '1:15': 5,
-          '2:15': 6,
-          '3:30': 7,
-          '4:30': 8}
+    tt = {'8:00': 3,
+          '9:00': 4,
+          '10:15': 5,
+          '11:15': 6,
+          '1:15': 7,
+          '2:15': 8,
+          '3:30': 9,
+          '4:30': 10}
 
     print(year, div, date, sub, time, batch, tableName, torp)
 
@@ -198,7 +200,7 @@ def addattendance_daily(data, present, roll, torp):
 
         else:
             print('table not exist')
-            sql = "CREATE TABLE `{}` (`roll` INT NOT NULL , `name` TEXT NOT NULL , `prsub` TEXT NOT NULL , `10:15` INT NOT NULL DEFAULT '-1' , `11:15` INT NOT NULL DEFAULT '-1' , `1:15` INT NOT NULL DEFAULT '-1' , `2:15` INT NOT NULL DEFAULT '-1' , `3:30` INT NOT NULL DEFAULT '-1' , `4:30` INT NOT NULL DEFAULT '-1' , `remark` TEXT NOT NULL ) ENGINE = InnoDB;".format(tableName)
+            sql = "CREATE TABLE `{}` (`roll` INT NOT NULL , `name` TEXT NOT NULL , `prsub` TEXT NOT NULL , `8:00` INT NOT NULL DEFAULT '-1', `9:00` INT NOT NULL DEFAULT '-1' , `10:15` INT NOT NULL DEFAULT '-1' , `11:15` INT NOT NULL DEFAULT '-1' , `1:15` INT NOT NULL DEFAULT '-1' , `2:15` INT NOT NULL DEFAULT '-1' , `3:30` INT NOT NULL DEFAULT '-1' , `4:30` INT NOT NULL DEFAULT '-1' , `remark` TEXT NOT NULL ) ENGINE = InnoDB;".format(tableName)
             dcse_cur.execute(sql)
 
             total['data'] = []
@@ -469,6 +471,7 @@ def addAttendance_theory(data, present, roll):
                 at_sy.commit()
         at_sy.close()
 
+
 def addDoubleAttendance_theory(data, present, roll):
     at_btech = mysql.connector.connect(
         user='root', password='', host='localhost', database='theory_btech')
@@ -480,14 +483,15 @@ def addDoubleAttendance_theory(data, present, roll):
     btech = at_btech.cursor()
     ty = at_ty.cursor()
     sy = at_sy.cursor()
-    print('data',data)
+    print('data', data)
     if data[0] == "BTECH":
         date = data[2].replace('-', '_')
         for i in present:
-            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(date, data[3],i)
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(
+                date, data[3], i)
             btech.execute(sql)
             curattendance = btech.fetchone()[0]
-            curattendance+=1
+            curattendance += 1
             sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
                 data[3], date, curattendance, i)
             btech.execute(sql)
@@ -496,10 +500,11 @@ def addDoubleAttendance_theory(data, present, roll):
     elif data[0] == "TY":
         date = data[2].replace('-', '_')
         for i in present:
-            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(date, data[3],i)
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(
+                date, data[3], i)
             ty.execute(sql)
             curattendance = ty.fetchone()[0]
-            curattendance+=1
+            curattendance += 1
             sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
                 data[3], date, curattendance, i)
             ty.execute(sql)
@@ -508,10 +513,11 @@ def addDoubleAttendance_theory(data, present, roll):
     elif data[0] == "SY":
         date = data[2].replace('-', '_')
         for i in present:
-            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(date, data[3],i)
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(
+                date, data[3], i)
             sy.execute(sql)
             curattendance = sy.fetchone()[0]
-            curattendance+=1
+            curattendance += 1
             sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
                 data[3], date, curattendance, i)
             sy.execute(sql)
