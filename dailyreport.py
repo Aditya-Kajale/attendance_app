@@ -157,12 +157,14 @@ def check_session_practical(year, division, date, batch, timeslot):
         for kk in cn:
             col.append(kk[0])
 
-        tt = {'10:15': 3,
-              '11:15': 4,
-              '1:15': 5,
-              '2:15': 6,
-              '3:30': 7,
-              '4:30': 8}
+        tt = {'8:00': 3,
+              '9:00': 4,
+              '10:15': 5,
+              '11:15': 6,
+              '1:15': 7,
+              '2:15': 8,
+              '3:30': 9,
+              '4:30': 10}
 
         print(col[tt[timeslot]])
 

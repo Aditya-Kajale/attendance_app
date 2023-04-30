@@ -298,12 +298,21 @@ def studenttAttendance_defaulter(roll, year):
                     j, i, roll)
                 btech.execute(sql)
                 data = btech.fetchall()
-                # print(i,j,data)
+                sql = 'SELECT `division` FROM `{}` WHERE roll = "{}"'.format(
+                    i, roll)
+                btech.execute(sql)
+                div = btech.fetchall()[0][0]
+                sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(
+                    j, i, div)
+                btech.execute(sql)
+                all = btech.fetchall()
+                for reko in range(len(all)):
+                    all[reko] = all[reko][0]
                 try:
                     if data[0][0] != -1:
                         attended += data[0][0]
                         if 'other attendance' not in i.lower():
-                            total[sname] += 1
+                            total[sname] += max(all)
                 except Exception as e:
                     print(e)
 
@@ -676,11 +685,21 @@ def studentAttendanceKundli(roll, year):
                     j, i, roll)
                 btech.execute(sql)
                 data = btech.fetchall()
+                sql = 'SELECT `division` FROM `{}` WHERE roll = "{}"'.format(
+                    i, roll)
+                btech.execute(sql)
+                div = btech.fetchall()[0][0]
+                sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(
+                    j, i, div)
+                btech.execute(sql)
+                all = btech.fetchall()
+                for reko in range(len(all)):
+                    all[reko] = all[reko][0]
                 try:
                     if data[0][0] != -1:
                         attended += data[0][0]
                         if 'other attendance' not in i.lower():
-                            total[sname] += 1
+                            total[sname] += max(all)
                 except Exception as e:
                     print(e)
             if total[sname] != 0:
@@ -803,11 +822,21 @@ def studentAttendanceKundli(roll, year):
                     j, i, roll)
                 ty.execute(sql)
                 data = ty.fetchall()
+                sql = 'SELECT `division` FROM `{}` WHERE roll = "{}"'.format(
+                    i, roll)
+                btech.execute(sql)
+                div = btech.fetchall()[0][0]
+                sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(
+                    j, i, div)
+                btech.execute(sql)
+                all = btech.fetchall()
+                for reko in range(len(all)):
+                    all[reko] = all[reko][0]
                 try:
                     if data[0][0] != -1:
                         attended += data[0][0]
                         if 'other attendance' not in i.lower():
-                            total[sname] += 1
+                            total[sname] += max(all)
                 except Exception as e:
                     print(e)
                 if 'other attendance' in i.lower():
@@ -932,11 +961,21 @@ def studentAttendanceKundli(roll, year):
                     j, i, roll)
                 sy.execute(sql)
                 data = sy.fetchall()
+                sql = 'SELECT `division` FROM `{}` WHERE roll = "{}"'.format(
+                    i, roll)
+                btech.execute(sql)
+                div = btech.fetchall()[0][0]
+                sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(
+                    j, i, div)
+                btech.execute(sql)
+                all = btech.fetchall()
+                for reko in range(len(all)):
+                    all[reko] = all[reko][0]
                 try:
                     if data[0][0] != -1:
                         attended += data[0][0]
                         if 'other attendance' not in i.lower():
-                            total[sname] += 1
+                            total[sname] += max(all)
                 except Exception as e:
                     print(e)
             if total[sname] != 0 or 'other attendance' in i.lower():
@@ -1087,10 +1126,20 @@ def studentAttendanceDatewise(roll, year, sdate, edate):
                         i, j, roll)
                     btech.execute(sql)
                     data = btech.fetchall()
+                    sql = 'SELECT `division` FROM `{}` WHERE roll = "{}"'.format(
+                        i, roll)
+                    btech.execute(sql)
+                    div = btech.fetchall()[0][0]
+                    sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(
+                        j, i, div)
+                    btech.execute(sql)
+                    all = btech.fetchall()
+                    for reko in range(len(all)):
+                        all[reko] = all[reko][0]
                     if data[0][0] != -1:
                         attended += data[0][0]
                         if 'other attendance' not in j.lower():
-                            total[sname] += 1
+                            total[sname] += max(all)
                 except:
                     pass
             if total[sname] != 0:
@@ -1187,10 +1236,20 @@ def studentAttendanceDatewise(roll, year, sdate, edate):
                         i, j, roll)
                     ty.execute(sql)
                     data = ty.fetchall()
+                    sql = 'SELECT `division` FROM `{}` WHERE roll = "{}"'.format(
+                        i, roll)
+                    btech.execute(sql)
+                    div = btech.fetchall()[0][0]
+                    sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(
+                        j, i, div)
+                    btech.execute(sql)
+                    all = btech.fetchall()
+                    for reko in range(len(all)):
+                        all[reko] = all[reko][0]
                     if data[0][0] != -1:
                         attended += data[0][0]
                         if 'other attendance' not in j.lower():
-                            total[sname] += 1
+                            total[sname] += max(all)
                 except:
                     pass
             if total[sname] != 0:
@@ -1287,10 +1346,20 @@ def studentAttendanceDatewise(roll, year, sdate, edate):
                         i, j, roll)
                     sy.execute(sql)
                     data = sy.fetchall()
+                    sql = 'SELECT `division` FROM `{}` WHERE roll = "{}"'.format(
+                        i, roll)
+                    btech.execute(sql)
+                    div = btech.fetchall()[0][0]
+                    sql = 'SELECT {} FROM `{}` WHERE division = "{}"'.format(
+                        j, i, div)
+                    btech.execute(sql)
+                    all = btech.fetchall()
+                    for reko in range(len(all)):
+                        all[reko] = all[reko][0]
                     if data[0][0] != -1:
                         attended += data[0][0]
                         if 'other attendance' not in j.lower():
-                            total[sname] += 1
+                            total[sname] += max(all)
                 except:
                     pass
             if total[sname] != 0:
