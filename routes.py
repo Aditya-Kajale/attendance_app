@@ -76,10 +76,6 @@ except:
 # print(1,ls[0].name)
 obj = Faculty(0, '', {}, '')
 
-logindbs = mysql.connector.connect(
-    user='root', password='', host='localhost', database='login')
-lo_cur = logindbs.cursor()
-
 app = Flask(__name__)
 app.secret_key = 'your secret key'
 
@@ -249,10 +245,14 @@ def profile():
     # Check if user is loggedin
     if 'loggedin' in session and session['authority'] == 'Faculty':
         # We need all the account info for the user so we can display it on the profile page
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE username = %s',
                        (session['username'],))
         account = lo_cur.fetchone()
         # Show the profile page with account info
+        logindbs.close()
         return render_template('profile.html', account=account)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
@@ -279,8 +279,12 @@ def masterHome():
 @app.route('/masterprofile')
 def masterprofile():
     if 'loggedin' in session and session['authority'] == 'master':
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
         account = lo_cur.fetchone()
+        logindbs.close()
         return render_template('masterprofile.html', account=account)
     return redirect(url_for('login'))
 
@@ -311,8 +315,12 @@ def studentHome():
 @app.route('/studentprofile')
 def studentprofile():
     if 'loggedin' in session and session['authority'] == 'student':
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
         account = lo_cur.fetchone()
+        logindbs.close()
         return render_template('studentprofile.html', account=account)
     return redirect(url_for('login'))
 
@@ -510,6 +518,9 @@ def registerFaculty():
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
         # Create variables for easy access
         id = request.form['id']
         username = request.form['username']
@@ -535,6 +546,7 @@ def registerFaculty():
             lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s)',
                            (id, username, password, email,))
             logindbs.commit()
+        logindbs.close()
 
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -621,8 +633,12 @@ def renamesub():
 @app.route('/adminProfile')
 def adminProfile():
     if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
         account = lo_cur.fetchone()
+        logindbs.close()
         return render_template('adminprofile.html', account=account)
     return redirect(url_for('login'))
 
@@ -1260,9 +1276,13 @@ def examdelete1():
 @app.route('/examprofile')
 def examprofile():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE username = %s',
                        (session['username'],))
         account = lo_cur.fetchone()
+        logindbs.close()
         return render_template('examprofile.html', account=account)
     return redirect(url_for('login'))
 
