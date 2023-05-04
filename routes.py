@@ -101,13 +101,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # log in and logout ----------------------------------------------------------
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    logindbs = mysql.connector.connect(
-        user='root', password='', host='localhost', database='login')
-    lo_cur = logindbs.cursor()
 
     # Output message if something goes wrong...
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
@@ -117,6 +117,7 @@ def login():
         lo_cur.execute(sql)
         account = lo_cur.fetchall()
         print(account)
+        logindbs.close()
         if account:
             # Create session data, we can access this data in other routes
             session['loggedin'] = True
@@ -144,7 +145,6 @@ def login():
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!'
-    logindbs.close()
     return render_template('login.html', msg=msg)
 
 
