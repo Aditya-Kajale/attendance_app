@@ -262,8 +262,13 @@ def profile():
 def home():
     # Check if user is loggedin
     if 'loggedin' in session and session['authority'] == 'Faculty':
-        # User is loggedin show them the home page
-        return render_template('home.html', username=session['username'])
+        import homeinfo
+        all = {}
+        all['username'] = session['username']
+        all['subs'] = session['SUB']
+        count = homeinfo.getleccount(all['subs'])
+        all['count'] = count
+        return render_template('home.html', data=all)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
