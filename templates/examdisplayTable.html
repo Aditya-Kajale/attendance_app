@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Take Attendance</title>
+    <title>Display Marks</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -138,24 +138,46 @@
           </div>
           <hr />
           <h6 class="text-danger">{{data['msg']}}</h6>
-          <table class="table table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                {% for i in data['cols'] %}
-                <th scope="col">{{i}}</th>
+          <form
+            action="{{url_for('updateexam')}}"
+            method="POST"
+            onsubmit="return confirm('Are you sure to submit ?')"
+          >
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  {% for i in data['cols'] %}
+                  <th scope="col">{{i}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in range(data['data']|length) %}
+                <tr>
+                  {% for j in range(data['data'][i]|length) %} {% if j < 3 %}
+                  <td>{{data['data'][i][j]}}</td>
+                  {% else %}
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{data['data'][i][j]}}"
+                      name="{{data['cols'][j]}}"
+                    />
+                  </td>
+                  {% endif %} {% endfor %}
+                </tr>
                 {% endfor %}
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in data['data'] %}
-              <tr>
-                {% for j in i %}
-                <td>{{j}}</td>
-                {% endfor %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+            <button
+              id="submitForm"
+              type="submit"
+              class="btn btn-primary btn-block rounded-pill shadow-sm d-print-none"
+            >
+              Confirm
+            </button>
+          </form>
         </div>
       </div>
     </div>
