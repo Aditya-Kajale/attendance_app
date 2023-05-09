@@ -671,3 +671,55 @@ def addAttendance_practical(data, present, roll):
                 syP.execute(sql)
                 ap_sy.commit()
         ap_sy.close()
+
+
+def addDoubleAttendance_practical(data, present, roll):
+    ap_btech = mysql.connector.connect(
+        user='root', password='', host='localhost', database='practical_btech')
+    ap_ty = mysql.connector.connect(
+        user='root', password='', host='localhost', database='practical_ty')
+    ap_sy = mysql.connector.connect(
+        user='root', password='', host='localhost', database='practical_sy')
+
+    btechP = ap_btech.cursor()
+    tyP = ap_ty.cursor()
+    syP = ap_sy.cursor()
+
+    if data[0] == "BTECH":
+        date = data[2].replace('-', '_')
+        for i in present:
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(
+                date, data[3], i)
+            btechP.execute(sql)
+            curattendance = btechP.fetchone()[0]
+            curattendance += 2
+            sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
+                data[3], date, curattendance, i)
+            btechP.execute(sql)
+            ap_btech.commit()
+
+    elif data[0] == "TY":
+        date = data[2].replace('-', '_')
+        for i in present:
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(
+                date, data[3], i)
+            tyP.execute(sql)
+            curattendance = tyP.fetchone()[0]
+            curattendance += 2
+            sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
+                data[3], date, curattendance, i)
+            tyP.execute(sql)
+            ap_ty.commit()
+
+    elif data[0] == "SY":
+        date = data[2].replace('-', '_')
+        for i in present:
+            sql = "SELECT `{}` FROM `{}` WHERE roll = {}".format(
+                date, data[3], i)
+            syP.execute(sql)
+            curattendance = syP.fetchone()[0]
+            curattendance += 2
+            sql = "UPDATE `{}` SET `{}`={} WHERE roll={} ".format(
+                data[3], date, curattendance, i)
+            syP.execute(sql)
+            ap_sy.commit()
