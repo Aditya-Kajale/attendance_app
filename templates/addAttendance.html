@@ -232,7 +232,9 @@
                   <th scope="col">ROLL NO</th>
                   <th scope="col">Name</th>
                   <th scope="col">Batch</th>
-                  <th scope="col">Present</th>
+                  <th scope="col">
+                    Present <input type="checkbox" id="check-all" checked />
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -280,6 +282,16 @@
     </div>
 
     <script>
+      const checkAll = document.getElementById("check-all");
+      const checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+      // Add an event listener to the checkAll button or checkbox
+      checkAll.addEventListener("click", function () {
+        checkboxes.forEach(function (checkbox) {
+          checkbox.checked = checkAll.checked;
+        });
+      });
+
       $(document).ready(function () {
         $('input[type="checkbox"]').change(function () {
           var total_checked = $("input[type='checkbox']:checked").length;
