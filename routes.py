@@ -182,51 +182,50 @@ def forgetPass():
     return render_template('forgetPass.html', msg=msg)
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    logindbs = mysql.connector.connect(
-        user='root', password='', host='localhost', database='login')
-    lo_cur = logindbs.cursor()
-    # Output message if something goes wrong...
-    msg = ''
-    # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
-        # Create variables for easy access
-        id = request.form['id']
-        authoritiy = request.form['authoritiy']
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-        # print(username,password,email,authorities)
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     logindbs = mysql.connector.connect(
+#         user='root', password='', host='localhost', database='login')
+#     lo_cur = logindbs.cursor()
+#     # Output message if something goes wrong...
+#     msg = ''
+#     # Check if "username", "password" and "email" POST requests exist (user submitted form)
+#     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
+#         # Create variables for easy access
+#         id = request.form['id']
+#         authoritiy = request.form['authoritiy']
+#         username = request.form['username']
+#         password = request.form['password']
+#         email = request.form['email']
+#         # print(username,password,email,authorities)
 
-        sql = 'SELECT * FROM account WHERE username = "{}"'.format(username)
-        lo_cur.execute(sql)
-        account = lo_cur.fetchall()
+#         sql = 'SELECT * FROM account WHERE username = "{}"'.format(username)
+#         lo_cur.execute(sql)
+#         account = lo_cur.fetchall()
 
-        if account:
-            msg = 'Account already exists!'
-        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            msg = 'Invalid email address!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email:
-            msg = 'Please fill out the form!'
-        else:
-            # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            sub = '{"BTECH":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"TY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"SY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}}}'
-            obj.accept(id, username, {"Theory": [],
-                       "Practical": []}, authoritiy)
-            lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s, %s, %s)',
-                           (id, authoritiy, username, password, email, sub))
-            logindbs.commit()
-            msg = 'You have successfully registered!'
+#         if account:
+#             msg = 'Account already exists!'
+#         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+#             msg = 'Invalid email address!'
+#         elif not re.match(r'[A-Za-z0-9]+', username):
+#             msg = 'Username must contain only characters and numbers!'
+#         elif not username or not password or not email:
+#             msg = 'Please fill out the form!'
+#         else:
+#             # Account doesnt exists and the form data is valid, now insert new account into accounts table
+#             sub = '{"BTECH":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"TY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"SY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}}}'
+#             obj.accept(id, username, {"Theory": [],
+#                        "Practical": []}, authoritiy)
+#             lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s, %s, %s)',
+#                            (id, authoritiy, username, password, email, sub))
+#             logindbs.commit()
+#             msg = 'You have successfully registered!'
 
-    elif request.method == 'POST':
-        # Form is empty... (no POST data)
-        msg = 'Please fill out the form!'
-    # Show registration form with message (if any)
-    logindbs.close()
-    return render_template('register.html', msg=msg)
+#     elif request.method == 'POST':
+#         msg = 'Please fill out the form!'
+
+#     logindbs.close()
+#     return render_template('register.html', msg=msg)
 
 
 @app.route('/logout')
@@ -528,10 +527,10 @@ def registerFaculty():
         lo_cur = logindbs.cursor()
         # Create variables for easy access
         id = request.form['id']
+        authoritiy = request.form['authoritiy']
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        print(username, password, email)
 
         sql = 'SELECT * FROM account WHERE username = "{}"'.format(username)
         lo_cur.execute(sql)
@@ -547,16 +546,19 @@ def registerFaculty():
             msg = 'Please fill out the form!'
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            obj.accept(id, username, {"Theory": [], "Practical": []})
-            lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s)',
-                           (id, username, password, email,))
+            sub = '{"BTECH":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"TY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}},"SY":{"A":{"THEORY":{},"PRACTICAL":{}},"B":{"THEORY":{},"PRACTICAL":{}}}}'
+            obj.accept(id, username, {"Theory": [],
+                       "Practical": []}, authoritiy)
+            lo_cur.execute('INSERT INTO account VALUES (%s, %s, %s, %s, %s, %s)',
+                           (id, authoritiy, username, password, email, sub))
             logindbs.commit()
-        logindbs.close()
+            msg = 'You have successfully registered!'
+            logindbs.commit()
 
     elif request.method == 'POST':
-        # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
 
+    logindbs.close()
     return redirect(url_for('manageFaculty'))
 
 
@@ -1061,6 +1063,70 @@ def addAttendance():
     return redirect(url_for('login'))
 
 
+@app.route('/editTheoryAttendance')
+def editTheoryAttendance():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
+        sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
+        lo_cur.execute(sql)
+        dt = lo_cur.fetchall()
+        for i in dt:
+            if i[2] == session['username']:
+                subs = json.loads(i[-1])
+        newdic = {}
+        for i in subs:
+            for j in subs[i]:
+                if subs[i][j]['THEORY']:
+                    if i not in newdic:
+                        newdic[i] = {}
+                        if j not in newdic[i]:
+                            newdic[i][j] = {}
+                    newdic[i][j] = subs[i][j]['THEORY']
+        logindbs.close()
+        return render_template('editTheoryAttendance.html', data=newdic)
+    return redirect(url_for('login'))
+
+
+@app.route('/edit_searchstudents_theory', methods=['GET', 'POST'])
+def edit_searchstudents_theory():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        import editAttendance
+        import classRecordDBS
+        if request.method == 'POST':
+            year = request.form.get('year')
+            division = request.form.get('division')
+            date = request.form.get('date')
+            subject = request.form.get('subject')
+            batch = request.form.getlist('batch')
+            bt = ', '.join(batch)
+            data = classRecordDBS.getData_batchvise(year, division, batch)
+            data.sort()
+            attendance = editAttendance.get_attendance(
+                year, data, subject, date)
+            total_data = (session['edit_searchtheory'], data, attendance, bt)
+            roll = []
+            for i in data:
+                roll.append(i[0])
+            session['edit_searchtheory'] = (
+                year, division, date, subject, batch, roll)
+        return render_template('editattendance.html', data=total_data)
+    return redirect(url_for('login'))
+
+
+@app.route('/edit_addattendance', methods=['GET', 'POST'])
+def edit_addattendance():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        import editAttendance
+        if request.method == 'POST':
+            present = request.form.getlist('present')
+            editAttendance.editattendance(
+                present, session['edit_searchtheory'])
+        return redirect(url_for('editTheoryAttendance'))
+    return redirect(url_for('login'))
+
+
 # Take attendance practical -------------------------------------------------------------------------------------
 @app.route('/practicalAttendance')
 def practicalAttendance():
@@ -1140,6 +1206,70 @@ def addAttendance__practical():
     return redirect(url_for('login'))
 
 
+@app.route('/editPracticalAttendance')
+def editPracticalAttendance():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        logindbs = mysql.connector.connect(
+            user='root', password='', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
+        sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
+        lo_cur.execute(sql)
+        dt = lo_cur.fetchall()
+        for i in dt:
+            if i[2] == session['username']:
+                subs = json.loads(i[-1])
+        newdic = {}
+        for i in subs:
+            for j in subs[i]:
+                if subs[i][j]['PRACTICAL']:
+                    if i not in newdic:
+                        newdic[i] = {}
+                        if j not in newdic[i]:
+                            newdic[i][j] = {}
+                    newdic[i][j] = subs[i][j]['PRACTICAL']
+        logindbs.close()
+        return render_template('editPracticalAttendance.html', data=newdic)
+    return redirect(url_for('login'))
+
+
+@app.route('/edit_searchstudents_practical', methods=['GET', 'POST'])
+def edit_searchstudents_practical():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        import classRecordDBS
+        import editAttendance
+        if request.method == 'POST':
+            year = request.form.get('year')
+            division = request.form.get('division')
+            date = request.form.get('date')
+            subject = request.form.get('subject')
+            batch = request.form.getlist('batch')
+            data = classRecordDBS.getData_batchvise(year, division, batch)
+            data.sort()
+            attendance = editAttendance.get_practicalAttendance(
+                year, data, subject, date)
+            roll = []
+            for i in data:
+                roll.append(i[0])
+            session['edit_searchpractical'] = (
+                year, division, date, subject, batch, roll)
+            total_data = (session['edit_searchpractical'], data, attendance)
+        return render_template('editaddAttendancePractical.html', data=total_data)
+    return redirect(url_for('login'))
+
+
+@app.route('/edit_addAttendance__practical', methods=['GET', 'POST'])
+def edit_addAttendance__practical():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        import editAttendance
+        if request.method == 'POST':
+            present = request.form.getlist('present')
+            editAttendance.editattendancePractical(
+                present, session['edit_searchpractical'])
+        return redirect(url_for('editPracticalAttendance'))
+    return redirect(url_for('login'))
+
+
+# daily report
 @app.route('/dailyreport')
 def dailyreport():
     if 'loggedin' in session and session['authority'] == 'Faculty':

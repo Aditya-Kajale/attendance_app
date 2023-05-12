@@ -196,13 +196,14 @@
     </div>
 
     <div class="row d-flex justify-content-center">
-      <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+      <div class="col-xl-4 col-lg-8 col-md-9 col-11">
         <div class="card">
-          <h5>Register Faculty</h5>
-          <form id="f" action="{{ url_for('registerFaculty') }}" method="post">
+          <form action="{{ url_for('registerFaculty') }}" method="post">
+            <h4 class="form-group text-center">Register Faculty</h4>
             <!-- Email input -->
-            <div class="form-group form-outline text-left">
-              <label class="form-label" for="username">User ID</label>
+            <b> </b>
+            <div class="form-group form-outline">
+              <label class="form-label" for="username">User ID -</label>
               <input
                 type="number"
                 name="id"
@@ -212,8 +213,19 @@
                 required
               />
             </div>
-            <div class="form-group form-outline text-left">
-              <label class="form-label" for="username">Username</label>
+
+            <div class="form-group">
+              <label for="authoritiy">Authoritiy -</label>
+              <select name="authoritiy" id="authoritiy" class="form-control">
+                <!-- <option value="admin">Admin</option> -->
+                <option value="Faculty">Faculty</option>
+                <option value="yearcoordinator">Year Coordinator</option>
+                <option value="examcoordinator">Exam Coordinator</option>
+              </select>
+            </div>
+
+            <div class="form-group form-outline">
+              <label class="form-label" for="username">Username -</label>
               <input
                 type="text"
                 name="username"
@@ -225,8 +237,8 @@
             </div>
 
             <!-- Password input -->
-            <div class="form-group form-outline text-left">
-              <label class="form-label" for="password">Password</label>
+            <div class="form-group form-outline">
+              <label class="form-label" for="password">Password -</label>
               <input
                 type="password"
                 name="password"
@@ -237,8 +249,8 @@
               />
             </div>
 
-            <div class="form-group form-outline text-left">
-              <label class="form-label" for="email">Email</label>
+            <div class="form-group form-outline">
+              <label class="form-label" for="email">Email -</label>
               <input
                 type="email"
                 name="email"
@@ -250,13 +262,9 @@
             </div>
 
             <!-- Submit button -->
-            <div class="form-group msg text-center">{{ msg }}</div>
+            <div class="msg text-center">{{ msg }}</div>
 
-            <button
-              type="submit"
-              onclick="register()"
-              class="btn btn-success btn-block mb-4"
-            >
+            <button type="submit" class="btn btn-primary btn-block mb-4">
               Register
             </button>
 
