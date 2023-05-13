@@ -5,7 +5,7 @@ import mysql.connector
 
 def assignSubjectToFaculty(divs, branch, faculty):
     logindbs = mysql.connector.connect(
-        user='root', password='', host='localhost', database='login')
+        user='root', password='root@123', host='localhost', database='login')
     lo_cur = logindbs.cursor()
     # print('OLD - ', faculty[-1] )
     subs = json.loads(faculty[-1])

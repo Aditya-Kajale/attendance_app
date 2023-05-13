@@ -7,7 +7,7 @@ import csv
 
 def addmarks(file_path, exam, year, div):
     marks = mysql.connector.connect(
-        user='root', password='', host='localhost', database='marks')
+        user='root', password='root@123', host='localhost', database='marks')
     markCur = marks.cursor()
     fobj = open(file_path, 'r')
     data = csv.reader(fobj)
@@ -45,7 +45,7 @@ def addmarks(file_path, exam, year, div):
 
 def update_mark(tablename, newmarks, roll):
     marks = mysql.connector.connect(
-        user='root', password='', host='localhost', database='marks')
+        user='root', password='root@123', host='localhost', database='marks')
     markCur = marks.cursor()
 
     for k in newmarks:

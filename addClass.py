@@ -8,11 +8,11 @@ fs = 'subinfo.pkl'
 
 def addInSubject(roll, name, year, div):
     at_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_btech')
+        user='root', password='root@123', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_ty')
+        user='root', password='root@123', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_sy')
+        user='root', password='root@123', host='localhost', database='theory_sy')
 
     btech = at_btech.cursor()
     ty = at_ty.cursor()
@@ -53,11 +53,11 @@ def addInSubject(roll, name, year, div):
 # ------------for practical -------------
 def addInPractical(roll, name, year, div, batch):
     ap_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_btech')
+        user='root', password='root@123', host='localhost', database='practical_btech')
     ap_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_ty')
+        user='root', password='root@123', host='localhost', database='practical_ty')
     ap_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_sy')
+        user='root', password='root@123', host='localhost', database='practical_sy')
 
     btechP = ap_btech.cursor()
     tyP = ap_ty.cursor()
@@ -97,7 +97,7 @@ def addInPractical(roll, name, year, div, batch):
 def addLoginInfo(roll, name, year):
     # print('in ad in login')
     logindbs = mysql.connector.connect(
-        user='root', password='', host='localhost', database='login')
+        user='root', password='root@123', host='localhost', database='login')
     lo_cur = logindbs.cursor()
     authoritiy = 'student'
     username = name.split()[0] + name.split()[-1]
@@ -122,11 +122,10 @@ def parseCSV(filePath, year, div):
                 " (ROLL_NO, NAME, YEAR, DIVISION, BATCH, SPHONE, PPHONE) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             value = (row['roll'], row['name'], year, div,
                      row['batch'], row['sphone'], row['pphone'])
-            # print(value)
             cur.execute(sql, value)
             mysql_stud.connection.commit()
             addInSubject(row['roll'], row['name'], year, div)
             addInPractical(row['roll'], row['name'], year, div, row['batch'])
             addLoginInfo(row['roll'], row['name'], year)
         except:
-            print('PRN already exist')
+            print('PRN ')

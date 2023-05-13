@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Dailty Report</title>
+    <title>Add student</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -114,7 +114,7 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle active"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -166,7 +166,7 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle active"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -188,72 +188,103 @@
               >
             </div>
           </li>
-
           <li class="nav-item">
-            <a class="nav-link active" href="{{ url_for('dailyreport') }}"
+            <a class="nav-link" href="{{ url_for('dailyreport') }}"
               >Daily Report</a
             >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('other') }}">Other</a>
           </li>
         </ul>
         <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
       </div>
     </nav>
 
-    <!-- nav ends -->
+    <!-- navbar ends -->
+
     <body>
       <div class="row d-flex justify-content-center">
-        <div class="col-xl-5 col-lg-8 col-md-9 col-11 text-center">
+        <div class="col-xl-8 col-lg-8 col-md-9 col-11 text-center">
           <div class="card">
-            <h5 class="text-center mb-4">Daily Report</h5>
+            <!-- <h5 class="text-center mb-4">Attendance Info</h5> -->
 
+            <div class="text-center">
+              <div class="card-header">
+                <h3>Attendance Info</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title">Year - {{data[0][0]}}</h5>
+                  </div>
+                  <div class="col">
+                    <h5 class="card-title">Division - {{data[0][1]}}</h5>
+                  </div>
+                  <div class="col">
+                    <h5>Date - {{data[0][2]}}</h5>
+                  </div>
+                </div>
+                <div class="row"></div>
+                <div class="row">
+                  <div class="col">
+                    <h5>Subject - {{data[0][3]}}</h5>
+                  </div>
+                  <div class="col">
+                    <h5>Batch - {{data[0][4]}}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
             <form
               id="f"
-              action="{{ url_for('dailyreporttable') }}"
+              action="{{url_for('edit_addAttendance__practical')}}"
+              onsubmit="return confirm('Are you sure you want to submit?');"
               method="POST"
               enctype="multipart/form-data"
             >
-              <div class="form-group row">
-                <div class="col">
-                  <div class="form-group text-left">
-                    <label for="year">Year</label>
-                    <select name="year" id="year" class="form-control">
-                      <option value="SY">SY</option>
-                      <option value="TY">TY</option>
-                      <option value="BTECH">B.Tech</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-group text-left">
-                    <label for="division">Division</label>
-                    <select name="division" id="division" class="form-control">
-                      <option value="A">A</option>
-                      <option value="B">B</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <div class="col">
-                  <div class="form-group text-left">
-                    <label for="sdate">Date</label>
-                    <input
-                      type="date"
-                      name="date"
-                      class="form-control"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
+              <!-- table -->
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">ROLL NO</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">DIVISION</th>
+                    <th scope="col">Batch</th>
+                    <th scope="col">Present</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in range(data[1]|length) %}
+                  <tr>
+                    {% for cell in data[1][row] %}
+                    <td>{{cell}}</td>
+                    {% endfor %}
+                    <td>
+                      <div class="custom-control custom-checkbox">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="{{data[2][row]}}"
+                          name="present"
+                          value="{{data[2][row]}}"
+                          checked
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  <tr></tr>
+                </tbody>
+              </table>
 
               <button
                 id="submitForm"
                 type="submit"
                 class="btn btn-primary btn-block rounded-pill shadow-sm"
               >
-                Confirm
+                Add Attendance
               </button>
             </form>
           </div>
@@ -261,4 +292,6 @@
       </div>
     </body>
   </body>
+
+  <script></script>
 </html>

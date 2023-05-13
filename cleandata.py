@@ -10,25 +10,25 @@ subs = pickle.load(fsub)
 
 def cleanfromsubs(year):
     logindbs = mysql.connector.connect(
-        user='root', password='', host='localhost', database='login')
+        user='root', password='root@123', host='localhost', database='login')
     lo_cur = logindbs.cursor()
 
     at_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_btech')
+        user='root', password='root@123', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_ty')
+        user='root', password='root@123', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_sy')
+        user='root', password='root@123', host='localhost', database='theory_sy')
     btech = at_btech.cursor()
     ty = at_ty.cursor()
     sy = at_sy.cursor()
 
     ap_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_btech')
+        user='root', password='root@123', host='localhost', database='practical_btech')
     ap_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_ty')
+        user='root', password='root@123', host='localhost', database='practical_ty')
     ap_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_sy')
+        user='root', password='root@123', host='localhost', database='practical_sy')
     btechP = ap_btech.cursor()
     tyP = ap_ty.cursor()
     syP = ap_sy.cursor()
@@ -172,7 +172,7 @@ def cleanfromsubs(year):
 
 def cleanFromDaily(year):
     dcse = mysql.connector.connect(
-        user='root', password='', host='localhost', database='daily_cse')
+        user='root', password='root@123', host='localhost', database='daily_cse')
     dcse_cur = dcse.cursor()
     sql = "SHOW TABLES"
     dcse_cur.execute(sql)
@@ -185,9 +185,10 @@ def cleanFromDaily(year):
             dcse_cur.execute(sql)
             dcse.commit()
 
+
 def cleanmarks(year):
     marks = mysql.connector.connect(
-    user='root', password='', host='localhost', database='marks')
+        user='root', password='root@123', host='localhost', database='marks')
     markCur = marks.cursor()
     sql = 'SHOW TABLES'
     markCur.execute(sql)
@@ -196,13 +197,14 @@ def cleanmarks(year):
     for i in tbs:
         temp = i[0].split('-')
         print(temp)
-        if temp[1]==year.lower():
+        if temp[1] == year.lower():
             delete.append(i[0])
     print(delete)
     for i in delete:
         sql = 'DROP TABLE `{}`'.format(i)
-        markCur.execute(sql) 
+        markCur.execute(sql)
         marks.commit()
+
 
 def cleandata(year):
     cur = mysql_stud.connection.cursor()

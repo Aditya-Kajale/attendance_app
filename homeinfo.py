@@ -5,17 +5,17 @@ import mysql.connector
 
 def getleccount(subs):
     at_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_btech')
+        user='root', password='root@123', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_ty')
+        user='root', password='root@123', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_sy')
+        user='root', password='root@123', host='localhost', database='theory_sy')
     ap_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_btech')
+        user='root', password='root@123', host='localhost', database='practical_btech')
     ap_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_ty')
+        user='root', password='root@123', host='localhost', database='practical_ty')
     ap_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_sy')
+        user='root', password='root@123', host='localhost', database='practical_sy')
 
     btech = at_btech.cursor()
     ty = at_ty.cursor()

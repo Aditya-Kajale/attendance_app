@@ -7,7 +7,7 @@ import mysql.connector
 def dailyreport(year, div, date):
     cur = mysql_stud.connection.cursor()
     dcse = mysql.connector.connect(
-        user='root', password='', host='localhost', database='daily_cse')
+        user='root', password='root@123', host='localhost', database='daily_cse')
     dcse_cur = dcse.cursor()
     total = {}
     total['default'] = [year, div, date]
@@ -61,7 +61,7 @@ def dailyreport(year, div, date):
 def updatedailyreport(info, remark, sphone, pphone):
     cur = mysql_stud.connection.cursor()
     dcse = mysql.connector.connect(
-        user='root', password='', host='localhost', database='daily_cse')
+        user='root', password='root@123', host='localhost', database='daily_cse')
     dcse_cur = dcse.cursor()
 
     year = info[0]
@@ -103,7 +103,7 @@ def updatedailyreport(info, remark, sphone, pphone):
 def check_session(year, division, date, timeslot):
     cur = mysql_stud.connection.cursor()
     dcse = mysql.connector.connect(
-        user='root', password='', host='localhost', database='daily_cse')
+        user='root', password='root@123', host='localhost', database='daily_cse')
     dcse_cur = dcse.cursor()
     msg = ''
     tableName = date+'-'+year+'-'+division
@@ -140,7 +140,7 @@ def check_session(year, division, date, timeslot):
 def check_session_practical(year, division, date, batch, timeslot):
     cur = mysql_stud.connection.cursor()
     dcse = mysql.connector.connect(
-        user='root', password='', host='localhost', database='daily_cse')
+        user='root', password='root@123', host='localhost', database='daily_cse')
     dcse_cur = dcse.cursor()
     msg = ''
     tableName = date+'-'+year+'-'+division

@@ -7,7 +7,7 @@ import mysql.connector
 def deletteFromDailyReport(year, division, date, subject, torp, roll):
     print('in daily')
     dcse = mysql.connector.connect(
-        user='root', password='', host='localhost', database='daily_cse')
+        user='root', password='root@123', host='localhost', database='daily_cse')
     dcse_cur = dcse.cursor()
 
     tableName = date+'-'+year+'-'+division
@@ -66,11 +66,11 @@ def deletteFromDailyReport(year, division, date, subject, torp, roll):
 
 def deleteAttendanceTheory(year, division, date, subject, batch, torp):
     at_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_btech')
+        user='root', password='root@123', host='localhost', database='theory_btech')
     at_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_ty')
+        user='root', password='root@123', host='localhost', database='theory_ty')
     at_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='theory_sy')
+        user='root', password='root@123', host='localhost', database='theory_sy')
 
     btech = at_btech.cursor()
     ty = at_ty.cursor()
@@ -151,11 +151,11 @@ def deleteAttendanceTheory(year, division, date, subject, batch, torp):
 
 def deleteAttendancePractical(year, division, date, subject, timeslot, batch, torp):
     ap_btech = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_btech')
+        user='root', password='root@123', host='localhost', database='practical_btech')
     ap_ty = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_ty')
+        user='root', password='root@123', host='localhost', database='practical_ty')
     ap_sy = mysql.connector.connect(
-        user='root', password='', host='localhost', database='practical_sy')
+        user='root', password='root@123', host='localhost', database='practical_sy')
 
     btechP = ap_btech.cursor()
     tyP = ap_ty.cursor()

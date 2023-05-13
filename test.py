@@ -4,6 +4,10 @@
 # # # # from datetime import date, timedelta
 # # # # import mysql.connector
 
+import json
+import model
+
+bmi = model.calculate_bmi()
 
 # # # # # # at_btech = mysql.connector.connect(user='root', password='', host='localhost', database='theory_btech')
 
@@ -108,7 +112,6 @@
 # # # f = 'fcinfo.pkl'
 # # f = 'subinfo.pkl'
 
-import json
 subs = {"Theory": {"BTECH": ['Software Engineering',
         'Big Data Analytics',
                              'Cloud Computing',

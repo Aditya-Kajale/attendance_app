@@ -82,7 +82,7 @@ app.secret_key = 'your secret key'
 # for the student database
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_PASSWORD"] = "root@123"
 app.config["MYSQL_DB"] = "students"
 mysql_stud = MySQL(app)
 
@@ -106,7 +106,7 @@ def login():
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         # Create variables for easy access
         username = request.form['username']
@@ -151,7 +151,7 @@ def login():
 @app.route('/forgetPass', methods=['POST', 'GET'])
 def forgetPass():
     logindbs = mysql.connector.connect(
-        user='root', password='', host='localhost', database='login')
+        user='root', password='root@123', host='localhost', database='login')
     lo_cur = logindbs.cursor()
     msg = ''
     if request.method == 'POST':
@@ -185,7 +185,7 @@ def forgetPass():
 # @app.route('/register', methods=['GET', 'POST'])
 # def register():
 #     logindbs = mysql.connector.connect(
-#         user='root', password='', host='localhost', database='login')
+#         user='root', password='root@123', host='localhost', database='login')
 #     lo_cur = logindbs.cursor()
 #     # Output message if something goes wrong...
 #     msg = ''
@@ -245,7 +245,7 @@ def profile():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         # We need all the account info for the user so we can display it on the profile page
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE username = %s',
                        (session['username'],))
@@ -284,7 +284,7 @@ def masterHome():
 def masterprofile():
     if 'loggedin' in session and session['authority'] == 'master':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
         account = lo_cur.fetchone()
@@ -320,7 +320,7 @@ def studentHome():
 def studentprofile():
     if 'loggedin' in session and session['authority'] == 'student':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
         account = lo_cur.fetchone()
@@ -418,7 +418,7 @@ def manageFaculty():
     if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
         faculty = []
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         # for i in ls:
         #     faculty.append(i.name)
@@ -523,7 +523,7 @@ def registerFaculty():
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         # Create variables for easy access
         id = request.form['id']
@@ -641,7 +641,7 @@ def renamesub():
 def adminProfile():
     if 'loggedin' in session and session['authority'] == 'yearcoordinator' or session['authority'] == 'admin':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE id = %s', (session['id'],))
         account = lo_cur.fetchone()
@@ -761,7 +761,7 @@ def addStud():
 def other():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
         lo_cur.execute(sql)
@@ -826,7 +826,7 @@ def addOtherAttendance():
 def subjectAttendance_theory():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
         lo_cur.execute(sql)
@@ -869,7 +869,7 @@ def subjectTable_theory():
 def subjectAttendance_practical():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
         lo_cur.execute(sql)
@@ -992,7 +992,7 @@ def theoryAttendance():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         # new
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
         lo_cur.execute(sql)
@@ -1067,7 +1067,7 @@ def addAttendance():
 def editTheoryAttendance():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
         lo_cur.execute(sql)
@@ -1132,7 +1132,7 @@ def edit_addattendance():
 def practicalAttendance():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
         lo_cur.execute(sql)
@@ -1210,7 +1210,7 @@ def addAttendance__practical():
 def editPracticalAttendance():
     if 'loggedin' in session and session['authority'] == 'Faculty':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
         lo_cur.execute(sql)
@@ -1342,7 +1342,7 @@ def examdisplay():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         if request.method == 'POST':
             marks = mysql.connector.connect(
-                user='root', password='', host='localhost', database='marks')
+                user='root', password='root@123', host='localhost', database='marks')
             markCur = marks.cursor()
 
             all = {}
@@ -1401,7 +1401,7 @@ def examdelete():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         if request.method == 'POST':
             marks = mysql.connector.connect(
-                user='root', password='', host='localhost', database='marks')
+                user='root', password='root@123', host='localhost', database='marks')
             markCur = marks.cursor()
             all = {}
             year = request.form.get('year')
@@ -1426,7 +1426,7 @@ def examdelete():
 def examdelete1():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         marks = mysql.connector.connect(
-            user='root', password='', host='localhost', database='marks')
+            user='root', password='root@123', host='localhost', database='marks')
         markCur = marks.cursor()
         delist = request.form.getlist('delete')
         for i in delist:
@@ -1442,7 +1442,7 @@ def examdelete1():
 def examprofile():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
         logindbs = mysql.connector.connect(
-            user='root', password='', host='localhost', database='login')
+            user='root', password='root@123', host='localhost', database='login')
         lo_cur = logindbs.cursor()
         lo_cur.execute('SELECT * FROM account WHERE username = %s',
                        (session['username'],))
