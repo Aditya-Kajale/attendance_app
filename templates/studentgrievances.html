@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Student Profile</title>
+    <title>Student Grievance</title>
     <meta charset="utf-8" />
     <!-- Mobile Specific Metas -->
     <meta
@@ -88,7 +89,9 @@
     ></script>
   </head>
 
-  <body>
+  <body class="form-v10">
+    <!-- navbar start -->
+
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">CSE Attendance</a>
 
@@ -111,7 +114,7 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle active"
+              class="nav-link dropdown-toggle"
               href="#"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
@@ -138,37 +141,98 @@
             <a class="nav-link" href="{{ url_for('studentmarks') }}">Marks</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('studentgrievances') }}"
+            <a class="nav-link active" href="{{ url_for('studentgrievances') }}"
               >Grievance</a
             >
           </li>
         </ul>
-
         <a class="nav-link" href="{{ url_for('studentprofile') }}">Profile</a>
       </div>
     </nav>
 
-    <!-- end nav -->
+    <!-- navbar ends -->
 
     <div class="row d-flex justify-content-center">
-      <div class="col-xl-10 col-lg-8 col-md-9 col-11">
+      <div class="col-xl-6 col-lg-8 col-md-9 col-11">
         <div class="card text-center">
-          <h3>{{total['name']}} your Attendance for {{total['subject']}}</h3>
+          <h4>Apply For Grievance</h4>
           <br />
-          <table class="table table-responsive table-bordered">
+          <form
+            action="{{url_for('studentgrievances')}}"
+            method="POST"
+            enctype="multipart/form-data"
+            onsubmit="return confirm('Are you sure you want to apply?')"
+          >
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="examtype">Examtype</label>
+                  <select name="examtype" id="examtype" class="form-control">
+                    <option value="CA1">CA1</option>
+                    <option value="MIDSEM">Mid Sem</option>
+                    <option value="CA2">CA2</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="subject">Subject</label>
+                  <select name="subject" id="subject" class="form-control">
+                    {%for i in total['subs'] %}
+                    <option value="{{i}}">{{i}}</option>
+                    {%endfor%}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="grievancemarks">Defaulter Percentage -</label>
+                  <input
+                    type="number"
+                    name="grievancemarks"
+                    id="grievancemarks"
+                    placeholder="Grievance Marks"
+                    required
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+            <button
+              id="submitForm"
+              type="submit"
+              class="btn btn-primary btn-block rounded-pill shadow-sm"
+            >
+              Apply
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-xl-6 col-lg-8 col-md-9 col-11">
+        <div class="card text-center">
+          <h4>Your Applications for Grievance</h4>
+          <br />
+          <table class="table table-light table-responsive-md table-bordered">
             <thead class="thead-dark">
-              <tr>
-                {%for i in total['data']['col']%}
-                <th scope="col">{{i}}</th>
-                {%endfor%}
-              </tr>
+              {% for i in total['col'] %}
+              <th>{{i}}</th>
+              {% endfor %}
             </thead>
             <tbody>
+              {% for i in total['data'] %}
               <tr>
-                {%for i in total['data']['attendance']%}
-                <td scope="col">{{i}}</td>
-                {%endfor%}
+                {% for j in i %} {% if 'Remaining' == j or 'Rejected' == j%}
+                <td class="table-danger">{{j}}</td>
+                {% elif 'Accepted' == j %}
+                <td class="table-success">{{j}}</td>
+                {% else %}
+                <td>{{j}}</td>
+                {% endif %} {% endfor %}
               </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from addClass import *
 from flask_mysqldb import MySQL
 from flask_mail import Mail, Message
+from flask_paranoid import Paranoid
 import mysql.connector
 import os
 import re
@@ -77,8 +78,17 @@ except:
 obj = Faculty(0, '', {}, '')
 
 app = Flask(__name__)
-app.secret_key = 'your secret key'
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    DEBUG=True,
+    REMEMBER_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    REMEMBER_COOKIE_HTTPONLY=True
+)
+paranoid = Paranoid(app)
+paranoid.redirect_view = '/'
 
+app.secret_key = 'your secret key'
 # for the student database
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
@@ -101,7 +111,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # log in and logout ----------------------------------------------------------
 @app.route('/', methods=['GET', 'POST'])
 def login():
-
     # Output message if something goes wrong...
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
@@ -111,12 +120,18 @@ def login():
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
+        username = username.split()[0]
         # print(type(username),type(password))
-        sql = 'SELECT * FROM account WHERE username = "{}" and password= "{}"'.format(
-            username, password)
-        lo_cur.execute(sql)
+        sql = "SELECT * FROM account WHERE username = %s "
+        val = (username,)
+        lo_cur.execute(sql, val)
+        print(lo_cur.statement)
         account = lo_cur.fetchall()
         print(account)
+        if password == account[0][3]:
+            pass
+        else:
+            account = []
         logindbs.close()
         if account:
             # Create session data, we can access this data in other routes
@@ -137,8 +152,14 @@ def login():
             elif session['authority'] == 'master':
                 return redirect(url_for('masterHome'))
             elif session['authority'] == 'student':
+                cur = mysql_stud.connection.cursor()
                 year = account[0][4].split('@')[0]
                 session['year'] = year
+                sql = "SELECT `DIVISION` FROM `{}` WHERE `ROLL_NO`='{}'".format(
+                    year, session['id'])
+                cur.execute(sql)
+                div = cur.fetchone()
+                session['division'] = div[0]
                 return redirect(url_for('studentHome'))
             else:
                 return redirect(url_for('home'))
@@ -231,11 +252,13 @@ def forgetPass():
 @app.route('/logout')
 def logout():
     # Remove session data, this will log the user out
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('usrename', None)
-    session.pop('authority', None)
-    # Redirect to login page
+    if 'loggedin' in session:
+        session.pop('loggedin', None)
+        session.pop('id', None)
+        session.pop('usrename', None)
+        session.pop('authority', None)
+        session.clear()
+        return redirect(url_for('login'))
     return redirect(url_for('login'))
 
 
@@ -397,6 +420,59 @@ def studentdefaulter():
     return redirect(url_for('login'))
 
 
+@app.route('/studentmarks')
+def studentmarks():
+    if 'loggedin' in session and session['authority'] == 'student':
+        import studentmarks
+        ca1 = studentmarks.getmarks(
+            'CA1', session['year'], session['division'], session['id'])
+        midsem = studentmarks.getmarks(
+            'MIDSEM', session['year'], session['division'], session['id'])
+        ca2 = studentmarks.getmarks(
+            'CA2', session['year'], session['division'], session['id'])
+        session['marks'] = {'CA1': ca1,
+                            'MIDSEM': midsem, 'CA2': ca2}
+        return render_template('studentmarks.html', data=session['marks'])
+    return redirect(url_for('login'))
+
+
+@app.route('/studentgrievances', methods=['GET', 'POST'])
+def studentgrievances():
+    if 'loggedin' in session and session['authority'] == 'student':
+        if request.method == 'POST':
+            marks = mysql.connector.connect(
+                user='root', password='root@123', host='localhost', database='marks')
+            markCur = marks.cursor()
+            session['grievance'] = [request.form.get('examtype'), request.form.get(
+                'subject'), request.form.get('grievancemarks')]
+            sql = "INSERT INTO `grievance` (`Roll`, `Examtype`,`Year`,`Division`, `Subject`, `Marks`) VALUES ('{}','{}','{}','{}','{}','{}')".format(
+                session['id'], session['grievance'][0], session['year'], session['division'], session['grievance'][1], session['grievance'][2])
+            markCur.execute(sql)
+            marks.commit()
+            marks.close()
+            return redirect(url_for('studentgrievances'))
+        else:
+            marks = mysql.connector.connect(
+                user='root', password='root@123', host='localhost', database='marks')
+            markCur = marks.cursor()
+            total = {}
+            total['subs'] = subs['Theory'][session['year']]
+            sql = "SELECT * FROM `grievance` WHERE `Roll`='{}'".format(
+                session['id'])
+            markCur.execute(sql)
+            total['data'] = markCur.fetchall()
+            sql = "SHOW COLUMNS FROM `grievance`"
+            markCur.execute(sql)
+            cols = markCur.fetchall()
+            column = []
+            for i in cols:
+                column.append(i[0])
+            total['col'] = column
+            marks.close()
+            return render_template('studentgrievances.html', total=total)
+    return redirect(url_for('login'))
+
+
 # Admin Pages -----------------------------------------------------------------
 @app.route('/adminHome')
 def adminHome():
@@ -407,7 +483,6 @@ def adminHome():
             name.append(i.name)
             subs.append(i.subject)
             print(name, subs)
-        # print(faculty.obj.getName(1))
         all = [name, subs]
         return render_template('adminhome.html', ls=all)
     return redirect(url_for('login'))
@@ -778,10 +853,9 @@ def other():
                         if j not in newdic[i]:
                             newdic[i][j] = {}
                     newdic[i][j] = subs[i][j]['THEORY']
-        print(newdic)
         logindbs.close()
         return render_template('other.html', data=newdic)
-    redirect(url_for('login'))
+    return redirect(url_for('login'))
 
 
 @app.route('/searchstudentother', methods=['GET', 'POST'])
@@ -1303,8 +1377,82 @@ def updatedailyreport():
     return redirect(url_for('login'))
 
 
-# for marks coordinator login
+@app.route('/facultygrievance')
+def facultygrievance():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        logindbs = mysql.connector.connect(
+            user='root', password='root@123', host='localhost', database='login')
+        lo_cur = logindbs.cursor()
+        marks = mysql.connector.connect(
+            user='root', password='root@123', host='localhost', database='marks')
+        markCur = marks.cursor()
+        sql = "SELECT * FROM `account` WHERE `authorities` = 'Faculty'"
+        lo_cur.execute(sql)
+        dt = lo_cur.fetchall()
+        for i in dt:
+            if i[2] == session['username']:
+                subs = json.loads(i[-1])
+        newsub = []
+        newsubwithdiv = {}
+        for i in subs:
+            for j in subs[i]:
+                for k in subs[i][j]['THEORY']:
+                    if k not in newsub:
+                        newsub.append(k)
+                    if k not in newsubwithdiv:
+                        newsubwithdiv[k] = []
+                        newsubwithdiv[k].append(j)
+                    else:
+                        newsubwithdiv[k].append(j)
+        griapplications = []
+        for i in newsub:
+            for k in newsubwithdiv[i]:
+                sql = "SELECT * FROM `grievance` WHERE `Subject`='{}' AND `Division`='{}'".format(
+                    i, k)
+                markCur.execute(sql)
+                data = markCur.fetchall()
+                for k in data:
+                    griapplications.append(k)
 
+        sql = "SHOW COLUMNS FROM `grievance`"
+        markCur.execute(sql)
+        cols = markCur.fetchall()
+        column = []
+        for i in cols:
+            column.append(i[0])
+
+        applications = {'applications': griapplications, 'col': column}
+        logindbs.close()
+        marks.close()
+        return render_template('facultygrievance.html', data=applications)
+    return redirect(url_for('login'))
+
+
+@app.route('/facultygriavancestatus', methods=['GET', 'POST'])
+def facultygriavancestatus():
+    if 'loggedin' in session and session['authority'] == 'Faculty':
+        import studentmarks
+        if request.form['action'] == 'ACCEPT':
+            status = request.form.getlist('status')
+            for m in status:
+                k = m.split('/')
+                print(k)
+                studentmarks.allowgrievances(
+                    k[0], k[1], k[2], k[3], k[4], k[5])
+
+        if request.form['action'] == 'REJECT':
+            status = request.form.getlist('status')
+            for m in status:
+                k = m.split('/')
+                print(k)
+                studentmarks.rejectgrievances(
+                    k[0], k[1], k[2], k[3], k[4], k[5])
+
+        return redirect(url_for('facultygrievance'))
+    return redirect(url_for('login'))
+
+
+# for marks coordinator login
 @app.route('/examhome')
 def examhome():
     if 'loggedin' in session and session['authority'] == 'examcoordinator':
