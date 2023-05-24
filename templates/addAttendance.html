@@ -324,17 +324,15 @@
 
       $(document).ready(function () {
         $('input[type="checkbox"]').change(function () {
-          var total_checked = $("input[type='checkbox']:checked").length;
+          var total_checked = $("input[name='present']:checked").length;
           $("#d1").html("Present  = " + total_checked);
-          var total_unchecked = $(
-            "input[type='checkbox']:not(:checked)"
-          ).length;
+          var total_unchecked = $("input[name='present']:not(:checked)").length;
           $("#d2").html("Absent  = " + total_unchecked);
         });
 
-        var total_checked = $("input[type='checkbox']:checked").length;
+        var total_checked = $("input[name='present']:checked").length;
         $("#d1").html("Present  = " + total_checked);
-        var total_unchecked = $("input[type='checkbox']:not(:checked)").length;
+        var total_unchecked = $("input[name='present']:not(:checked)").length;
         $("#d2").html("Absent = " + total_unchecked);
       });
     </script>

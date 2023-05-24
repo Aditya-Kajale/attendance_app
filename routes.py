@@ -1188,14 +1188,14 @@ def edit_searchstudents_theory():
             bt = ', '.join(batch)
             data = classRecordDBS.getData_batchvise(year, division, batch)
             data.sort()
-            attendance = editAttendance.get_attendance(
-                year, data, subject, date)
-            total_data = (session['edit_searchtheory'], data, attendance, bt)
             roll = []
             for i in data:
                 roll.append(i[0])
             session['edit_searchtheory'] = (
                 year, division, date, subject, batch, roll)
+            attendance = editAttendance.get_attendance(
+                year, data, subject, date)
+            total_data = (session['edit_searchtheory'], data, attendance, bt)
         return render_template('editattendance.html', data=total_data)
     return redirect(url_for('login'))
 
