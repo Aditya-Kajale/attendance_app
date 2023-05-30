@@ -247,75 +247,69 @@
             </div>
           </div>
 
-          <div style="overflow: auto">
-            <form
-              id="f"
-              action="{{url_for('addAttendance')}}"
-              onsubmit="return confirm('Submit atttendance for \nYear={{data[0][0]}} \nDivision={{data[0][1]}} \nDate={{data[0][2]}} \nSubject={{data[0][3]}} \nTime - {{data[0][4]}}');"
-              method="POST"
-              enctype="multipart/form-data"
+          <form
+            id="f"
+            action="{{url_for('addAttendance')}}"
+            onsubmit="return confirm('Submit atttendance for \nYear={{data[0][0]}} \nDivision={{data[0][1]}} \nDate={{data[0][2]}} \nSubject={{data[0][3]}} \nTime - {{data[0][4]}}');"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <!-- table -->
+            <table
+              class="table text-left table-bordered"
+              style="height: 500px; width: 100%"
             >
-              <!-- table -->
-              <table
-                class="table text-left table-bordered"
-                style="height: 500px; width: 100%"
-              >
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">ROLL NO</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Batch</th>
-                    <th scope="col">
-                      Present
-                      <input type="checkbox" id="check-all" checked />
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for row in data[1] %}
-                  <tr>
-                    {% for cell in row %}
-                    <td>{{cell}}</td>
-                    {% endfor %}
-                    <td>
-                      <div class="custom-control custom-checkbox">
-                        <input
-                          type="checkbox"
-                          class="custom-control-input"
-                          id="{{row[0]}}"
-                          name="present"
-                          value="{{row[0]}}"
-                          checked
-                        />
-                        <label
-                          class="custom-control-label"
-                          for="{{row[0]}}"
-                        ></label>
-                      </div>
-                    </td>
-                  </tr>
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">ROLL NO</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Batch</th>
+                  <th scope="col">
+                    Present
+                    <input type="checkbox" id="check-all" checked />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in data[1] %}
+                <tr>
+                  {% for cell in row %}
+                  <td>{{cell}}</td>
                   {% endfor %}
-                  <tr></tr>
-                </tbody>
-              </table>
-              <button
-                type="button"
-                class="btn btn-outline-success mb-3"
-                id="d1"
-              >
-                Success
-              </button>
-              <button type="button" class="btn btn-outline-danger mb-3" id="d2">
-                Success
-              </button>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="{{row[0]}}"
+                        name="present"
+                        value="{{row[0]}}"
+                        checked
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="{{row[0]}}"
+                      ></label>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+                <tr></tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-success mb-3" id="d1">
+              Success
+            </button>
+            <button type="button" class="btn btn-outline-danger mb-3" id="d2">
+              Success
+            </button>
 
-              <input
-                id="submitForm"
-                type="submit"
-                class="btn btn-primary btn-block rounded-pill shadow-sm"
-              />
-            </form>
-          </div>
+            <input
+              id="submitForm"
+              type="submit"
+              class="btn btn-primary btn-block rounded-pill shadow-sm"
+            />
+          </form>
         </div>
       </div>
     </div>

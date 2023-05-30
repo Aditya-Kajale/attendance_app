@@ -79,7 +79,7 @@ obj = Faculty(0, '', {}, '')
 
 app = Flask(__name__)
 app.config.update(
-    SESSION_COOKIE_SECURE=True,
+    # SESSION_COOKIE_SECURE=True,
     DEBUG=True,
     REMEMBER_COOKIE_SECURE=True,
     SESSION_COOKIE_HTTPONLY=True,
@@ -644,7 +644,7 @@ def registerFaculty():
             msg = 'Please fill out the form!'
 
         logindbs.close()
-        return redirect(url_for('manageFaculty'))
+        return redirect(url_for('manageFaculty', msg=msg))
     return redirect(url_for('login'))
 
 
