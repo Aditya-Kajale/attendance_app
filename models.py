@@ -47,6 +47,8 @@ sql = "CREATE DATABASE login"
 cur.execute(sql)
 sql = "CREATE TABLE `account` (`id` INT(11) NOT NULL , `authorities` TEXT NOT NULL , `username` TEXT NOT NULL , `password` TEXT NOT NULL , `email` TEXT NOT NULL , `SUB` TEXT NOT NULL )"
 cur.execute(sql)
+sql = "INSERT INTO `account` (`id`, `authorities`, `username`, `password`, `email`, `SUB`) VALUES ('1', 'admin', 'admin', 'admin', 'admin@gmail.com', {})"
+cur.execute(sql)
 
 # for daily
 sql = "CREATE DATABASE daily_cse"
