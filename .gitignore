@@ -98,4 +98,3 @@ node_modules/
 # django
 migrations/
 media-root/
-static/
